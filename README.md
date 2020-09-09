@@ -1,9 +1,6 @@
 # CSConnects
 
 
-=======
-
-
 # Who We Are:
 
 My name is Shaina Lowenthal and I am a senior at Hunter College majoring in Computer Science and minoring in Religion. My interests include cybersecurity, threat management and incident response. I hope you enjoy CSConnects!
@@ -13,4 +10,3 @@ My name is Maisa Ahmad and I'm a senior at Hunter College. I am finishing my maj
 My name is Matthew Liang and my interest is web development
 
 
-master
