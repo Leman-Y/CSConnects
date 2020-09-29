@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from '../images/logo.svg';
 import wics from '../images/wics.jpg';
+import osc from '../images/osc.png';
+import google from '../images/google.jpg';
 import acm from '../images/acm.png';
 import ClubCard from '../components/ClubCard';
 import ClubContainer from '../components/ClubContainer';
@@ -16,9 +18,9 @@ function App() {
         </p> */}
         <ClubContainer>
           <ClubCard image={wics}/>
+          <ClubCard image={osc}/>
           <ClubCard image={acm}/>
-          <ClubCard image={acm}/>
-          <ClubCard image={acm}/>
+          <ClubCard image={google}/>
         </ClubContainer>
         <a
           className="App-link"
