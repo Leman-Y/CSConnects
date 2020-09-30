@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); //to bypass cors policy
+//const cors = require('cors'); //to bypass cors policy
 const app = express();
 const mysql = require('mysql');
+const cron = require('node-cron');
 
 const db = mysql.createPool({
     host: 'localhost',
@@ -10,7 +11,7 @@ const db = mysql.createPool({
     password: '',
     database: 'capstone' 
 });
-app.use(cors());
+//app.use(cors());
 app.use(express.json()); //convert mysql result to json, to make it readable
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -32,6 +33,11 @@ app.post('/api/insert', (req,res)=>{
 //     });
 // });
 
+// Schedule tasks to be run on the server.
+cron.schedule('* * * * *', function() {
+    console.log('running a task every minute');
+  });
+  
 app.listen(3001, () =>{
     console.log('running on port 3001');
 });
