@@ -1,0 +1,31 @@
+.Clubs-container{
+  padding: 2em 5em;
+  // width: 3em;
+  height:3em;
+  background-image: var(--image);
+  background-position: center center;
+  background-size: 100% 100%;
+  filter: drop-shadow(0em 0.25em 0.25em rgba(0, 0, 0, 0.25));
+  border-radius: 2em;
+}
+.Clubs-container:hover{
+  box-shadow: inset 0 0 0 70em rgba(0,0,0,.5);
+  filter: blur(0.1em);
+}
+
+@media only screen and (max-width: 1024px) {
+  .Clubs-container{
+    padding: 2em 5em;
+    // width: 3em;
+    height:3em;
+    // height:clamp(75%, 100%, 100%);
+    background-image: var(--image);
+    background-position: center center;
+    background-size: 100% 100%;
+    filter: drop-shadow(0em 0.25em 0.25em rgba(0, 0, 0, 0.25));
+    border-radius: 2em;
+  }
+  .Clubs-container:hover{
+    filter: drop-shadow(0em 0.25em 0.25em rgba(130, 57, 213, 1));
+  }
+}

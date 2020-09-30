@@ -1,0 +1,20 @@
+.wrapper{
+  display: flex;
+  justify-content: center;
+  height: clamp(25%, 50%, 50%);
+  *{
+    margin:0.75em;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .wrapper{
+    display: flex;
+    justify-content: center;
+    height: clamp(25%, 50%, 50%);
+    flex-wrap: wrap;
+    *{
+      margin:0.5em;
+    }
+  }
+}
