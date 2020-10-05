@@ -1,0 +1,23 @@
+@import '../styles/themes.scss';
+.nav-container{
+  font-size: 2vh;
+}
+.link-container{
+  display: flex;
+  // flex-direction: row;
+  justify-content: flex-end;
+  margin: 1em;
+}
+.navigation{
+  margin:1em;
+}
+.nav-routes {
+  text-decoration: none;
+  // color: #C2CEDB;
+  color: $grey;
+}
+.nav-routes.selected{
+  color: $black;
+  // color: black;
+  // background-color: yellow;
+}
