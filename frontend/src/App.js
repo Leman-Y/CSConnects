@@ -5,6 +5,13 @@ function App() {
 
   const [userName, setUsername] = useState("");
   const [userPassword, setPassword] = useState("");
+  const [userNameList, setuserNameList] = useState([]);
+
+  useEffect(()=>{
+    Axios.get('http://localhost:3001/api/get').then((response)=>{
+      setuserNameList(response.data);
+    })
+  }, [])
 
   //function gets called when user clicks submit.
   
@@ -20,7 +27,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>CRUD</h1>
+      <h1>SIGN UP</h1>
 
       <div className="inputBoxes">
         <p>username</p><input type="text" name="user" onChange={(e)=>{ //when the value changes, update the variable setUsername
@@ -32,6 +39,13 @@ function App() {
         }}/>
 
         <button onClick={submitUser}>Submit</button>
+
+        {userNameList.map((val)=>{
+          return (<h1>UserName: {val.phoneNum}
+          
+          </h1>
+          );
+        })}
       </div>
     </div>
   );
