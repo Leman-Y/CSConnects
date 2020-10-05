@@ -1,7 +1,8 @@
 import React, {useState , useEffect}from 'react';
-import './App.css';
 import Axios from 'axios'; //using axios to do api calls
-function App() {
+import '../styles/SignUp.css';
+
+function SignUp() {
 
   const [userName, setUsername] = useState("");
   const [userPassword, setPassword] = useState("");
@@ -51,4 +52,4 @@ function App() {
   );
 }
 
-export default App;
+export default SignUp;
