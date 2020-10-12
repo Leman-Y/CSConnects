@@ -1,5 +1,6 @@
 import React, {useState , useEffect}from 'react';
 import Axios from 'axios'; //using axios to do api calls
+import Navigation from '../components/Navigation';
 import '../styles/SignUp.css';
 
 function SignUp() {
@@ -9,7 +10,7 @@ function SignUp() {
   const [userNameList, setuserNameList] = useState([]);
 
   useEffect(()=>{
-    Axios.get('http://localhost:3001/api/get').then((response)=>{
+    Axios.get('http://localhost:3001/api/getUser').then((response)=>{
       setuserNameList(response.data);
     })
   }, [])
@@ -17,7 +18,7 @@ function SignUp() {
   //function gets called when user clicks submit.
   
   const submitUser = () =>{
-    Axios.post('http://localhost:3001/api/insert', { //makes an API call from the backend server from this specific URL. 
+    Axios.post('http://localhost:3001/api/insertUser', { //makes an API call from the backend server from this specific URL. 
       userName: userName, 
       userPassword: userPassword
     }).then(()=>{
@@ -27,7 +28,9 @@ function SignUp() {
 
 
   return (
+    
     <div className="App">
+      <Navigation/>
       <h1>SIGN UP</h1>
 
       <div className="inputBoxes">
@@ -41,12 +44,13 @@ function SignUp() {
 
         <button onClick={submitUser}>Submit</button>
 
-        {userNameList.map((val)=>{
+        {/* If you get error map is not a function, make sure your XAMP, WAMP is turned on */}
+        {/* {userNameList.map((val)=>{
           return (<h1>UserName: {val.phoneNum}
           
           </h1>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

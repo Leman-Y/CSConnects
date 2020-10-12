@@ -14,11 +14,18 @@ const db = mysql.createPool({
 app.use(cors());
 app.use(express.json()); //convert mysql result to json, to make it readable
 app.use(bodyParser.urlencoded({extended: true}));
+//get all events
+app.get("/api/getEvents", (req, res) =>{
+    const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%M %D %Y') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id";
+    db.query(sqlGet, (err, result)=>{
+        res.send(result);
+        console.log(result);
+    });
 
-
+})
 
 //to display everything in database. We do this by sending a json file to the front end containing all the information
-app.get("/api/get", (req, res) =>{
+app.get("/api/getUser", (req, res) =>{
     const sqlGet = "select * from user";
     db.query(sqlGet, (err, result)=>{
         res.send(result);
@@ -26,7 +33,7 @@ app.get("/api/get", (req, res) =>{
 })
 
 //this is to insert into database
-app.post('/api/insert', (req,res)=>{
+app.post('/api/insertUser', (req,res)=>{
     //when localhost:3001/api/insert is called from the front end, 2 variables are passed through. userName and userPassword.
     //These two variables are passed into the db.query function, which inserts the values into the database.
     const userName = req.body.userName; 
