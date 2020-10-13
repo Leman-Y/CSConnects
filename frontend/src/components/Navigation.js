@@ -22,6 +22,10 @@ const tabs = [{
 {
   route: "/Contact",
   name: "Contact",
+},
+{
+  route: "/SignUp",
+  name: "Sign In",
 }]
 
 const socials = [{
