@@ -15,3 +15,10 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+
+
+//FOR MATT:
+//git fetch --all: gets changes from all other branches
+//git merge origin/develop: It takes the changes from develop branch and moves 
+//the changes into the branch youre in right now
