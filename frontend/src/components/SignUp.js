@@ -10,6 +10,10 @@ function SignUp() {
   const [userName, setUsername] = useState("");
   const [userPassword, setPassword] = useState("");
   const [userNameList, setuserNameList] = useState([]);
+
+  const [signupStatus, setsignupStatus] = useState("");
+
+
   
 
   useEffect(()=>{
@@ -24,8 +28,8 @@ function SignUp() {
     Axios.post('http://localhost:3001/api/insert', { //makes an API call from the backend server from this specific URL. 
       userName: userName, 
       userPassword: userPassword
-    }).then(()=>{
-      alert("successfully inserted");
+    }).then((response)=>{
+      setsignupStatus(response.data.message);
     });
   };
 
@@ -44,6 +48,7 @@ function SignUp() {
             setUsername(e.target.value);
 
           }}/>
+          <h5>{signupStatus}</h5>
           <p>Password</p>
           <input className="sign-inputs" type="password" name="password" onChange={(e)=>{
             setPassword(e.target.value);
@@ -56,11 +61,11 @@ function SignUp() {
         router.push('/login');
       }}>Login</Button>
 
-        {userNameList.map((val)=>{
+        {/* {userNameList.map((val)=>{
           return (
           <h1>UserName: {val.phoneNum}</h1>
           );
-        })}
+        })} */}
         </div>
       </div>
       // </div>

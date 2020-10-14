@@ -6,26 +6,28 @@ import './SignUp.scss';
 import { Button } from 'antd';
 
 function Login(props) {
-  const userName = useFormInput('');
-  const userPassword = useFormInput('');
-  const [error, setError] = useState(null);
+  const [phonenumber, setPhonenumber] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loginStatus, setLoginStatus] = useState("");
+
+
   const router = useRouter();
 
-  // handle button click of login form
-  const handleLogin = () => {
-    setError(null);
-    Axios.post('http://localhost:3001/api/get', {
-      userName: userName.value, 
-      userPassword: userPassword.value 
-    }).then(response => {
-      setUserSession(response.data.token, response.data.user);
-      router.push('/');
-    }).catch(error => {
-      alert("no");
-      if (error.response.status === 401) setError(error.response.data.message);
-      else setError("Something went wrong. Please try again later.");
+
+  const login = () =>{
+    Axios.post('http://localhost:3001/login', { //makes an API call from the backend server from this specific URL. 
+      userName: phonenumber, 
+      userPassword: password
+    }).then((response)=>{
+        if(response.data.message){ //if there exist a message (the incorrect phone or number message) then that means the login is incorrect
+          setLoginStatus(response.data.message);
+        }else{
+          setLoginStatus("You're logged in as " + response.data[0].phoneNum);
+        }
+
     });
-  }
+  };
 
   return (
     <div className="sign-up">
@@ -35,17 +37,24 @@ function Login(props) {
       </div>
       <div>
         <p>Phone Number</p>
-        <input className="sign-inputs" type="text" {...userName} autoComplete="new-password" />
+        <input className="sign-inputs" type="text" autoComplete="new-password" 
+        onChange={(e) =>{
+          setPhonenumber(e.target.value);
+        }} />
  
         <p>Password</p>
-        <input className="sign-inputs" type="password" {...userPassword} autoComplete="new-password" />
+        <input className="sign-inputs" type="password" autoComplete="new-password" 
+        onChange={(e) =>{
+          setPassword(e.target.value);
+        }}/>
       </div>
+
+
       <div className="button-container">
-        {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
-        <Button type="primary" onClick={handleLogin}>Login</Button><br />
-        <Button type="primary" onClick={() => {
-        router.push('/signup');
-      }}>Sign Up</Button><br />
+        <h1>{loginStatus}</h1>
+        <Button type="primary" onClick={login} >Login</Button><br />
+
+        <Button type="primary" onClick={() => {router.push('/signup');}}>Sign Up</Button><br />
       </div>
     </div>
   );
