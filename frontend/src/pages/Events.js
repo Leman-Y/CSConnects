@@ -17,6 +17,15 @@ function EventsPage(){
 
     <div className="App">
       <Navigation/>
+      <h1>Insert new events</h1>
+
+      <div className="inputBoxesEvents">
+        
+
+
+
+      </div>
+
       <table id="events">
         <tr>
           <th>event_id</th>
