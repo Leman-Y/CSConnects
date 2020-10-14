@@ -8,6 +8,10 @@ const tabs = [{
   name: "Home",
 },
 {
+  route: "/TwilioForm",
+  name: "TwilioForm"
+},
+{
   route: "/Events",
   name: "Events",
 },
@@ -49,7 +53,7 @@ const Navigation = (props) => (
       socials.map((socials, index) =>(
         <div className="navigation" key={`tab-${index}`}>
           <Link to={{ pathname: socials.link }} target="_blank" >
-            <img src ={socials.icon}/>
+        {/* <img src ={socials.icon}/> */}
           </Link>
         </div>
       ))
