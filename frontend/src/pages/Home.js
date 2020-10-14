@@ -6,7 +6,6 @@ import acm from '../images/acm.png';
 import ClubCard from '../components/ClubCard';
 import ClubContainer from '../components/ClubContainer';
 import Navigation from '../components/Navigation';
-import SMSForm from '../SMSForm';
 
 function HomePage() {
   return (
@@ -19,9 +18,7 @@ function HomePage() {
           <ClubCard image={acm}/>
           <ClubCard image={google}/>
         </ClubContainer>
-        {/* <SMSForm/> */}
       </header>
-      
     </div>
   );
 }

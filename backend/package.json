@@ -12,12 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-pino-logger": "^5.0.0",
     "mysql": "^2.18.1",
     "node-cron": "^2.0.3",
-    "nodemon": "^2.0.4",
-    "twilio": "^3.49.4"
+    "nodemon": "^2.0.4"
   }
 }
