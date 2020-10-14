@@ -5,9 +5,7 @@ const app = express();
 const mysql = require('mysql');
 require('dotenv').config()
 //const cron = require('node-cron');
-//var TWILIO_ACCOUNT_SID ="ACbb8715e2d835dffacaa40c6c60018e92"
-//var TWILIO_AUTH_TOKEN = "3ed4a8b793901b702ba9c6fca88fa25b"
-//var TWILIO_PHONE_NUMBER =  "+12184894106"
+
 
 //Pino logger-tracks each request: https://www.npmjs.com/package/express-pino-logger
 const pino = require('express-pino-logger')();
