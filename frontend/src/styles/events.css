@@ -1,0 +1,16 @@
+#events{
+    width:100%;
+  }
+  
+  #events th, #events td{
+    border: 1px solid #ebebeb;
+    padding: 8px;
+  }
+  
+  #events th{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+  }
