@@ -21,3 +21,42 @@
   // color: black;
   // background-color: yellow;
 }
+.icon {
+  display: none;
+  width: 2em;
+}
+
+@media screen and (max-width: 600px) {
+  .nav-container .link-container{
+    display: none;
+  }
+  .icon {
+    float: right;
+    display: block;
+  }
+  .navigation{
+    margin-top: 4em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .nav-container.responsive .link-container{
+    position: absolute;
+    text-align: center;
+    font-size: 1.5rem;
+    z-index: 1;
+  }
+  .nav-container.responsive .icon{
+    position: relative;
+    float: right;
+    background-color: white;
+    z-index: 2;
+  }
+  .nav-container.responsive div{
+    float: none;
+    display: block;
+    background-color: white;
+    width: 100%;
+  }
+
+}
