@@ -7,7 +7,11 @@ require('dotenv').config()
 
 const bcrypt = require('bcrypt');
 const saltRounds = 8;
-//const cron = require('node-cron');
+
+const CronJob = require('cron').CronJob;
+const cron = require('node-cron');
+var time = require('./time');
+
 
 
 //Pino logger-tracks each request: https://www.npmjs.com/package/express-pino-logger
@@ -30,10 +34,18 @@ const db = mysql.createPool({
     password: '',
     database: 'capstone' 
 });
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'capstone' 
+});
 app.use(cors());
 app.use(express.json()); //convert mysql result to json, to make it readable
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.get('/api/greeting', (req, res) => {
     const name = req.query.name || 'World';
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
@@ -43,7 +55,7 @@ app.post('/api/messages', (req, res) => {
     res.header('Content-Type', 'application/json');
     client.messages
     .create({
-      from: TWILIO_PHONE_NUMBER,
+      from: process.env.TWILIO_PHONE_NUMBER,
       to: req.body.to,
       body: req.body.body
     })
@@ -56,6 +68,7 @@ app.post('/api/messages', (req, res) => {
     });
 });
 //get all events
+app.get("/api/getEvents", (req, res) =>{
     const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%M %D %Y') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id";
     db.query(sqlGet, (err, result)=>{
         res.send(result);
@@ -118,11 +131,6 @@ app.post('/api/insert', (req,res)=>{
     
 });
 
-// Schedule tasks to be run on the server.
-// cron.schedule('* * * * *', function() {
-//     console.log('running a task every minute');
-//   });
-  
 
 //handles login authentication
 app.post('/login',(req,res)=>{
@@ -151,6 +159,92 @@ app.post('/login',(req,res)=>{
         }
     });
 })
+
+
+  
+
+/* Twilio text scheduling */
+function updateAppointment(id){
+    //update appointment to notified=1
+    connection.query(
+        "UPDATE hunter_events SET notified = 1 WHERE id = ?", 
+        [id], 
+        function(error, results, fields){
+            if(!error){
+                console.log('updated appointment with ID of ' + id);
+            }
+        }
+    );
+}
+
+    var results=[];
+    var getInfo = function(callback){
+        connection.query("select * FROM hunter_events WHERE notified = 0", function (err, result, fields) 
+        {
+            if (err) return callback(err);
+            if(result.length){
+                for(var i = 0; i < result.length;i++){
+                    results.push(result[i]);
+                }
+            }
+            callback(null,results);
+        
+      });
+    };
+    getInfo(function(err,result){
+        if (err) console.log("Database error!");
+        else{
+            //dt = result[0]['date'];
+            //console.log(dt);
+            //if(dt )
+            for(var x in result){
+
+                var id = results[x].event_id;
+                var datetime_start = results[x].date;
+                //var datetime_end = results[x].datetime_end;
+                
+                var appointment_start = time.moment(datetime_start);
+                var summary = results[x].event_name + " is fast approaching on " + datetime_start; 
+    
+                var hour_diff = appointment_start.diff(time.moment(), 'hours');
+                console.log("hour diff",hour_diff)
+
+                if(hour_diff < 24 && hour_diff > 0){
+                    sendNotification(summary);
+                    updateAppointment(id);
+                }
+        }
+    } 
+    });
+    
+
+    
+
+
+//const arr = getEvents();
+//console.log("here",arr)
+function sendNotification(summary){
+    console.log("sending message")
+    
+    client.messages
+    .create({
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: "+15166951142",
+      body: summary
+    });
+}
+function startTask(){
+
+    //connection.db.query('SELECT * FROM appointments WHERE notified = 0', sendNotifications);
+    console.log("testing!");
+
+}
+//Schedule tasks to be run on the server.
+cron.schedule('47 11 18 10 *', sendNotification);
+
+
+/* End Twilio text scheduling */
+
 
 app.listen(3001, () =>{
     console.log('running on port 3001');
