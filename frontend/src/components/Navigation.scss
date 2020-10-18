@@ -1,32 +1,72 @@
 @import '../styles/themes.scss';
 .nav-container{
   font-size: 2.2vh;
+  // margin: 1em 0em;
+  margin: 1em;
+  position: relative;
+  white-space: nowrap;
+
+  .line-container{
+    display: grid;
+    place-items: center;
+    .nav-line{
+      border-top:0.15em solid $grey;
+      width: 100%;
+    }
+  }
+  .left-container{
+    // position: absolute;
+    height:3em;
+    display: flex;
+    margin: 0.5em 1em;
+    color: $purple;
+    z-index: 2;
+
+    .site-title{
+      margin: 0.5em 1em;
+      font-size: 3vh;
+      font-weight: bold;
+      font-family: 'Barlow', sans-serif;
+    }
+  }
 }
 .link-container{
+  position: absolute;
   display: flex;
-  // flex-direction: row;
   justify-content: flex-end;
-  margin: 1em;
+  margin: 0.5em;
+  top:0;
+  right: 0;
 }
 .navigation{
   margin:1em;
 }
 .nav-routes {
   text-decoration: none;
-  // color: #C2CEDB;
   color: $grey;
 }
 .nav-routes.selected{
   color: $black;
-  // color: black;
-  // background-color: yellow;
 }
 .icon {
+  right:0;
+  top: 0;
+  position: absolute;
   display: none;
-  width: 2em;
+  width: 1.5em;
+  margin:1.2em;
 }
-
-@media screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
+  .title-icon{
+    display:none;
+  }
+  .nav-container>.left-container>.site-title{
+    margin: 0.5em 0em;
+    font-weight: bold;
+  }
+  .nav-container .left-container{
+    margin: 0.5em 0em;
+  }
   .nav-container .link-container{
     display: none;
   }
@@ -35,28 +75,31 @@
     display: block;
   }
   .navigation{
-    margin-top: 4em;
+    margin-top: 2em;
   }
 }
 
-@media screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
   .nav-container.responsive .link-container{
-    position: absolute;
+    position: relative;
     text-align: center;
     font-size: 1.5rem;
     z-index: 1;
+    margin: 5em 0 100% 0;
   }
   .nav-container.responsive .icon{
-    position: relative;
+    // position: relative;
     float: right;
-    background-color: white;
+    background-color: $bgcolor;
     z-index: 2;
   }
   .nav-container.responsive div{
     float: none;
     display: block;
-    background-color: white;
-    width: 100%;
+    background-color: $bgcolor;
+  }
+  .nav-container.responsive>.left-container>.site-title{
+    margin: 1em 0em;
   }
 
 }

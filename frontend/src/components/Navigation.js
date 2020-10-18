@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink, Link} from 'react-router-dom';
 import facebook from '../images/facebook.svg';
 import './Navigation.scss';
-import icon from '../images/Like.svg';
 
 const tabs = [{
   route: "/",
@@ -39,10 +38,8 @@ const socials = [{
 }]
 
 function Burger() {
-  console.log("help");
   var x = document.getElementById("nav-container");
   if (x.className === "nav-container") {
-    console.log("oop");
     x.className += " responsive";
   } else {
     x.className = "nav-container";
@@ -51,8 +48,15 @@ function Burger() {
 
 const Navigation = (props) => (
   <nav className="nav-container" id="nav-container">
+    <div className="line-container">
+      <div className="nav-line"></div>
+    </div>
+    <div className="left-container">
+        <img className="title-icon" src={props.icon}/>
+        <div className="site-title">{props.name}</div>
+      </div>
     <a href="javascript:void(0);" class="icon" onClick={() => Burger()}>
-      <img src={icon}/>
+      <img src={props.burger}/>
     </a>
     <div className="link-container">
        {
