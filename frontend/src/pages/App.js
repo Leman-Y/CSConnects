@@ -4,6 +4,7 @@ import HomePage from './Home';
 import EventsPage from './Events';
 import SignUpPage from './SignUp';
 import LoginPage from './Login';
+import EventsTestPage from './EventsTest';
 
 function App(){
   return(
@@ -13,7 +14,7 @@ function App(){
         <Route exact path="/Events" component={EventsPage}/>
         <Route exact path="/SignUp" component={SignUpPage}/>
         <Route exact path="/Login" component={LoginPage}/>
-
+        <Route exact path="/EventsTest" component={EventsTestPage}/>
       </Switch>
     </Router>
 
