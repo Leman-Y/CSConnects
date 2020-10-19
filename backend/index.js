@@ -4,6 +4,9 @@ const cors = require('cors'); //to bypass cors policy
 const app = express();
 const mysql = require('mysql');
 
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
 const bcrypt = require('bcrypt');
 const saltRounds = 8;
 //const cron = require('node-cron');
@@ -14,9 +17,24 @@ const db = mysql.createPool({
     password: '',
     database: 'capstone' 
 });
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:3000"], //put the URL of what we want the session to work on. may have to change when deploying
+    methods: ["GET", "POST"],
+    credentials: true  //allows cookies to be enabled, enabling sessions
+}));
+app.use(cookieParser());
 app.use(express.json()); //convert mysql result to json, to make it readable
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(session({
+    key: "userId",
+    secret: "randomsecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 60 * 60 * 24 //determines how long until the cookie expires. This is in miliseconds. It is currently set to 24 hours
+    }
+}))
 
 //get all events
 app.get("/api/getEvents", (req, res) =>{
@@ -64,7 +82,7 @@ app.post('/api/insert', (req,res)=>{
                                     console.log(err);
                                 }
 
-                                const sqlInsert = "INSERT INTO user (phoneNum, password) VALUES (?,?)";
+                                const sqlInsert = "INSERT INTO user (phoneNum, password, role) VALUES (?,?, 'user')";
                                 db.query(
                                     sqlInsert, 
                                     [userName, hash], 
@@ -83,11 +101,15 @@ app.post('/api/insert', (req,res)=>{
     
 });
 
-// Schedule tasks to be run on the server.
-// cron.schedule('* * * * *', function() {
-//     console.log('running a task every minute');
-//   });
-  
+
+app.get("/login", (req,res)=>{
+    if(req.session.user){ //if there already exists a user session
+        res.send({loggedIn: true, user: req.session.user});//send an object loggedIn as true, and send user session information
+    }else{
+        res.send({loggedIn: false}); //send object loggedIn as false, don't send user information
+    }
+})  
+
 
 //handles login authentication
 app.post('/login',(req,res)=>{
@@ -105,7 +127,9 @@ app.post('/login',(req,res)=>{
         //if the result is greater than 0, meaning there is a username with that combination
         if(result.length > 0) { 
             bcrypt.compare(userPassword, result[0].password, (error, response) =>{
-                if(response){
+                if(response){//if user successfully logins
+                    req.session.user = result; //create a session with user information passed into the session variable.
+                    console.log(req.session.user);
                     res.send(result);
                 }else{
                     res.send({message: "Incorrect phone or password"});

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { setUserSession } from '../util/Common';
 import { useRouter } from '../util/router.js';
@@ -14,6 +14,7 @@ function Login(props) {
 
   const router = useRouter();
 
+  Axios.defaults.withCredentials = true;
 
   const login = () =>{
     Axios.post('http://localhost:3001/login', { //makes an API call from the backend server from this specific URL. 
@@ -28,6 +29,16 @@ function Login(props) {
 
     });
   };
+
+  useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
+    Axios.get("http://localhost:3001/login").then((response)=>{
+      if(response.data.loggedIn == true){
+        console.log(response);
+        setLoginStatus("You're logged in as " + response.data.user[0].phoneNum);
+      }
+      
+    })
+  }, []);
 
   return (
     <div className="sign-up">

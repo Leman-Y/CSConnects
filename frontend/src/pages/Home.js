@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect , useState} from 'react';
 import wics from '../images/wics.jpg';
 import osc from '../images/osc.png';
 import google from '../images/google.jpg';
@@ -12,11 +12,30 @@ import Notif from '../images/notif.svg';
 import Celebrate from '../images/celebrate.svg';
 import IconContainer from '../components/IconContainer';
 
+
+import Axios from 'axios';
+
+
+
 function HomePage() {
+
+  const [role, setRole] = useState('');
+  Axios.defaults.withCredentials = true;
+
+  useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
+    Axios.get("http://localhost:3001/login").then((response)=>{
+      if(response.data.loggedIn == true){
+        setRole("Welcome " + response.data.user[0].phoneNum);
+      }
+    })
+  }, []);
+
+
   return (
     <div className="App">
       <Navigation/>
       <header className="App-header">
+        <h2>{role}</h2>
         <IconContainer title="How to join?">
           <Icon icon={Like} des="Sign up"/>
           <Icon icon={Notif} des="Look out for events"/>
