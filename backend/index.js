@@ -32,7 +32,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 60 * 60 * 24 //determines how long until the cookie expires. This is in miliseconds. It is currently set to 24 hours
+        expires: 3600000 //determines how long until the cookie expires. This is in miliseconds. It is currently set to 60 mins
     }
 }))
 
@@ -87,7 +87,7 @@ app.post('/api/insert', (req,res)=>{
                                     sqlInsert, 
                                     [userName, hash], 
                                     (err, result)=>{
-                                        console.log(result);
+                                        //console.log(result);
                                 });
                             })
                 } 
@@ -129,7 +129,7 @@ app.post('/login',(req,res)=>{
             bcrypt.compare(userPassword, result[0].password, (error, response) =>{
                 if(response){//if user successfully logins
                     req.session.user = result; //create a session with user information passed into the session variable.
-                    console.log(req.session.user);
+                    //console.log(req.session.user);
                     res.send(result);
                 }else{
                     res.send({message: "Incorrect phone or password"});
@@ -139,6 +139,19 @@ app.post('/login',(req,res)=>{
             res.send({message: "Phone number doesn't exist"});
         }
     });
+})
+
+
+//handles login authentication
+app.get('/logout',(req,res)=>{
+    if(req.session.user){ //if there already exists a user session
+        console.log("there exists a session " + req.session.user + ". Destroying session now");
+        res.clearCookie('user');
+        req.session.destroy();
+        res.send({loggedIn: false});
+    }else{
+        console.log("unsuccessful logout");
+    }   
 })
 
 app.listen(3001, () =>{

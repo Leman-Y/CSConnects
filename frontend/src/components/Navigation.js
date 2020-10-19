@@ -70,7 +70,7 @@ function Navigation(props){
     name: "Contact",
   },
   {
-    route: "/SignUp",
+    route: "/Login",
     name: "My Account",
   }]
   

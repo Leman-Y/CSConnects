@@ -25,7 +25,7 @@ function HomePage() {
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
     Axios.get("http://localhost:3001/login").then((response)=>{
       if(response.data.loggedIn == true){
-        setRole("Welcome " + response.data.user[0].phoneNum);
+        setRole("Welcome " + response.data.user[0].phoneNum + ". You are a "+ response.data.user[0].role);
       }
     })
   }, []);
