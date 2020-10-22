@@ -6,6 +6,7 @@ import SignUp from './SignUp';
 import SMSForm from '../SMSForm';
 import SignUpPage from './SignUp';
 import LoginPage from './Login';
+import EventsTestPage from './EventsTest';
 
 function App(){
   return(
@@ -17,7 +18,7 @@ function App(){
         <Route exact path="/TwilioForm" component={SMSForm}/>
         <Route exact path="/SignUp" component={SignUpPage}/>
         <Route exact path="/Login" component={LoginPage}/>
-
+        <Route exact path="/EventsTest" component={EventsTestPage}/>
       </Switch>
     </Router>
 

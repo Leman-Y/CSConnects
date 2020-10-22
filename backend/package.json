@@ -17,9 +17,12 @@
     "cron": "^1.8.2",
     "express": "^4.17.1",
     "express-pino-logger": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "googleapis": "^61.0.0",
     "mysql": "^2.18.1",
     "node-cron": "^2.0.3",
     "nodemon": "^2.0.4",
-    "twilio": "^3.49.4"
+    "twilio": "^3.49.4",
   }
 }
