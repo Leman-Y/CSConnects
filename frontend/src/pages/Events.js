@@ -56,7 +56,7 @@ function EventsPage(){
             );
           })}
       </table>
-      <EventCard title="Google Mock Tech Interview" image={acm} time="TBA"/>
+      {/* <EventCard title="Google Mock Tech Interview" image={acm} time="TBA"/> */}
     </div>
   );
 
