@@ -37,8 +37,27 @@ const socials = [{
   icon: facebook,
 }]
 
+function Burger() {
+  var x = document.getElementById("nav-container");
+  if (x.className === "nav-container") {
+    x.className += " responsive";
+  } else {
+    x.className = "nav-container";
+  }
+}
+
 const Navigation = (props) => (
-  <nav className="nav-container">
+  <nav className="nav-container" id="nav-container">
+    <div className="line-container">
+      <div className="nav-line"></div>
+    </div>
+    <div className="left-container">
+        <img className="title-icon" src={props.icon}/>
+        <div className="site-title">{props.name}</div>
+      </div>
+    <a href="javascript:void(0);" class="icon" onClick={() => Burger()}>
+      <img src={props.burger}/>
+    </a>
     <div className="link-container">
        {
         tabs.map((tab, index) =>(
