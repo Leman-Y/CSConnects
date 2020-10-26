@@ -1,6 +1,8 @@
 import React from 'react';
 import {Switch, Route, Router} from '../util/router.js';
 import HomePage from './Home';
+import AboutPage from './About';
+import ResourcePage from './Resources';
 import EventsPage from './Events';
 import SignUpPage from './SignUp';
 import LoginPage from './Login';
@@ -12,6 +14,8 @@ function App(){
       <Switch>
         <Route exact path="/" component={HomePage}/>
         <Route exact path="/Events" component={EventsPage}/>
+        <Route exact path="/About" component={AboutPage}/>
+        <Route exact path="/Resources" component={ResourcePage}/>
         <Route exact path="/SignUp" component={SignUpPage}/>
         <Route exact path="/Login" component={LoginPage}/>
         <Route exact path="/EventsTest" component={EventsTestPage}/>
