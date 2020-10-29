@@ -164,57 +164,25 @@ app.post('/login',(req,res)=>{
   
 
 /* Twilio text scheduling */
-function updateAppointment(id){
+function updateAppointment(){
+    console.log("updating...")
     //update appointment to notified=1
-    connection.query(
-        "UPDATE hunter_events SET notified = 1 WHERE id = ?", 
-        [id], 
-        function(error, results, fields){
-            if(!error){
-                console.log('updated appointment with ID of ' + id);
-            }
-        }
-    );
+    // connection.query(
+    //     "UPDATE hunter_events SET notified = 1 WHERE id = ?", 
+    //     [id], 
+    //     function(error, results, fields){
+    //         if(!error){
+    //             console.log('updated appointment with ID of ' + id);
+    //         }
+    //     }
+    // );
 }
    
-    
-    function getInfo(){
-        console.log("starting in getInfo...")
-        var returns=[]
-        var sql = "SELECT DISTINCT(event_notifications.phoneNum) FROM event_notifications, hunter_events WHERE event_notifications.notified = 0 AND HOUR(TIMEDIFF(NOW(), date))<24";
-        connection.query(sql, function (err, results) 
-        {
-            
-            if(results.length){
-                for(var i = 0; i < results.length;i++){
-                    returns.push(results[i].phoneNum);
-                }
-            }
-            sendNotification(returns);
-            //console.log(results[i])
-            return callback(returns);
-            //return returns
-            
-            
-        
-      });
-      
-    };
-    
-    function test(result){
-        var stuff_i_want =[];
-        stuff_i_want=result;
-        console.log("working??/",stuff_i_want)
-        sendNotification(stuff_i_want)
-    }
 
-    getInfo(test);
+    
 
-    // getInfo(function(result){
-    //     stuff_i_want=result;
-    //     console.log("working??/",stuff_i_want)
-    //     sendNotification(stuff_i_want)
-    // });
+
+ 
    
  
     
@@ -271,13 +239,36 @@ function sendNotification(arr){
 }
 
 //Schedule tasks to be run on the server.
-cron.schedule('* * * * *', getInfo());
-// getInfo();
+//run every day @ 8 am
+var task = cron.schedule('0  8* * *', ()=>{
+    console.log("starting in getInfo...")
+        var returns=[]
+        var sql = "SELECT DISTINCT(event_notifications.phoneNum) FROM event_notifications, hunter_events WHERE event_notifications.notified = 0 AND HOUR(TIMEDIFF(NOW(), date))<24";
+        connection.query(sql, function (err, results) 
+        {
+            
+            if(results.length){
+                for(var i = 0; i < results.length;i++){
+                    returns.push(results[i].phoneNum);
+                }
+                sendNotification(returns);
+                updateAppointment();
+            
+            }
+            
+            
+            console.log("end of query")
+        });
 
-
+}, 
+{
+scheduled: false,
+    timezone: "America/New_York"
+});
+task.start();
 /* End Twilio text scheduling */
 
 
-app.listen(3001, () =>{
-    console.log('running on port 3001');
+app.listen(3000, () =>{
+    console.log('running on port 3000');
 });
