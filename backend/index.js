@@ -22,7 +22,7 @@ const client = require('twilio')(
     process.env.TWILIO_ACCOUNT_SID,
     process.env.TWILIO_AUTH_TOKEN
   );
-
+  const service = client.notify.services(process.env.TWILIO_NOTIFY_SERVICE_SID);
 //const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -176,71 +176,103 @@ function updateAppointment(id){
         }
     );
 }
-
-    var results=[];
-    var getInfo = function(callback){
-        connection.query("select * FROM hunter_events WHERE notified = 0", function (err, result, fields) 
+   
+    
+    function getInfo(){
+        console.log("starting in getInfo...")
+        var returns=[]
+        var sql = "SELECT DISTINCT(event_notifications.phoneNum) FROM event_notifications, hunter_events WHERE event_notifications.notified = 0 AND HOUR(TIMEDIFF(NOW(), date))<24";
+        connection.query(sql, function (err, results) 
         {
-            if (err) return callback(err);
-            if(result.length){
-                for(var i = 0; i < result.length;i++){
-                    results.push(result[i]);
+            
+            if(results.length){
+                for(var i = 0; i < results.length;i++){
+                    returns.push(results[i].phoneNum);
                 }
             }
-            callback(null,results);
+            sendNotification(returns);
+            //console.log(results[i])
+            return callback(returns);
+            //return returns
+            
+            
         
       });
+      
     };
-    getInfo(function(err,result){
-        if (err) console.log("Database error!");
-        else{
-            //dt = result[0]['date'];
-            //console.log(dt);
-            //if(dt )
-            for(var x in result){
-
-                var id = results[x].event_id;
-                var datetime_start = results[x].date;
-                //var datetime_end = results[x].datetime_end;
-                
-                var appointment_start = time.moment(datetime_start);
-                var summary = results[x].event_name + " is fast approaching on " + datetime_start; 
     
-                var hour_diff = appointment_start.diff(time.moment(), 'hours');
-                console.log("hour diff",hour_diff)
+    function test(result){
+        var stuff_i_want =[];
+        stuff_i_want=result;
+        console.log("working??/",stuff_i_want)
+        sendNotification(stuff_i_want)
+    }
 
-                if(hour_diff < 24 && hour_diff > 0){
-                    sendNotification(summary);
-                    updateAppointment(id);
-                }
-        }
-    } 
-    });
+    getInfo(test);
+
+    // getInfo(function(result){
+    //     stuff_i_want=result;
+    //     console.log("working??/",stuff_i_want)
+    //     sendNotification(stuff_i_want)
+    // });
+   
+ 
     
 
-    
+function sendNotification(arr){
+    console.log("sending message", arr)
+    return;
+    //##
+//     const bindings = arr.map(number => {
+//         return JSON.stringify({ binding_type: 'sms', address: number });
+//       });
+//       service.notifications
+//   .create({
+//         toBinding: bindings,
+//         body: "hello, friend. You have an event coming up."
+//   })
+//   .then(notification => {
+//         console.log("notification!!",notification);
+//   })
+//   .catch(err => {
+//         console.error(err);
+//   });
+//##
+    // Promise.all(
+    //     arr.map(number => {
+    //       return client.messages.create({
+    //         from: process.env.TWILIO_MESSAGING_SERVICE_SID,
+    //         to: number,
+    //         body: "hello, friend. You have an event coming up."
+    //       });
+    //     })
+    //   )
+    //     .then(messages => {
+    //       console.log('Messages sent!',messages);
+    //     })
+    //     .catch(err => console.error(err));
+    //###
+//    for(each in arr){
+//         console.log("num",arr[each])
+//         client.messages
+//         .create({
+//           from: process.env.TWILIO_PHONE_NUMBER,
+//           to: arr[each],
+//           body: "hiii! Please work! Testing take 2",
+         
+   
+  
+//    });
+   //console.log("send for ", each)
+   
+   ////notification in the event_notification row to be 1
+//}
 
-
-//const arr = getEvents();
-//console.log("here",arr)
-function sendNotification(summary){
-    console.log("sending message")
-    
-    client.messages
-    .create({
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: "+15166951142",
-      body: summary
-    });
 }
-function startTask(){
 
-    //connection.db.query('SELECT * FROM appointments WHERE notified = 0', sendNotifications);
-    console.log("testing!");
-
-}
 //Schedule tasks to be run on the server.
-cron.schedule('47 11 18 10 *', sendNotification);
+cron.schedule('* * * * *', getInfo());
+// getInfo();
 
 
 /* End Twilio text scheduling */
