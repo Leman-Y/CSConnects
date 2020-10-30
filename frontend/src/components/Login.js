@@ -28,7 +28,9 @@ function Login(props) {
         }else{
           setLoginStatus("You're logged in as " + response.data[0].phoneNum);
           setLoggedin(true);
+          window.location.reload();
         }
+      
 
     });
   };
@@ -38,6 +40,7 @@ function Login(props) {
       if(response.data.loggedIn == false){
         setLoginStatus(null);
         setLoggedin(false);
+        window.location.reload();
       }
       
     })
