@@ -38,7 +38,9 @@ app.use(session({
 
 //get all events
 app.get("/api/getEvents", (req, res) =>{
-    const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%M %D %Y') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id";
+    const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id";
+
+    // const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%M %D %Y') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id";
     db.query(sqlGet, (err, result)=>{
         res.send(result);
         //console.log(result);
