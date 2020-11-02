@@ -240,7 +240,7 @@ function sendNotification(arr){
 
 //Schedule tasks to be run on the server.
 //run every day @ 8 am
-var task = cron.schedule('0  8* * *', ()=>{
+var task = cron.schedule('0  8 * * *', ()=>{
     console.log("starting in getInfo...")
         var returns=[]
         var sql = "SELECT DISTINCT(event_notifications.phoneNum) FROM event_notifications, hunter_events WHERE event_notifications.notified = 0 AND HOUR(TIMEDIFF(NOW(), date))<24";
