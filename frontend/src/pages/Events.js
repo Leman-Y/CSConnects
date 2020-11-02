@@ -1,10 +1,81 @@
-import React, {useState , useEffect}from 'react';
+import React, {useState , useEffect, Component}from 'react';
 import Axios from 'axios'; //using axios to do api calls
 import Navigation from '../components/Navigation';
+import moment from 'moment';
 import '../styles/events.css';
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
 
+import Calendar from '../components/Calendar';
+
+const style = {
+  position: "relative",
+  margin: "50px auto"
+}
+
+
+
+
+class EventsPage extends Component{
+
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: {},
+      myDay: '',
+      myMonth: '',
+      myYear: ''
+      };
+ 
+    
+  };
+
+  onDayClick = (e,day,month, year) =>{
+    Axios.get('http://localhost:3001/api/getEvents').then((response)=>{
+      // seteventList(response.data);
+      this.setState({
+        events: response.data
+      })
+      console.log(response.data);
+    });
+    this.setState({
+      myDay: day,
+      myMonth: month,
+      myYear: year
+    });
+
+  }
+	_renderObject(){
+		return Object.entries(this.state.events).map(([key, value], i) => {
+			return (
+				<div key={key}>
+					id is: {value.event_id} ;
+					name is: {value.event_name}
+				</div>
+			)
+		})
+	}
+
+  render(){
+    return(
+      <div className="App">
+        <Navigation/>
+        <Calendar style={style} width = "500px" onDayClick={(e , day,month, year)=>this.onDayClick(e,day,month, year)}/>
+        <div>
+          {this.state.myYear}
+          {this.state.myMonth}
+          {this.state.myDay}
+          {this._renderObject()}
+        </div>
+
+      </div>
+    );
+  }
+
+}
+
+
+export default EventsPage;
 // const [eventList, seteventList] = useState([]);
 // const [role, setRole] = useState('');
 // const [isAdmin, setisAdmin] = useState(false);
@@ -35,65 +106,56 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 //   }
 //   }
 
-function getEventsArray(eventList){
-  let arr = [];
-  {eventList.map((val)=>{
+// function getEventsArray(eventList){
+//   let arr = [];
+//   {eventList.map((val)=>{
       
-      arr.push(({title:val.event_name,date: val.date }));
-})}
-console.log(arr);
-return arr;
-  
-}
+//       arr.push(({title:val.event_name,date: val.date }));
+//   })}
+//   console.log(arr);
+//   return arr;
+    
+//   }
 
 
-function EventsPage(){
-  Axios.defaults.withCredentials = true;
-  const [eventList, seteventList] = useState([]);
-  const [role, setRole] = useState('');
-  const [isAdmin, setisAdmin] = useState(false);
-  useEffect(()=>{
-    Axios.get('http://localhost:3001/api/getEvents').then((response)=>{
-      seteventList(response.data);
-    })
-  }, [])
+// function EventsPage(){
+//   Axios.defaults.withCredentials = true;
+//   const [eventList, seteventList] = useState([]);
+//   const [role, setRole] = useState('');
+//   const [isAdmin, setisAdmin] = useState(false);
+//   useEffect(()=>{
+//     Axios.get('http://localhost:3001/api/getEvents').then((response)=>{
+//       seteventList(response.data);
+//     })
+//   }, [])
 
-  return(
-    <div className="App">
-    {getEventsArray(eventList)}
-    {eventList.map((val)=>{
-            return (
-            <div>
-              {val.date}
-              {val.event_name}
-            </div>
-            );
-    })}
-      <FullCalendar
-        plugins={[ dayGridPlugin ]}
-        initialView="dayGridMonth"
-        weekends={false}
-        // events={
-        //     getEventsArray(eventList)
-        // }
-        eventContent={renderEventContent(eventList)}
-      />
-    </div>
-  );
+//   return(
+//     <div className="App">
+//     {getEventsArray(eventList)}
+//     {eventList.map((val)=>{
+//             return (
+//             <div>
+//               {val.date}
+//               {val.event_name}
+//             </div>
+//             );
+//     })}
+//       <FullCalendar
+//         plugins={[ dayGridPlugin ]}
+//         initialView="dayGridMonth"
+//         weekends={false}
+//         // events={
+//         //     getEventsArray(eventList)
+//         // }
+//         eventContent={renderEventContent(eventList)}
+//       />
+//     </div>
+//   );
 
 
-}
+// }
 
-function renderEventContent(eventList) {
-  {eventList.map((val)=>{
-    return (
-      <>
-      <b>{val.date}</b>
-      <i>{val.date}</i>
-      </>
-    );
-})}
-}
+
 
 // import React, {useState , useEffect}from 'react';
 // import Axios from 'axios'; //using axios to do api calls
@@ -196,4 +258,3 @@ function renderEventContent(eventList) {
 
 // }
 
-export default EventsPage;
