@@ -28,6 +28,10 @@ export default class Calendar extends React.Component{
     month = () =>{
         return this.state.dateContext.format("MMMM");
     }
+
+    monthNumber = () =>{
+        return this.state.dateContext.format("M");
+    }
     daysInMonth = () =>{
         return this.state.dateContext.daysInMonth();
     }
@@ -183,12 +187,16 @@ export default class Calendar extends React.Component{
             );
         }
 
+        //HANDLES CLICKING OF DAYS INSIDE CALENDAR
         let daysInMonth = [];
         for (let d = 1; d <= this.daysInMonth(); d++){
             let className = (d == this.currentDate() ? "day current-day": "day");
             daysInMonth.push(
                 <td key={d} className={className}>
-                    <span onClick={(e)=>{this.onDayClick(e,d, this.month(), this.year())}}>{d} </span>
+                    
+                    <span onClick={(e)=>{this.onDayClick(e,d, this.monthNumber(), this.year())}}>{d} </span>
+                    {/* <span onClick={(e)=>{this.onDayClick(e, moment().format('Y-M-'+d))}}>{d} </span> */}
+
                 </td>
             )
         }

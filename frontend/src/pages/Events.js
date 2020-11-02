@@ -31,13 +31,21 @@ class EventsPage extends Component{
   };
 
   onDayClick = (e,day,month, year) =>{
-    Axios.get('http://localhost:3001/api/getEvents').then((response)=>{
-      // seteventList(response.data);
-      this.setState({
-        events: response.data
-      })
-      console.log(response.data);
+    Axios.post('http://localhost:3001/api/getEvents', { //makes an API call from the backend server from this specific URL. 
+      year: this.state.myYear, 
+      month: this.state.myMonth,
+      day: this.state.myDay
+    }).then((response)=>{
+        this.setState({
+          events: response.data
+        })
+      
+
     });
+
+
+
+
     this.setState({
       myDay: day,
       myMonth: month,
@@ -48,10 +56,11 @@ class EventsPage extends Component{
 	_renderObject(){
 		return Object.entries(this.state.events).map(([key, value], i) => {
 			return (
-				<div key={key}>
-					id is: {value.event_id} ;
-					name is: {value.event_name}
-				</div>
+				<tr key={key}>
+					<td>{value.event_id}</td>
+					<td>{value.event_name}</td>
+          <td>{value.event_description}</td>
+				</tr>
 			)
 		})
 	}
@@ -62,10 +71,20 @@ class EventsPage extends Component{
         <Navigation/>
         <Calendar style={style} width = "500px" onDayClick={(e , day,month, year)=>this.onDayClick(e,day,month, year)}/>
         <div>
-          {this.state.myYear}
-          {this.state.myMonth}
-          {this.state.myDay}
+          {this.state.myYear}{"-"}{this.state.myMonth}{"-"}{this.state.myDay}
+          
+          <table id="events">
+          <tr>
+            <th>event_id</th>
+            <th>event name</th>
+            <th>description</th>            
+          </tr>
+
           {this._renderObject()}
+      </table>
+
+          
+
         </div>
 
       </div>
@@ -223,36 +242,36 @@ export default EventsPage;
 
 //       </div>
 
-//       <table id="events">
-//         <tr>
-//           <th>event_id</th>
-//           <th>date</th>
-//           <th>start time</th>
-//           <th>end time</th>
-//           <th>event name</th>
-//           <th>description</th>
-//           <th>location</th>
-//           <th>club hosting</th>
-//           <th>event type</th>
+      // <table id="events">
+      //   <tr>
+      //     <th>event_id</th>
+      //     <th>date</th>
+      //     <th>start time</th>
+      //     <th>end time</th>
+      //     <th>event name</th>
+      //     <th>description</th>
+      //     <th>location</th>
+      //     <th>club hosting</th>
+      //     <th>event type</th>
           
-//         </tr>
-//         {eventList.map((val)=>{
-//             return (
-//             <tr>
-//               <td>{val.event_id}</td>
-//               <td>{val.date}</td>
-//               <td>{val.start_time}</td>
-//               <td>{val.end_time}</td>
-//               <td>{val.event_name}</td>
-//               <td>{val.event_description}</td>
-//               <td>{val.event_location}</td>
-//               <td>{val.club_name}</td>
-//               <td>{val.keyword_name}</td>
-//             </tr>
+      //   </tr>
+        // {eventList.map((val)=>{
+        //     return (
+        //     <tr>
+        //       <td>{val.event_id}</td>
+        //       <td>{val.date}</td>
+        //       <td>{val.start_time}</td>
+        //       <td>{val.end_time}</td>
+        //       <td>{val.event_name}</td>
+        //       <td>{val.event_description}</td>
+        //       <td>{val.event_location}</td>
+        //       <td>{val.club_name}</td>
+        //       <td>{val.keyword_name}</td>
+        //     </tr>
 
-//             );
-//           })}
-//       </table>
+        //     );
+        //   })}
+      // </table>
 //     </div>
 //   );
 
