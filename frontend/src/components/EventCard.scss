@@ -1,0 +1,28 @@
+@import '../styles/themes.scss';
+.event-container{
+  width: 20em;
+  height: 8em;
+  background: white;
+  box-shadow: 0em 0.4em 0.4em $grey;
+  border-radius: 2em;
+  display: flex;
+  margin: 1em;
+
+  .event-image>img{
+    height: 3em;
+    margin: 1em;
+  }
+  .event-info{
+    // display: grid;
+    // place-items: start;
+    margin: 2em 1em;
+    .line{
+      border-top:0.1em solid $grey;
+      margin:0.5em 0em;
+      width: 100%;
+    }
+    .event-title{
+      font-weight: bold;
+    }
+  }
+}

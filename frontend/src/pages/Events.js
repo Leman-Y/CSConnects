@@ -1,7 +1,13 @@
 import React, {useState , useEffect}from 'react';
 import Axios from 'axios'; //using axios to do api calls
 import Navigation from '../components/Navigation';
+import EventCard from '../components/EventCard';
+import Computer from '../images/comp.svg';
+import burger from '../images/burger.svg';
+import acm from '../images/acm.png';
 import '../styles/events.css';
+import '../styles/Home.scss';
+
 function EventsPage(){
   const [eventList, seteventList] = useState([]);
   useEffect(()=>{
@@ -9,20 +15,14 @@ function EventsPage(){
       seteventList(response.data);
     })
   }, [])
-
-
-  
+ 
   return(
-    
-
     <div className="App">
-      <Navigation/>
+      <div className="NavBar">
+        <Navigation icon={Computer} name="CSConnects" burger={burger}/>
+      </div>
       <h1>Insert new events</h1>
-
       <div className="inputBoxesEvents">
-        
-
-
 
       </div>
 
@@ -56,6 +56,7 @@ function EventsPage(){
             );
           })}
       </table>
+      {/* <EventCard title="Google Mock Tech Interview" image={acm} time="TBA"/> */}
     </div>
   );
 

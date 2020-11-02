@@ -12,11 +12,16 @@ import Like from '../images/Like.svg';
 import Notif from '../images/notif.svg';
 import Celebrate from '../images/celebrate.svg';
 import IconContainer from '../components/IconContainer';
+import Computer from '../images/comp.svg';
+import burger from '../images/burger.svg';
+import '../styles/Home.scss';
 
 function HomePage() {
   return (
     <div className="App">
-      <Navigation/>
+      <div className="NavBar">
+        <Navigation icon={Computer} name="CSConnects" burger={burger}/>
+      </div>
       <header className="App-header">
         <IconContainer title="How to join?">
           <Icon icon={Like} des="Sign up"/>

@@ -1,0 +1,32 @@
+@import '../styles/themes.scss';
+.section-container{
+  font-size: 1rem;
+  font-family: 'Barlow', sans-serif;
+  text-align: center;
+  // color: $white;
+  line-height: 200%;
+
+  .section-title{
+    font-size: 1.5rem;
+  }
+  .section-body{
+    padding: 1em;
+    width: 90%;
+  }
+  .section-img{
+    width: 100%;
+    height:30em;
+  }
+  .section-top{
+    background-color: $lightPurple;
+    color: $white;
+  }
+  .section-bottom{
+    background-color: $gold;
+  }
+  .section-top, .section-bottom{
+    padding: 1.5em;
+    display: grid;
+    place-items: center;
+  }
+}
