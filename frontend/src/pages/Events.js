@@ -1,6 +1,12 @@
 import React, {useState , useEffect, Component}from 'react';
 import Axios from 'axios'; //using axios to do api calls
 import Navigation from '../components/Navigation';
+import EventCard from '../components/EventCard';
+import Computer from '../images/comp.svg';
+import burger from '../images/burger.svg';
+import acm from '../images/acm.png';
+import '../styles/events.css';
+import '../styles/Home.scss';
 import moment from 'moment';
 import '../styles/events.css';
 
@@ -43,6 +49,26 @@ class EventsPage extends Component{
 
     });
 
+
+
+//Maisa's changes
+// function EventsPage(){
+ 
+//   return(
+//     <div className="App">
+//       <div className="NavBar">
+//         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
+//       </div>
+//       <h1>Insert new events</h1>
+//       <div className="inputBoxesEvents">
+
+
+
+
+
+      // {/* <EventCard title="Google Mock Tech Interview" image={acm} time="TBA"/> */}
+      // </div>
+      // );
 
 
 
