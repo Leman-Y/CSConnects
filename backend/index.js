@@ -36,91 +36,110 @@ app.use(session({
     }
 }))
 
-//get all events
+//get all events from DB
 app.get("/api/getEvents", (req, res) =>{
-    // const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id";
+    try{
+         const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id";
 
+        // Only gets a certain date
+        // const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND DATE >='2020-09-30' AND DATE <'2020-09-31'";
 
-    const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND DATE >='2020-09-30' AND DATE <'2020-09-31'";
-
-    db.query(sqlGet, (err, result)=>{
-        res.send(result);
-        //console.log(result);
-    });
+        db.query(sqlGet, (err, result)=>{
+            res.send(result);
+        });
+    }
+    catch (err) {
+        console.error(err.message);
+    }
 })
 
 
 //gets all events with specific date as parameter
 app.post('/api/getEvents',(req,res)=>{
-    const year = req.body.year; 
-    const month = req.body.month;
-    const day = req.body.day;
+    try {
+        const year = req.body.year;
+        const month = req.body.month;
+        const day = req.body.day;
 
-    const convertedYear = Number(year);
-    const convertedMonth = Number(month);
-    const convertedDay = Number(day);
-    // const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND DATE >='2020-09-30' AND DATE <'2020-09-31'";
+        const convertedYear = Number(year);
+        const convertedMonth = Number(month);
+        const convertedDay = Number(day);
+        // const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND DATE >='2020-09-30' AND DATE <'2020-09-31'";
 
-    const sqlGet = 'SELECT * FROM hunter_events WHERE date >= \''+  convertedYear + '-' + convertedMonth + '-' + convertedDay + '\' AND date < \'' + convertedYear + '-' + convertedMonth + '-' + (convertedDay+1) + '\'';
-    // const sqlGet = 'SELECT * FROM hunter_events WHERE date >=\'2020-11-30\' AND date < \'2020-11-31\'';
-    db.query(sqlGet, (err, result)=>{
-        res.send(result);
-    });
+        //const sqlGet = 'SELECT * FROM hunter_events WHERE date >= \''+  convertedYear + '-' + convertedMonth + '-' + convertedDay + '\' AND date < \'' + convertedYear + '-' + convertedMonth + '-' + (convertedDay+1) + '\'';
+        // const sqlGet = 'SELECT * FROM hunter_events WHERE date >=\'2020-11-30\' AND date < \'2020-11-31\'';
+        const sqlGet = 'SELECT * FROM hunter_events WHERE DATE(date) = \''+  convertedYear + '-' + convertedMonth + '-' + convertedDay + '\'';
+
+        db.query(sqlGet, (err, result)=>{
+            res.send(result);
+        });
+    }
+    catch(err) {
+        console.error(err.message);
+    }
+
+
 })
 
 
 //to display everything in database. We do this by sending a json file to the front end containing all the information
 app.get("/api/get", (req, res) =>{
-    const sqlGet = "select * from user";
-    db.query(sqlGet, (err, result)=>{
-        res.send(result);
-    });
+    try {
+        const sqlGet = "select * from user";
+        db.query(sqlGet, (err, result)=>{
+            res.send(result);
+        });
+    }
+    catch(err) {
+        console.error(err.message);
+    }
 })
 
 //this is to insert into database
 app.post('/api/insert', (req,res)=>{
-    //when localhost:3001/api/insert is called from the front end, 2 variables are passed through. userName and userPassword.
-    //These two variables are passed into the db.query function, which inserts the values into the database.
-    const userName = req.body.userName; 
-    const userPassword = req.body.userPassword;
+    try{
+        //when localhost:3001/api/insert is called from the front end, 2 variables are passed through. userName and userPassword.
+        //These two variables are passed into the db.query function, which inserts the values into the database.
+        const userName = req.body.userName;
+        const userPassword = req.body.userPassword;
 
-    if(userName.length <= 0 || userPassword.length <=0){
-        res.send({message: "Please enter a username or password"});
-    }else if(isNaN(userName)){
-        res.send({message: "Please enter a valid phone number"});
-    }else{
-        const checkphone = "SELECT * from user WHERE phoneNum = ?;";
-        db.query(
-            checkphone, 
-            userName, 
-            (err, result)=>{
-                if(result.length > 0){
-                    res.send({message: "That number is already registered"});
-                }else{
-                    res.send({message: "That number is valid inserting.."});
+        if(userName.length <= 0 || userPassword.length <=0){
+            res.send({message: "Please enter a username or password"});
+        }else if(isNaN(userName)){
+            res.send({message: "Please enter a valid phone number"});
+        }else{
+            const checkphone = "SELECT * from user WHERE phoneNum = ?;";
+            db.query(
+                checkphone,
+                userName,
+                (err, result)=>{
+                    if(result.length > 0){
+                        res.send({message: "That number is already registered"});
+                    }else{
+                        res.send({message: "That number is valid inserting.."});
                         //hashes the password that the user inputted
-                            bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
+                        bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
 
-                                if(err){
-                                    console.log(err);
-                                }
+                            if(err){
+                                console.log(err);
+                            }
 
-                                const sqlInsert = "INSERT INTO user (phoneNum, password, role) VALUES (?,?, 'user')";
-                                db.query(
-                                    sqlInsert, 
-                                    [userName, hash], 
-                                    (err, result)=>{
-                                        //console.log(result);
+                            const sqlInsert = "INSERT INTO user (phoneNum, password, role) VALUES (?,?, 'user')";
+                            db.query(
+                                sqlInsert,
+                                [userName, hash],
+                                (err, result)=>{
+                                    //console.log(result);
                                 });
-                            })
-                } 
-        });
+                        })
+                    }
+                });
+        }
+
     }
-
-
-
-
-
+    catch(err) {
+        console.error(err.message);
+    }
     
 });
 
