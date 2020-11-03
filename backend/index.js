@@ -90,6 +90,7 @@ app.post('/api/insert', (req,res)=>{
     //These two variables are passed into the db.query function, which inserts the values into the database.
     const userName = req.body.userName; 
     const userPassword = req.body.userPassword;
+    const userRole = req.body.userRole;
 
     if(userName.length <= 0 || userPassword.length <=0){
         res.send({message: "Please enter a username or password"});
@@ -109,15 +110,19 @@ app.post('/api/insert', (req,res)=>{
                             bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
 
                                 if(err){
-                                    console.log(err);
+                                    console.log("error!",err);
                                 }
 
-                                const sqlInsert = "INSERT INTO user (phoneNum, password) VALUES (?,?)";
+                                const sqlInsert = "INSERT INTO user (phoneNum, password, role) VALUES (?,?,?)";
                                 db.query(
                                     sqlInsert, 
-                                    [userName, hash], 
+                                    [userName, hash,userRole], 
                                     (err, result)=>{
-                                        console.log(result);
+                                        if(err){console.log("error#2!",err)}
+                                        else{console.log("result!",result);
+                                        // res.send({message2: "You signed up!"});
+                                    }
+
                                 });
                             })
                 } 
@@ -161,21 +166,28 @@ app.post('/login',(req,res)=>{
 })
 
 
-  
+
+
 
 /* Twilio text scheduling */
-function updateAppointment(){
+function updateAppointment(list){
     console.log("updating...")
     //update appointment to notified=1
-    // connection.query(
-    //     "UPDATE hunter_events SET notified = 1 WHERE id = ?", 
-    //     [id], 
-    //     function(error, results, fields){
-    //         if(!error){
-    //             console.log('updated appointment with ID of ' + id);
-    //         }
-    //     }
-    // );
+    list=list.join()
+    var sql = "UPDATE event_notifications SET notified = 1 WHERE event_id IN ("+list+")"
+    console.log(sql)
+    connection.query(
+        sql, 
+
+        function(error, results, fields){
+            if(!error){
+                console.log('updated appointmen');
+            }
+            else{
+                console.log("Error")
+            }
+        }
+    );
 }
    
 
@@ -237,22 +249,42 @@ function sendNotification(arr){
 //}
 
 }
-
+var currentDate = new Date();
+var day = currentDate.getDate()+1;
+if(day<10)
+{
+    day="0"+day;
+}
+var month = currentDate.getMonth()+1;
+if(month<10)
+{
+    month="0"+month;
+}
+var year = currentDate.getFullYear();
+var total=year+'-'+month+'-'+day
+console.log(total);
 //Schedule tasks to be run on the server.
 //run every day @ 8 am
-var task = cron.schedule('0  8 * * *', ()=>{
+var task = cron.schedule('* * * * *', ()=>{
     console.log("starting in getInfo...")
-        var returns=[]
-        var sql = "SELECT DISTINCT(event_notifications.phoneNum) FROM event_notifications, hunter_events WHERE event_notifications.notified = 0 AND HOUR(TIMEDIFF(NOW(), date))<24";
+        var returnNum=[]
+        var returnEvent=[]
+        var sql = "SELECT DISTINCT(event_notifications.phoneNum), hunter_events.event_id FROM event_notifications, hunter_events WHERE DATE(date)= '"+total +"'";
+        console.log(sql)
         connection.query(sql, function (err, results) 
         {
             
+            
             if(results.length){
                 for(var i = 0; i < results.length;i++){
-                    returns.push(results[i].phoneNum);
+                    returnNum.push(results[i].phoneNum);
+                    returnEvent.push(results[i].event_id);
                 }
-                sendNotification(returns);
-                updateAppointment();
+                var uniqueNums = Array.from(new Set(returnNum))
+                sendNotification(uniqueNums);
+                var uniqueItems = Array.from(new Set(returnEvent))
+                console.log("here",uniqueItems);
+                updateAppointment(uniqueItems);
             
             }
             

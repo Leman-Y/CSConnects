@@ -16,7 +16,7 @@ function Login(props) {
 
 
   const login = () =>{
-    Axios.post('http://localhost:3001/login', { //makes an API call from the backend server from this specific URL. 
+    Axios.post('http://localhost:3000/login', { //makes an API call from the backend server from this specific URL. 
       userName: phonenumber, 
       userPassword: password
     }).then((response)=>{

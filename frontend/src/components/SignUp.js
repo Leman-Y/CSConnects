@@ -9,6 +9,7 @@ function SignUp() {
   const router = useRouter();
   const [userName, setUsername] = useState("");
   const [userPassword, setPassword] = useState("");
+  const [userRole, setRole] = useState("user");
   const [userNameList, setuserNameList] = useState([]);
 
   const [signupStatus, setsignupStatus] = useState("");
@@ -17,7 +18,7 @@ function SignUp() {
   
 
   useEffect(()=>{
-    Axios.get('http://localhost:3001/api/get').then((response)=>{
+    Axios.get('http://localhost:3000/api/get').then((response)=>{
       setuserNameList(response.data);
     })
   }, [])
@@ -25,11 +26,15 @@ function SignUp() {
   //function gets called when user clicks submit.
   
   const submitUser = () =>{
-    Axios.post('http://localhost:3001/api/insert', { //makes an API call from the backend server from this specific URL. 
+    Axios.post('http://localhost:3000/api/insert', { //makes an API call from the backend server from this specific URL. 
       userName: userName, 
-      userPassword: userPassword
+      userPassword: userPassword,
+      userRole: userRole
     }).then((response)=>{
-      setsignupStatus(response.data.message);
+      if(response.data.message){setsignupStatus(response.data.message);}
+      // if(response.data.message2){setsignupStatus(response.data.message2);}
+      // else{setsignupStatus("Error somewhere ");}
+
     });
   };
 
