@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Navigation from './components/Navigation'
 
 class SMSForm extends Component {
     constructor(props) {
@@ -54,6 +55,8 @@ class SMSForm extends Component {
       }
     render() {
         return (
+          <div>
+            <Navigation></Navigation>
           <form onSubmit = {this.onSubmit} className={this.state.error ? 'error in sms-form' : 'sms-form'}>
             <div>
               <h1>Testing Twilio</h1>
@@ -80,6 +83,7 @@ class SMSForm extends Component {
               Send message
             </button>
           </form>
+          </div>
         );
       }
 }

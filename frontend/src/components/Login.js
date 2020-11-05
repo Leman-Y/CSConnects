@@ -22,8 +22,11 @@ function Login(props) {
     }).then((response)=>{
         if(response.data.message){ //if there exist a message (the incorrect phone or number message) then that means the login is incorrect
           setLoginStatus(response.data.message);
-        }else{
-          setLoginStatus("You're logged in as " + response.data[0].phoneNum);
+          
+        }
+        else
+        {
+          router.push("/");
         }
 
     });

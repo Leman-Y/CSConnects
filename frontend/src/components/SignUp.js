@@ -31,7 +31,8 @@ function SignUp() {
       userPassword: userPassword,
       userRole: userRole
     }).then((response)=>{
-      if(response.data.message){setsignupStatus(response.data.message);}
+      if(response.data.message){setsignupStatus(response.data.message);
+      router.push("/login")}
       // if(response.data.message2){setsignupStatus(response.data.message2);}
       // else{setsignupStatus("Error somewhere ");}
 

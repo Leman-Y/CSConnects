@@ -141,6 +141,7 @@ app.post('/api/insert', (req,res)=>{
 app.post('/login',(req,res)=>{
     const userName = req.body.userName; 
     const userPassword = req.body.userPassword;
+    
     const sqlGet = "select * from user where phoneNum = ?;";
     db.query(
         sqlGet,
@@ -274,7 +275,8 @@ var task = cron.schedule('* * * * *', ()=>{
         connection.query(sql, function (err, results) 
         {
             
-            
+            if(results)
+            {
             if(results.length){
                 for(var i = 0; i < results.length;i++){
                     returnNum.push(results[i].phoneNum);
@@ -287,6 +289,10 @@ var task = cron.schedule('* * * * *', ()=>{
                 updateAppointment(uniqueItems);
             
             }
+        }
+        else{
+            console.log("no dates")
+        }
             
             
             console.log("end of query")
