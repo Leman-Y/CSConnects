@@ -5,6 +5,7 @@
   margin: 1em;
   position: relative;
   white-space: nowrap;
+  font-family: 'Barlow', sans-serif;
 
   .line-container{
     display: grid;
@@ -46,7 +47,9 @@
   color: $grey;
 }
 .nav-routes.selected{
-  color: $black;
+  // color: $black;
+  color: $purple;
+  font-weight: bolder;
 }
 .icon {
   right:0;
@@ -55,6 +58,9 @@
   display: none;
   width: 1.5em;
   margin:1.2em;
+}
+.home-icon{
+  text-decoration: none;
 }
 @media only screen and (max-width: 1024px) {
   .title-icon{
