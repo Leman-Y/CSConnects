@@ -14,8 +14,11 @@ import IconContainer from '../components/IconContainer';
 import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import '../styles/Home.scss';
+import {useRouter} from '../util/router.js'
+
 
 function HomePage() {
+  const router = useRouter();
   return (
     <div className="App">
       <div className="NavBar">
