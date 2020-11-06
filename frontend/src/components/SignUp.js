@@ -14,7 +14,7 @@ function SignUp() {
 
   const [signupStatus, setsignupStatus] = useState("");
 
-
+  Axios.defaults.withCredentials = true;
   
 
   useEffect(()=>{
