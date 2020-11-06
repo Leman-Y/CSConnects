@@ -1,0 +1,28 @@
+@import '../styles/themes.scss';
+.wrapper{
+  display: flex;
+  justify-content: center;
+  height: clamp(25%, 50%, 50%);
+  *{
+    margin:0.75em;
+  }
+}
+.club-title{
+  border-bottom: 0.15em solid $grey;
+  font-size: 1.2rem;
+  margin: 1em;
+  font-family: 'Barlow', sans-serif;
+  color: $purple;
+}
+
+@media only screen and (max-width: 1024px) {
+  .wrapper{
+    display: flex;
+    justify-content: center;
+    height: clamp(25%, 50%, 50%);
+    flex-wrap: wrap;
+    *{
+      margin:0.5em;
+    }
+  }
+}
