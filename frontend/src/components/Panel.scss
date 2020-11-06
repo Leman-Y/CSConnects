@@ -1,0 +1,22 @@
+.panel-container{
+  display: grid;
+  place-items: center;
+  font-size:1.2rem;
+
+  .panel-title{
+    padding:1em;
+  }
+  .panel-children{
+    width: 15em;
+    display: none;
+  }
+  .panel-children.shown{
+    display:block;
+  }
+  .panel-icon{
+    width: 0.75em;
+  }
+  .accordian{
+    display: flex;
+  }
+}
