@@ -1,7 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const cors = require('cors'); //to bypass cors policy
+
 const app = express();
+app.use(cors());
 const mysql = require('mysql');
 require('dotenv').config()
 
@@ -44,7 +47,7 @@ const connection = mysql.createConnection({
     password: '',
     database: 'capstone' 
 });
-app.use(cors());
+
 app.use(express.json()); //convert mysql result to json, to make it readable
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -162,6 +165,21 @@ app.post('/api/insert', (req,res)=>{
         }
     });
         
+//get all events type for admin panel on event page
+app.get("/api/getEventType", (req, res) =>{
+    try{
+        const sqlGet = "select * from event_type";
+        // Only gets a certain date
+        // const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND DATE >='2020-09-30' AND DATE <'2020-09-31'";
+
+        db.query(sqlGet, (err, result)=>{
+            res.send(result);
+        });
+    }
+    catch (err) {
+        console.error(err.message);
+    }
+})
 
 //gets all events with specific date as parameter
 app.post('/api/getEvents',(req,res)=>{
@@ -182,6 +200,7 @@ app.post('/api/getEvents',(req,res)=>{
         db.query(sqlGet, (err, result)=>{
             res.send(result);
         });
+
     }
     catch(err) {
         console.error(err.message);
@@ -204,7 +223,40 @@ app.get("/api/get", (req, res) =>{
     }
 })
 
-//this is to insert into database
+
+//this is to insert events into database from admin panel in events page
+app.post('/api/insertEvent', (req,res)=>{
+    try{
+        //when localhost:3001/api/insert is called from the front end, 2 variables are passed through. userName and userPassword.
+        //These two variables are passed into the db.query function, which inserts the values into the database.
+        const date = req.body.date;
+        const start_time = req.body.start_time;
+        const end_time = req.body.end_time;
+        const event_name = req.body.event_name;
+        const event_description = req.body.event_description;
+        const event_location = req.body.event_location;
+        const club_name = req.body.club_name;
+        const event_type = req.body.event_type;
+
+        var sqlInsert = 'INSERT INTO hunter_events (date, start_time, end_time, event_name, event_description, event_location, event_club, event_type, notified)'; 
+        sqlInsert += 'VALUES (\"' + date + '\",\"' + start_time + '\",\"' + end_time + '\",\"' + event_name + '\",\"' + event_description + '\",\"' + event_location + '\",(select club_id from event_club where club_name = \"' + club_name + '\"), (select keyword_id from event_type where keyword_name = \"' + event_type +'\") , 0)' ;
+        db.query(sqlInsert, (err, result)=>{
+            res.send(result);
+        });
+
+        console.log(sqlInsert);
+
+
+    }
+    catch(err) {
+        console.error(err.message);
+        console.log("didn't work");
+    }
+    
+});
+
+
+//this is to insert users into database
 app.post('/api/insert', (req,res)=>{
     try{
         //when localhost:3001/api/insert is called from the front end, 2 variables are passed through. userName and userPassword.
@@ -256,7 +308,7 @@ app.post('/api/insert', (req,res)=>{
 app.get("/login", (req,res)=>{
     if(req.session.user){ //if there already exists a user session
         res.send({loggedIn: true, user: req.session.user});//send an object loggedIn as true, and send user session information
-        console.log(req.session.user);
+        // console.log(req.session.user);
     }else{
         res.send({loggedIn: false}); //send object loggedIn as false, don't send user information
     }
@@ -448,8 +500,8 @@ app.get('/logout',(req,res)=>{
     }   
 });
 
-app.listen(3000, () =>{
-    console.log('running on port 3000');
+app.listen(3001, () =>{
+    console.log('running on port 3001');
  });
 //handles login authentication
 app.get('/logout',(req,res)=>{

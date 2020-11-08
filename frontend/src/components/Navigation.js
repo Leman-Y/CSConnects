@@ -14,7 +14,7 @@ const tabs = [{
   name: "TwilioForm"
 },
 {
-  route: "/Events",
+  route: "/EventsTest",
   name: "Events",
 },
 {

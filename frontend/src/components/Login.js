@@ -32,7 +32,7 @@ function Login(props) {
           setLoginStatus("You're logged in as " + response.data[0].phoneNum);
           setLoggedin(true);
           window.location.reload();
-          router.push("/");
+          // router.push("/");
         }
       
 
@@ -92,7 +92,7 @@ function Login(props) {
         <h1>{loginStatus}</h1>
         {loggedIn ? 
         <React.Fragment>
-          <Button type="primary" onClick={logout} >Logout</Button><br />,
+          <Button type="primary" onClick={logout} >Logout</Button><br />
         </React.Fragment> : 
         <React.Fragment>
           <Button type="primary" onClick={login} >Sign In</Button><br />,
