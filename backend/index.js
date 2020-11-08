@@ -446,7 +446,7 @@ var total=year+'-'+month+'-'+day
 console.log(total);
 //Schedule tasks to be run on the server.
 //run every day @ 8 am
-var task = cron.schedule('* * * * *', ()=>{
+var task = cron.schedule('0 9 * * *', ()=>{
     console.log("starting in getInfo...")
         var returnNum=[]
         var returnEvent=[]
