@@ -145,7 +145,7 @@ export default class DemoApp extends React.Component {
             });
             }
         // console.log(event);
-        event.preventDefault();
+        //event.preventDefault();
     }
     
     render() {
