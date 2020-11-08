@@ -8,7 +8,6 @@ import acm from '../images/acm.png';
 import '../styles/events.css';
 import '../styles/Home.scss';
 import moment from 'moment';
-import '../styles/events.css';
 
 import Calendar from '../components/Calendar';
 

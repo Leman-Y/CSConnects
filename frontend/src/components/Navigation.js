@@ -8,7 +8,7 @@ const tabs = [{
   name: "Home",
 },
 {
-  route: "/Events",
+  route: "/EventsTest",
   name: "Events",
 },
 {
@@ -55,7 +55,7 @@ const Navigation = (props) => (
         <img className="title-icon" src={props.icon}/>
         <div className="site-title">{props.name}</div>
       </div>
-    <a href="javascript:void(0);" class="icon" onClick={() => Burger()}>
+    <a href="javascript:void(0);" className="icon" onClick={() => Burger()}>
       <img src={props.burger}/>
     </a>
     <div className="link-container">
