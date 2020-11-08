@@ -15,7 +15,8 @@ function ResourcesPage() {
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
       </div>
       <Panel title="Internships & Jobs" icon={plus} id="1">
-        <SmallSection title="Angel" link="https://angel.co/jobs?ref=onboarding"/>
+        <SmallSection title="Angel" link="https://angel.co/jobs?ref=onboarding"
+        about="Startups nationwide"/>
         <SmallSection title="Startup Companies" link="https://angel.co/job-collections/52-best-startup-companies-to-watch-out-for-in-2020" 
         about="Some of the best startups to look out for."/>
         <SmallSection title="Built In NYC" link="https://www.builtinnyc.com/" about="Startup companies within NYC."/>
@@ -26,7 +27,8 @@ function ResourcesPage() {
         <SmallSection title="RTC" link="https://rewritingthecode.org/fellowship/" about="A national program for college women interested in careers in tech."/>
       </Panel>
       <Panel title="Hunter College Resources" icon={plus} id="3">
-        <SmallSection title="" link="" about=""/>
+        <SmallSection title="Hunter's CS Syllabi Directory" link="http://syllabi.hunterosc.org/" about="This site will hold the syllabi for computer science courses at Hunter College."/>
+        <SmallSection title="Computer Science Department" link="http://www.hunter.cuny.edu/csci" about="Official webite of Hunter College's CS department."/>
       </Panel>
     </div>
   );
