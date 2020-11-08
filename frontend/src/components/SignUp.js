@@ -18,7 +18,7 @@ function SignUp() {
   
 
   useEffect(()=>{
-    Axios.get('http://localhost:3000/api/get').then((response)=>{
+    Axios.get('http://localhost:3001/api/get').then((response)=>{
       setuserNameList(response.data);
     })
   }, [])
@@ -26,7 +26,7 @@ function SignUp() {
   //function gets called when user clicks submit.
   
   const submitUser = () =>{
-    Axios.post('http://localhost:3000/api/insert', { //makes an API call from the backend server from this specific URL. 
+    Axios.post('http://localhost:3001/api/insert', { //makes an API call from the backend server from this specific URL. 
       userName: userName, 
       userPassword: userPassword,
       userRole: userRole
@@ -50,6 +50,7 @@ function SignUp() {
 
         <div className="sign-info"> 
           <p>Phone Number</p>
+          <div style={{fontStyle:"italic"}}>Example:+15166951142</div>
           <input className="sign-inputs" type="text" name="user" onChange={(e)=>{ //when the value changes, update the variable setUsername
             setUsername(e.target.value);
 
@@ -65,7 +66,7 @@ function SignUp() {
         <Button type="primary" onClick={submitUser}>Submit</Button>
         <Button type="primary" onClick={() => {
         router.push('/login');
-      }}>Login</Button>
+      }}>Already have an account? Sign In</Button>
 
         {/* {userNameList.map((val)=>{
           return (
