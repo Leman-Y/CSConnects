@@ -7,7 +7,6 @@ import burger from '../images/burger.svg';
 import acm from '../images/acm.png';
 import '../styles/events.css';
 import '../styles/Home.scss';
-import moment from 'moment';
 import '../styles/events.css';
 
 import Calendar from '../components/Calendar';
@@ -94,7 +93,7 @@ class EventsPage extends Component{
   render(){
     return(
       <div className="App">
-        <Navigation/>
+        <Navigation icon={Computer} name="CSConnects" burger={burger}/>
         <Calendar style={style} width = "500px" onDayClick={(e , day,month, year)=>this.onDayClick(e,day,month, year)}/>
         <div>
           {this.state.myYear}{"-"}{this.state.myMonth}{"-"}{this.state.myDay}
