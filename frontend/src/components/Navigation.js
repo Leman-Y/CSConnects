@@ -10,7 +10,7 @@ const tabs = [{
   name: "Home",
 },
 {
-  route: "/Events",
+  route: "/EventsTest",
   name: "Events",
 },
 {
