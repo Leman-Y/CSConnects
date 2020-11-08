@@ -87,10 +87,10 @@ function Login(props) {
         <h1>{loginStatus}</h1>
         {loggedIn ? 
         <React.Fragment>
-          <Button type="primary" onClick={logout} >Logout</Button><br />,
+          <Button type="primary" onClick={logout} >Logout</Button><br />
         </React.Fragment> : 
         <React.Fragment>
-          <Button type="primary" onClick={login} >Login</Button><br />,
+          <Button type="primary" onClick={login} >Login</Button><br />
           <Button type="primary" onClick={() => {router.push('/signup');}}>Sign Up</Button><br />
         </React.Fragment>
         } 
