@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); //to bypass cors policy
 
 const app = express();
-app.use(cors());
+// app.use(cors());
 const mysql = require('mysql');
 require('dotenv').config()
 
