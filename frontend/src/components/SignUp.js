@@ -9,6 +9,7 @@ function SignUp() {
   const router = useRouter();
   const [userName, setUsername] = useState("");
   const [userPassword, setPassword] = useState("");
+  const [userRole, setRole] = useState("user");
   const [userNameList, setuserNameList] = useState([]);
 
   const [signupStatus, setsignupStatus] = useState("");
@@ -27,9 +28,14 @@ function SignUp() {
   const submitUser = () =>{
     Axios.post('http://localhost:3001/api/insert', { //makes an API call from the backend server from this specific URL. 
       userName: userName, 
-      userPassword: userPassword
+      userPassword: userPassword,
+      userRole: userRole
     }).then((response)=>{
-      setsignupStatus(response.data.message);
+      if(response.data.message){setsignupStatus(response.data.message);
+      router.push("/login")}
+      // if(response.data.message2){setsignupStatus(response.data.message2);}
+      // else{setsignupStatus("Error somewhere ");}
+
     });
   };
 
@@ -44,6 +50,7 @@ function SignUp() {
 
         <div className="sign-info"> 
           <p>Phone Number</p>
+          <div style={{fontStyle:"italic"}}>Example:+15166951142</div>
           <input className="sign-inputs" type="text" name="user" onChange={(e)=>{ //when the value changes, update the variable setUsername
             setUsername(e.target.value);
 
@@ -59,7 +66,7 @@ function SignUp() {
         <Button type="primary" onClick={submitUser}>Submit</Button>
         <Button type="primary" onClick={() => {
         router.push('/login');
-      }}>Login</Button>
+      }}>Already have an account? Sign In</Button>
 
         {/* {userNameList.map((val)=>{
           return (
