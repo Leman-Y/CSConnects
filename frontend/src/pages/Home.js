@@ -14,6 +14,8 @@ import IconContainer from '../components/IconContainer';
 import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import '../styles/Home.scss';
+import {useRouter} from '../util/router.js'
+
 
 
 import Axios from 'axios';
@@ -21,6 +23,7 @@ import Axios from 'axios';
 
 
 function HomePage() {
+  const router = useRouter();
 
   const [role, setRole] = useState('');
   Axios.defaults.withCredentials = true;

@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink, Link} from 'react-router-dom';
 import facebook from '../images/facebook.svg';
+import insta from '../images/insta.svg';
 import './Navigation.scss';
+// import { useRouter } from '../util/router.js';
 
 const tabs = [{
   route: "/",
@@ -28,14 +30,16 @@ const tabs = [{
   name: "Sign In",
 }]
 
-const socials = [{
-  link: "https://hunterwics.github.io/",
-  icon: facebook,
-}, 
+const socials = [
 {
   link: "https://www.facebook.com/groups/HunterWomenInCS",
   icon: facebook,
-}]
+},
+{
+  link: "https://hunterwics.github.io/",
+  icon: insta,
+}
+]
 
 function Burger() {
   var x = document.getElementById("nav-container");
@@ -45,17 +49,18 @@ function Burger() {
     x.className = "nav-container";
   }
 }
-
 const Navigation = (props) => (
   <nav className="nav-container" id="nav-container">
     <div className="line-container">
       <div className="nav-line"></div>
     </div>
-    <div className="left-container">
+    <a href="/" class="home-icon">
+    <div className="left-container" onClick={props.onclick}>
         <img className="title-icon" src={props.icon}/>
         <div className="site-title">{props.name}</div>
-      </div>
-    <a href="javascript:void(0);" className="icon" onClick={() => Burger()}>
+    </div>
+    </a>
+    <a href="javascript:void(0);" class="icon" onClick={() => Burger()}>
       <img src={props.burger}/>
     </a>
     <div className="link-container">
