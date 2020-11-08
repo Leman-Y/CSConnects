@@ -1,7 +1,11 @@
+@import '../styles/themes.scss';
 .icon-title{
   font-size: 1.2rem;
   margin: 3em 1em 0em 1em;
   // position: absolute;
+  border-bottom: 0.15em solid $grey;
+  font-family: 'Barlow', sans-serif;
+  color: $purple;
 }
 .icon-wrapper{
   display: flex;

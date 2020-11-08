@@ -1,3 +1,4 @@
+@import '../styles/themes.scss';
 .wrapper{
   display: flex;
   justify-content: center;
@@ -7,8 +8,11 @@
   }
 }
 .club-title{
+  border-bottom: 0.15em solid $grey;
   font-size: 1.2rem;
   margin: 1em;
+  font-family: 'Barlow', sans-serif;
+  color: $purple;
 }
 
 @media only screen and (max-width: 1024px) {

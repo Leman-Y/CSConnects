@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect , useState} from 'react';
 import wics from '../images/wics.jpg';
 import osc from '../images/osc.png';
 import google from '../images/google.jpg';
@@ -15,14 +15,36 @@ import IconContainer from '../components/IconContainer';
 import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import '../styles/Home.scss';
+import {useRouter} from '../util/router.js'
+
+
+
+import Axios from 'axios';
+
+
 
 function HomePage() {
+  const router = useRouter();
+
+  const [role, setRole] = useState('');
+  Axios.defaults.withCredentials = true;
+
+  useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
+    Axios.get("http://localhost:3001/login").then((response)=>{
+      if(response.data.loggedIn == true){
+        setRole("Welcome " + response.data.user[0].phoneNum + ". You are a "+ response.data.user[0].role);
+      }
+    })
+  }, []);
+
+
   return (
     <div className="App">
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
       </div>
       <header className="App-header">
+        <h2>{role}</h2>
         <IconContainer title="How to join?">
           <Icon icon={Like} des="Sign up"/>
           <Icon icon={Notif} des="Look out for events"/>
