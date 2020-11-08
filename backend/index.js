@@ -94,7 +94,7 @@ app.use(session({
 app.get("/api/getEvents", (req, res) =>{
     try{
          const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id";
-                // Only gets a certain date
+// Only gets a certain date
         // const sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type WHERE hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND DATE >='2020-09-30' AND DATE <'2020-09-31'";
 
         db.query(sqlGet, (err, result)=>{
@@ -104,8 +104,9 @@ app.get("/api/getEvents", (req, res) =>{
     catch (err) {
         console.error(err.message);
     }
-
 })
+
+
 //to display everything in database. We do this by sending a json file to the front end containing all the information
 app.get("/api/get", (req, res) =>{
     const sqlGet = "select * from user";
@@ -160,6 +161,7 @@ app.post('/api/insert', (req,res)=>{
             });
         }
     });
+        
 
 //gets all events with specific date as parameter
 app.post('/api/getEvents',(req,res)=>{
@@ -449,3 +451,15 @@ app.get('/logout',(req,res)=>{
 app.listen(3000, () =>{
     console.log('running on port 3000');
  });
+//handles login authentication
+app.get('/logout',(req,res)=>{
+    if(req.session.user){ //if there already exists a user session
+        console.log("there exists a session " + req.session.user + ". Destroying session now");
+        res.clearCookie('user');
+        req.session.destroy();
+        res.send({loggedIn: false});
+    }else{
+        console.log("unsuccessful logout");
+    }   
+})
+
