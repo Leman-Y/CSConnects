@@ -6,6 +6,9 @@ import insta from '../images/insta.svg';
 import './Navigation.scss';
 // import { useRouter } from '../util/router.js';
 
+
+
+
 const tabs = [{
   route: "/",
   name: "Home",
@@ -74,6 +77,8 @@ const socials = [
 }
 ]
 
+
+
 function Burger() {
   var x = document.getElementById("nav-container");
   if (x.className === "nav-container") {
@@ -85,8 +90,23 @@ function Burger() {
 
 
 
-const Navigation = (props) => (
+function Navigation(props) {
 
+  const [loggedIn, setLoggedin] = useState(false);
+  Axios.defaults.withCredentials = true;
+  useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
+    Axios.get("http://localhost:3001/login").then((response)=>{
+      if(response.data.loggedIn == true){
+        //console.log(response);
+        setLoggedin(true);
+      }
+      
+    }, {withCredentials: true})
+  }, []);
+
+
+
+ return(
   <nav className="nav-container" id="nav-container">
 
     <div className="line-container">
@@ -102,15 +122,28 @@ const Navigation = (props) => (
       <img src={props.burger}/>
     </a>
     <div className="link-container">
-       {
-        tabs.map((tab, index) =>(
+      {loggedIn ?
+        
+        tabsLoggedIn.map((tab, index) =>(
           <div className="navigation" key={`tab-${index}`}>
             <NavLink className="nav-routes" exact activeClassName="selected" to={tab.route}>
               {tab.name}
             </NavLink>
           </div>
         ))
+        
+        :
+        
+          tabs.map((tab, index) =>(
+            <div className="navigation" key={`tab-${index}`}>
+              <NavLink className="nav-routes" exact activeClassName="selected" to={tab.route}>
+                {tab.name}
+              </NavLink>
+            </div>
+          ))
+          
       }
+
       {
       socials.map((socials, index) =>(
         <div className="navigation" key={`tab-${index}`}>
@@ -124,6 +157,7 @@ const Navigation = (props) => (
   </nav>
 );
 
+}
 export default Navigation;
 
 /* function Navigation(props){
@@ -136,7 +170,8 @@ export default Navigation;
          setLoginStatus("true");
        }else{
          setLoginStatus("false");
-
+       }
+    }
 
   
   const tabs = [{
