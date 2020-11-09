@@ -98,7 +98,7 @@ const Navigation = (props) => (
         <div className="site-title">{props.name}</div>
     </div>
     </a>
-    <a href="javascript:void(0);" class="icon" onClick={() => Burger()}>
+    <a href="javascript:void(0);" className="icon" onClick={() => Burger()}>
       <img src={props.burger}/>
     </a>
     <div className="link-container">

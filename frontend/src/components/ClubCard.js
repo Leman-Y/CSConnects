@@ -11,15 +11,15 @@ function hideText(id){
 }
 
 const ClubCard = (props) =>(
-  <div id="club" className="club-hover"  >
-    {/* <div id={props.id} className="text-container">
-      <div className="club-text">
+  <div id="club" className="club-hover" onMouseEnter={() => showText(props.id)} onMouseLeave={() => hideText(props.id)} >
+    <div id={props.id} className="text-container">
+      <div className="club-text" >
         {props.des}
         <div className="club-link">
           <a href={props.link} rel="noreferrer" target="_blank">Read More</a>
         </div>
       </div>
-    </div> */}
+    </div>
     <div className="Clubs-container" style={{'--image': `url(${props.image})`}}>
     </div>
   </div>
