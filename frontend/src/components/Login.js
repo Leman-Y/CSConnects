@@ -25,10 +25,14 @@ function Login(props) {
     }).then((response)=>{
         if(response.data.message){ //if there exist a message (the incorrect phone or number message) then that means the login is incorrect
           setLoginStatus(response.data.message);
-        }else{
+          
+        }
+       
+        else{
           setLoginStatus("You're logged in as " + response.data[0].phoneNum);
           setLoggedin(true);
           window.location.reload();
+          // router.push("/");
         }
       
 
@@ -60,13 +64,14 @@ function Login(props) {
   return (
     <div className="sign-up">
       <div className="welcome">
-        <h1>Welcome Back!</h1>
+        <h1>Please Sign In:</h1>
       </div>
       <div>
         {loggedIn ? 
           null : 
           <React.Fragment>
               <p>Phone Number</p>
+              <div style={{fontStyle:"italic"}}>Example:+15166951142</div>
                 <input className="sign-inputs" type="text" autoComplete="new-password" 
                 onChange={(e) =>{
                   setPhonenumber(e.target.value);
@@ -90,8 +95,8 @@ function Login(props) {
           <Button type="primary" onClick={logout} >Logout</Button><br />
         </React.Fragment> : 
         <React.Fragment>
-          <Button type="primary" onClick={login} >Login</Button><br />
-          <Button type="primary" onClick={() => {router.push('/signup');}}>Sign Up</Button><br />
+          <Button type="primary" onClick={login} >Sign In</Button><br />,
+          <Button type="primary" onClick={() => {router.push('/signup');}}>Create an account</Button><br />
         </React.Fragment>
         } 
 

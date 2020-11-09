@@ -4,6 +4,8 @@ import HomePage from './Home';
 import AboutPage from './About';
 import ResourcesPage from './Resources';
 import EventsPage from './Events';
+import SignUp from './SignUp';
+import SMSForm from '../SMSForm';
 import ContactPage from './Contact';
 import SignUpPage from './SignUp';
 import LoginPage from './Login';
@@ -15,6 +17,8 @@ function App(){
       <Switch>
         <Route exact path="/" component={HomePage}/>
         <Route exact path="/Events" component={EventsPage}/>
+        <Route exact path="/SignUp" component={SignUp}/>
+        <Route exact path="/TwilioForm" component={SMSForm}/>
         <Route exact path="/About" component={AboutPage}/>
         <Route exact path="/Resources" component={ResourcesPage}/>
         <Route exact path="/Contact" component={ContactPage}/>
