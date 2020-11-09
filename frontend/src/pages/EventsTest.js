@@ -369,7 +369,7 @@ export default class DemoApp extends React.Component {
                                     <TimePicker
                                     onChange={start_time => this.setState({start_time: start_time})}
                                     value={this.state.start_time}
-                                    minTime={new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()}
+                                    // minTime={new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()}
                                     />
                                 </div>
 
