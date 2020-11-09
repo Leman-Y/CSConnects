@@ -95,7 +95,7 @@ function Login(props) {
           <Button type="primary" onClick={logout} >Logout</Button><br />
         </React.Fragment> : 
         <React.Fragment>
-          <Button type="primary" onClick={login} >Sign In</Button><br />,
+          <Button type="primary" onClick={login} >Sign In</Button><br />
           <Button type="primary" onClick={() => {router.push('/signup');}}>Create an account</Button><br />
         </React.Fragment>
         } 
