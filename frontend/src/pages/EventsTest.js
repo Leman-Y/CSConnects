@@ -11,8 +11,10 @@ import {Form, Button} from 'react-bootstrap/';
 import DatePicker from 'react-date-picker'; //for the date picker package
 import TimePicker from 'react-time-picker'; //for the time picker package
 import { useForm } from "react-hook-form"; //for the form validation package
- 
-
+import Table from 'react-bootstrap/Table' // Bootstrap table
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 
 
 Axios.defaults.withCredentials = true;
@@ -31,11 +33,34 @@ async function getAllEventsFromDb() {
 
     const jsonArr = [];
 
+    /*
+        club_name: "Apps club"
+        date: "2020-11-23"
+        end_time: "18:45:00"
+        event_description: "Bday bash"
+        event_id: 11
+        event_location: "Matt's house"
+        event_name: "Matt Bday"
+        keyword_name: "study"
+        start_time: "18:30:00"
+     */
+
     arr.map( (val) =>
         {
+            //console.log(val);
             jsonArr.push({
                 title: val.event_name,
-                date: val.date
+                date: val.date,
+                extendedProps: {
+                    club_name: val.club_name,
+                    date: val.date,
+                    start_time: val.start_time,
+                    end_time: val.end_time,
+                    event_description: val.event_description,
+                    event_location: val.event_location,
+                    event_type: val.keyword_name
+
+                }
             })
         });
 
@@ -67,8 +92,8 @@ export default class DemoApp extends React.Component {
         event_location: '',
         club_name: defaultClub,
         event_type: '',
-        error_message: ''
-
+        error_message: '',
+        event : null
     }
 
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
@@ -100,6 +125,39 @@ export default class DemoApp extends React.Component {
         // Axios.get('http://localhost:3001/api/getEvents').then((response)=>{
         //     console.log(response.data);
         // })
+    }
+/*
+  eventClick: function(info) {
+    alert('Event: ' + info.event.title);
+    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+    alert('View: ' + info.view.type);
+
+    // change the border color just for fun
+    info.el.style.borderColor = 'red';
+  }
+                title: val.event_name,
+                date: val.date,
+                extendedProps: {
+                    club_name: val.club_name,
+                    date: val.date,
+                    start_time: val.start_time,
+                    end_time: val.end_time,
+                    event_description: val.event_description,
+                    event_location: val.event_location,
+                    event_type: val.keyboard_name
+
+                }
+*/
+    handleEventClick = (clickInfo) => {
+        // alert(clickInfo.event.dateStr);
+        // console.log("click info: ", clickInfo);
+        // console.log("event ", clickInfo.event.title);
+        // console.log("event ", clickInfo.event.extendedProps.event_location);
+        // console.log("event ", clickInfo.event.extendedProps.club_name);
+        this.setState({
+            event : clickInfo.event
+        })
+         console.log("this state's event: ", this.state.event);
     }
 
     dates = '[{"title": "event1", "date": "2020-11-02"},{"title": "event2","date": "2020-11-04"}]';
@@ -145,7 +203,7 @@ export default class DemoApp extends React.Component {
             });
             }
         // console.log(event);
-        event.preventDefault();
+        //event.preventDefault();
     }
     
     render() {
@@ -154,17 +212,87 @@ export default class DemoApp extends React.Component {
             <Navigation/>
             <div className="main_container">
                 <div className="calendar_container" style={{width: "50vw"}}>  
-                    <FullCalendar 
-                        plugins={[ dayGridPlugin, interactionPlugin ]}
-                        initialView="dayGridMonth"
-                        dateClick={this.handleDateClick}
-                        events={getAllEventsFromDb}
-                    />
-                </div>
-                <div className="eventInfo_container">
 
 
                 </div>
+                <div className="eventInfo_container" style={{width: "49vw"}}>
+
+
+                </div>
+            <Container className="calendar">
+                <Row>
+                    <Col>
+                        <FullCalendar
+                            plugins={[ dayGridPlugin, interactionPlugin ]}
+                            initialView="dayGridMonth"
+                            dateClick={this.handleDateClick}
+                            events={getAllEventsFromDb}
+                            eventClick = {this.handleEventClick}
+                        />
+                    </Col>
+                    <Col sm={4}>
+                        {this.state.event ?
+                            <React.Fragment>
+                                <Table striped bordered hover responsive="md">
+                                    <thead>
+                                    <tr>
+                                        <th colSpan="2">Event Information</th>
+                                    </tr>
+                                    </thead>
+                                    {/*
+                                    title: val.event_name,
+                                    date: val.date,
+                                    extendedProps: {
+                                    club_name: val.club_name,
+                                    date: val.date,
+                                    start_time: val.start_time,
+                                    end_time: val.end_time,
+                                    event_description: val.event_description,
+                                    event_location: val.event_location,
+                                    event_type: val.keyboard_name
+                                */}
+                                    <tbody>
+                                    <tr>
+                                        <td>Title</td>
+                                        <td>{this.state.event.title}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>{this.state.event.extendedProps.date}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Club</td>
+                                        <td>{this.state.event.extendedProps.club_name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Event Type</td>
+                                        <td>{this.state.event.extendedProps.event_type}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Location</td>
+                                        <td>{this.state.event.extendedProps.event_location}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Start Time</td>
+                                        <td>{this.state.event.extendedProps.start_time}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>End Time</td>
+                                        <td>{this.state.event.extendedProps.end_time}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description</td>
+                                        <td>{this.state.event.extendedProps.event_description}</td>
+                                    </tr>
+                                    </tbody>
+                                </Table>
+                            </React.Fragment>
+                            : null}
+                    </Col>
+                </Row>
+
+
+            </Container>
             </div>
             {this.state.role ?
                 <React.Fragment>
