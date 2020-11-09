@@ -51,14 +51,12 @@ function HomePage() {
           <Icon icon={Celebrate} des="Have fun!"/>
         </IconContainer>
         <ClubContainer title="Meet our clubs!">
-          <ClubCard image={wics}/>
-          <ClubCard image={osc}/>
-          <ClubCard image={acm}/>
-          <ClubCard image={google}/>
+          <ClubCard image={wics} link="https://hunterwics.github.io/" id="1" des="Women in Computer Science is a club dedicated to all women interested in tech!"/>
+          <ClubCard image={osc} link="https://hunterosc.org/?fbclid=IwAR0C49eFyepwX__DJwg4nkggWhpE0d-cLl06DY1nu8f-8eltissn97QoRyo" id="2" des="Open Source Club is ....."/>
+          <ClubCard image={acm} link="https://www.hunteracm.org/" id="3" des="ACM is...."/>
+          <ClubCard image={google} link="https://dsc.community.dev/hunter-college/" id="4" des="Google Developer Student Club is..."/>
         </ClubContainer>
-        {/* <SMSForm/> */}
       </header>
-      
     </div>
   );
 }

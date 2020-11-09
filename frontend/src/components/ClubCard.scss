@@ -1,6 +1,5 @@
 .Clubs-container{
   padding: 4em 7em;
-  // width: 3em;
   height:3em;
   background-image: var(--image);
   background-position: center center;
@@ -8,17 +7,31 @@
   filter: drop-shadow(0em 0.25em 0.25em rgba(0, 0, 0, 0.25));
   border-radius: 2em;
 }
-.Clubs-container:hover{
-  box-shadow: inset 0 0 0 70em rgba(0,0,0,.5);
-  filter: blur(0.1em);
+.text-container{
+  visibility: hidden;
+}
+.club-hover:hover{
+  .Clubs-container{
+    box-shadow: inset 0 0 0 70em rgba(0,0,0,.5);
+    filter: blur(0.1em);
+  }
+}
+.club-text{
+  position: absolute;
+  width:11em;
+  // margin: 1em;
+  padding: 0.5em;
+  z-index: 1;
+  font-size: 1rem;
+  font-weight: bolder;
+  color:white;
+  text-align: center;
 }
 
 @media only screen and (max-width: 1024px) {
   .Clubs-container{
     padding: 4em 7em;
-    // width: 3em;
     height:3em;
-    // height:clamp(75%, 100%, 100%);
     background-image: var(--image);
     background-position: center center;
     background-size: 100% 100%;
