@@ -39,3 +39,7 @@
     color: red;
     font-size: 20px;
 }
+
+.fc-event-main{
+    cursor: pointer;
+}

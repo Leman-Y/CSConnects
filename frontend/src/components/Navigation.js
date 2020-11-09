@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState , useEffect}from 'react';
+import Axios from 'axios'; //using axios to do api calls
 import { NavLink, Link} from 'react-router-dom';
 import facebook from '../images/facebook.svg';
 import insta from '../images/insta.svg';
@@ -34,6 +35,34 @@ const tabs = [{
   name: "Sign In",
 }]
 
+const tabsLoggedIn = [{
+  route: "/",
+  name: "Home",
+},
+{
+  route: "/TwilioForm",
+  name: "TwilioForm"
+},
+{
+  route: "/EventsTest",
+  name: "Events",
+},
+{
+  route: "/About",
+  name: "About",
+},
+{
+  route: "/Resources",
+  name: "Resources",
+},
+{
+  route: "/Contact",
+  name: "Contact",
+},
+{
+  route: "/login",
+  name: "My Account",
+}]
 const socials = [
 {
   link: "https://www.facebook.com/groups/HunterWomenInCS",
@@ -53,12 +82,17 @@ function Burger() {
     x.className = "nav-container";
   }
 }
+
+
+
 const Navigation = (props) => (
+
   <nav className="nav-container" id="nav-container">
+
     <div className="line-container">
       <div className="nav-line"></div>
     </div>
-    <a href="/" class="home-icon">
+    <a href="/" className="home-icon">
     <div className="left-container" onClick={props.onclick}>
         <img className="title-icon" src={props.icon}/>
         <div className="site-title">{props.name}</div>

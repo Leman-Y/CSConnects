@@ -46,6 +46,10 @@
   text-decoration: none;
   color: $grey;
 }
+.nav-routes:hover {
+  text-decoration: none;
+  color: $lightPurple;
+}
 .nav-routes.selected{
   // color: $black;
   color: $purple;
