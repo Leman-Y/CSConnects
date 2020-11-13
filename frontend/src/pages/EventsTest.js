@@ -52,6 +52,7 @@ async function getAllEventsFromDb() {
                 title: val.event_name,
                 date: val.date,
                 extendedProps: {
+                    event_id:val.event_id,
                     club_name: val.club_name,
                     date: val.date,
                     start_time: val.start_time,
@@ -93,12 +94,19 @@ export default class DemoApp extends React.Component {
         club_name: defaultClub,
         event_type: '',
         error_message: '',
-        event : null
+        event : null,
+        num: '',
+        logged:false
     }
 
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
         Axios.get("http://localhost:3001/login").then((response)=>{
             if(response.data.loggedIn == true){
+                this.setState({
+                    logged:true,
+                    num:response.data.user[0].phoneNum
+                })
+                console.log("grabbed the num",this.state.num)
                 if(response.data.user[0].role == 'admin'){
                     this.setState({
                         role: true,
@@ -169,6 +177,23 @@ export default class DemoApp extends React.Component {
         })
     }
 
+    handleNotifyClick=()=>{
+        
+        console.log("inthe handlenotifyclick", this.state.num)
+        Axios.post('http://localhost:3001/api/insertNotification', {  
+        event_id: this.state.event.extendedProps.event_id,
+        phoneNum : this.state.num
+       
+        }).then((response)=>{
+            this.setState({
+                error_message: 'successfully inserted'
+            })
+            console.log("finished posting!")
+        });
+        //========
+      
+        //make the insert post request here
+    }
 
     handleEventSubmit = (event) =>{
         if(this.state.event_name == ''){
@@ -283,8 +308,13 @@ export default class DemoApp extends React.Component {
                                     <tr>
                                         <td>Description</td>
                                         <td>{this.state.event.extendedProps.event_description}</td>
+                                        {console.log("here!",this.state.event.extendedProps.event_id)}
                                     </tr>
                                     </tbody>
+                                    {
+                                        this.state.logged === true &&  <button onClick={this.handleNotifyClick}>Notify Me!</button>
+                                    }
+                                   
                                 </Table>
                             </React.Fragment>
                             : null}
