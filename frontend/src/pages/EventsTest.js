@@ -52,6 +52,7 @@ async function getAllEventsFromDb() {
                 title: val.event_name,
                 date: val.date,
                 extendedProps: {
+                    event_id:val.event_id,
                     club_name: val.club_name,
                     date: val.date,
                     start_time: val.start_time,
@@ -93,12 +94,20 @@ export default class DemoApp extends React.Component {
         club_name: defaultClub,
         event_type: '',
         error_message: '',
-        event : null
+        event : null,
+        num: '',
+        logged:false,
+        toNotify:false,
     }
 
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
         Axios.get("http://localhost:3001/login").then((response)=>{
             if(response.data.loggedIn == true){
+                this.setState({
+                    logged:true,
+                    num:response.data.user[0].phoneNum
+                })
+                console.log("grabbed the num",this.state.num)
                 if(response.data.user[0].role == 'admin'){
                     this.setState({
                         role: true,
@@ -154,9 +163,11 @@ export default class DemoApp extends React.Component {
         // console.log("event ", clickInfo.event.title);
         // console.log("event ", clickInfo.event.extendedProps.event_location);
         // console.log("event ", clickInfo.event.extendedProps.club_name);
+       
         this.setState({
             event : clickInfo.event
         })
+        this.toNotify();
          console.log("this state's event: ", this.state.event);
     }
 
@@ -168,7 +179,54 @@ export default class DemoApp extends React.Component {
             date: event
         })
     }
-
+    toNotify(){
+        //takes the id of the event as well as the phone number of the user and checks if it already exists in the table. 
+        //if so it returns false and shows "notified"
+        //if not it returns true and shows the button
+        console.log("yoooo")
+        Axios.post('http://localhost:3001/api/toNotify', {  
+        event_id: this.state.event.extendedProps.event_id,
+        phoneNum : this.state.num
+       
+        }).then((response)=>{
+            // this.setState({
+            //     error_message: 'successfully inserted'
+            // })
+            console.log("response: ",response.data.length)
+            if(response.data.length > 0)
+            {
+               this.setState({
+                   toNotify:false,
+               })
+            }
+            else
+            {
+                this.setState({
+                    toNotify:true,
+                })
+            }
+            
+        });
+    }
+   
+    handleNotifyClick=(event)=>{
+        
+        Axios.post('http://localhost:3001/api/insertNotification', {  
+        event_id: this.state.event.extendedProps.event_id,
+        phoneNum : this.state.num
+       
+        }).then((response)=>{
+            this.setState({
+                error_message: 'successfully inserted',
+                toNotify:false,
+            })
+            console.log("finished posting!")
+            // event.preventDefault();
+        });
+        //========
+      
+        //make the insert post request here
+    }
 
     handleEventSubmit = (event) =>{
         if(this.state.event_name == ''){
@@ -205,6 +263,7 @@ export default class DemoApp extends React.Component {
         // console.log(event);
         //event.preventDefault();
     }
+   
     
     render() {
         return (
@@ -283,8 +342,16 @@ export default class DemoApp extends React.Component {
                                     <tr>
                                         <td>Description</td>
                                         <td>{this.state.event.extendedProps.event_description}</td>
+                                        {console.log("here!",this.state.event.extendedProps.event_id)}
                                     </tr>
                                     </tbody>
+                                    {/* {console.log("toNotify",this.toNotify())} */}
+                                    {
+                                        
+                                        (this.state.logged === true &&  this.state.toNotify === true)? (<button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>): (<div>You will be notified for this event!</div>)
+                                    }
+                                
+                                   
                                 </Table>
                             </React.Fragment>
                             : null}

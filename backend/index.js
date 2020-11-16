@@ -255,6 +255,60 @@ app.post('/api/insertEvent', (req,res)=>{
     
 });
 
+//this is to insert event + session info into user_notifications
+app.post('/api/insertNotification', (req,res)=>{
+    try{
+        
+        const eventId = req.body.event_id;
+        
+         const phoneNum = req.body.phoneNum;
+        // const userId = req.body.user_id;
+        const notification = 0;
+       // INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`) VALUES ((select user.user_id from `user` where user.phoneNum = "+15166951144"), "+15166951144","3","0")
+        var sqlInsert = 'INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`)'; 
+        sqlInsert += ' VALUES (' +'(select user.user_id from `user` where user.phoneNum = \"'+phoneNum+'\"),\"' + phoneNum + '\",\"' + eventId + '\",\"' + notification +'\")' ;
+        console.log("in insertNotification in index.js",sqlInsert);
+        db.query(sqlInsert, (err, result)=>{
+            res.send(result);
+        });
+
+        console.log(sqlInsert);
+
+
+    }
+    catch(err) {
+        console.error(err.message);
+        console.log("didn't work");
+    }
+    
+});
+
+//this is to insert event + session info into user_notifications
+app.post('/api/toNotify', (req,res)=>{
+    try{
+        
+        const eventId = req.body.event_id;
+        
+         const phoneNum = req.body.phoneNum;
+        // const userId = req.body.user_id;
+        const notification = 0;
+       // INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`) VALUES ((select user.user_id from `user` where user.phoneNum = "+15166951144"), "+15166951144","3","0")
+        var sqlSelect = 'SELECT * FROM `event_notifications` WHERE event_id = \"' + eventId + '\" AND phoneNum = \"' + phoneNum+ '\"'; 
+        console.log("in toNotify in index.js",sqlSelect);
+        db.query(sqlSelect, (err, result)=>{
+            res.send(result);
+        });
+
+        // console.log(sqlInsert);
+
+
+    }
+    catch(err) {
+        console.error(err.message);
+        console.log("didn't work");
+    }
+    
+});
 
 //this is to insert users into database
 app.post('/api/insert', (req,res)=>{
@@ -426,7 +480,6 @@ function sendNotification(arr){
 //    });
    //console.log("send for ", each)
    
-   ////notification in the event_notification row to be 1
 //}
 
 }
