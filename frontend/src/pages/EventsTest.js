@@ -198,14 +198,12 @@ export default class DemoApp extends React.Component {
                this.setState({
                    toNotify:false,
                })
-              
             }
             else
             {
                 this.setState({
                     toNotify:true,
                 })
-                
             }
             
         });
@@ -213,7 +211,6 @@ export default class DemoApp extends React.Component {
    
     handleNotifyClick=(event)=>{
         
-        console.log("inthe handlenotifyclick", this.state.num)
         Axios.post('http://localhost:3001/api/insertNotification', {  
         event_id: this.state.event.extendedProps.event_id,
         phoneNum : this.state.num
