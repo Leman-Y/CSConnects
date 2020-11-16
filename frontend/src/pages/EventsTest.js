@@ -96,7 +96,8 @@ export default class DemoApp extends React.Component {
         error_message: '',
         event : null,
         num: '',
-        logged:false
+        logged:false,
+        toNotify:false,
     }
 
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
@@ -162,9 +163,11 @@ export default class DemoApp extends React.Component {
         // console.log("event ", clickInfo.event.title);
         // console.log("event ", clickInfo.event.extendedProps.event_location);
         // console.log("event ", clickInfo.event.extendedProps.club_name);
+       
         this.setState({
             event : clickInfo.event
         })
+        this.toNotify();
          console.log("this state's event: ", this.state.event);
     }
 
@@ -176,8 +179,39 @@ export default class DemoApp extends React.Component {
             date: event
         })
     }
-
-    handleNotifyClick=()=>{
+    toNotify(){
+        //takes the id of the event as well as the phone number of the user and checks if it already exists in the table. 
+        //if so it returns false and shows "notified"
+        //if not it returns true and shows the button
+        console.log("yoooo")
+        Axios.post('http://localhost:3001/api/toNotify', {  
+        event_id: this.state.event.extendedProps.event_id,
+        phoneNum : this.state.num
+       
+        }).then((response)=>{
+            // this.setState({
+            //     error_message: 'successfully inserted'
+            // })
+            console.log("response: ",response.data.length)
+            if(response.data.length > 0)
+            {
+               this.setState({
+                   toNotify:false,
+               })
+              
+            }
+            else
+            {
+                this.setState({
+                    toNotify:true,
+                })
+                
+            }
+            
+        });
+    }
+   
+    handleNotifyClick=(event)=>{
         
         console.log("inthe handlenotifyclick", this.state.num)
         Axios.post('http://localhost:3001/api/insertNotification', {  
@@ -186,9 +220,11 @@ export default class DemoApp extends React.Component {
        
         }).then((response)=>{
             this.setState({
-                error_message: 'successfully inserted'
+                error_message: 'successfully inserted',
+                toNotify:false,
             })
             console.log("finished posting!")
+            // event.preventDefault();
         });
         //========
       
@@ -230,6 +266,7 @@ export default class DemoApp extends React.Component {
         // console.log(event);
         //event.preventDefault();
     }
+   
     
     render() {
         return (
@@ -311,9 +348,12 @@ export default class DemoApp extends React.Component {
                                         {console.log("here!",this.state.event.extendedProps.event_id)}
                                     </tr>
                                     </tbody>
+                                    {/* {console.log("toNotify",this.toNotify())} */}
                                     {
-                                        this.state.logged === true &&  <button onClick={this.handleNotifyClick}>Notify Me!</button>
+                                        
+                                        (this.state.logged === true &&  this.state.toNotify === true)? (<button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>): (<div>You will be notified for this event!</div>)
                                     }
+                                
                                    
                                 </Table>
                             </React.Fragment>
