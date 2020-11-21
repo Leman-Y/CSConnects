@@ -43,7 +43,3 @@
 .fc-event-main{
     cursor: pointer;
 }
-
-#events>*, #events>*::before, #events>*::after{
-  box-sizing: border-box;
-}

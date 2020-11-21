@@ -267,7 +267,7 @@ export default class DemoApp extends React.Component {
     
     render() {
         return (
-        <div id="events">
+        <div>
             <Navigation/>
             <div className="main_container">
                 <div className="calendar_container" style={{width: "50vw"}}>  
