@@ -8,7 +8,6 @@ import acm from '../images/acm.png';
 import '../styles/events.css';
 import '../styles/Home.scss';
 import moment from 'moment';
-import '../styles/events.css';
 
 import Calendar from '../components/Calendar';
 
@@ -50,6 +49,13 @@ class EventsPage extends Component{
     });
 
 
+    this.setState({
+      myDay: day,
+      myMonth: month,
+      myYear: year
+    });
+
+  }
 
 //Maisa's changes
 // function EventsPage(){
@@ -72,13 +78,7 @@ class EventsPage extends Component{
 
 
 
-    this.setState({
-      myDay: day,
-      myMonth: month,
-      myYear: year
-    });
-
-  }
+  //If this function sees that the event object is updated / changed, it will run this function again, which updates the values inside the table
 	_renderObject(){
 		return Object.entries(this.state.events).map(([key, value], i) => {
 			return (
@@ -95,7 +95,7 @@ class EventsPage extends Component{
     return(
       <div className="App">
         <Navigation/>
-        <Calendar style={style} width = "500px" onDayClick={(e , day,month, year)=>this.onDayClick(e,day,month, year)}/>
+        <Calendar id="events"style={style} width = "500px" onDayClick={(e , day,month, year)=>this.onDayClick(e,day,month, year)}/>
         <div>
           {this.state.myYear}{"-"}{this.state.myMonth}{"-"}{this.state.myDay}
           
@@ -108,9 +108,6 @@ class EventsPage extends Component{
 
           {this._renderObject()}
       </table>
-
-          
-
         </div>
 
       </div>

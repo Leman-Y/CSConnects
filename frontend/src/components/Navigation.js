@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {useState , useEffect}from 'react';
+import Axios from 'axios'; //using axios to do api calls
 import { NavLink, Link} from 'react-router-dom';
 import facebook from '../images/facebook.svg';
 import insta from '../images/insta.svg';
 import './Navigation.scss';
 // import { useRouter } from '../util/router.js';
 
+
+
+
 const tabs = [{
   route: "/",
   name: "Home",
 },
 {
-  route: "/Events",
+  route: "/TwilioForm",
+  name: "TwilioForm"
+},
+{
+  route: "/EventsTest",
   name: "Events",
 },
 {
@@ -30,6 +38,34 @@ const tabs = [{
   name: "Sign In",
 }]
 
+const tabsLoggedIn = [{
+  route: "/",
+  name: "Home",
+},
+{
+  route: "/TwilioForm",
+  name: "TwilioForm"
+},
+{
+  route: "/EventsTest",
+  name: "Events",
+},
+{
+  route: "/About",
+  name: "About",
+},
+{
+  route: "/Resources",
+  name: "Resources",
+},
+{
+  route: "/Contact",
+  name: "Contact",
+},
+{
+  route: "/login",
+  name: "My Account",
+}]
 const socials = [
 {
   link: "https://www.facebook.com/groups/HunterWomenInCS",
@@ -41,6 +77,8 @@ const socials = [
 }
 ]
 
+
+
 function Burger() {
   var x = document.getElementById("nav-container");
   if (x.className === "nav-container") {
@@ -49,35 +87,68 @@ function Burger() {
     x.className = "nav-container";
   }
 }
-const Navigation = (props) => (
+
+
+
+function Navigation(props) {
+
+  const [loggedIn, setLoggedin] = useState(false);
+  Axios.defaults.withCredentials = true;
+  useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
+    Axios.get("http://localhost:3001/login").then((response)=>{
+      if(response.data.loggedIn == true){
+        //console.log(response);
+        setLoggedin(true);
+      }
+      
+    }, {withCredentials: true})
+  }, []);
+
+
+
+ return(
   <nav className="nav-container" id="nav-container">
+
     <div className="line-container">
       <div className="nav-line"></div>
     </div>
-    <a href="/" class="home-icon">
+    <a href="/" className="home-icon">
     <div className="left-container" onClick={props.onclick}>
         <img className="title-icon" src={props.icon}/>
         <div className="site-title">{props.name}</div>
     </div>
     </a>
-    <a href="javascript:void(0);" class="icon" onClick={() => Burger()}>
+    <a href="javascript:void(0);" className="icon" onClick={() => Burger()}>
       <img src={props.burger}/>
     </a>
     <div className="link-container">
-       {
-        tabs.map((tab, index) =>(
+      {loggedIn ?
+        
+        tabsLoggedIn.map((tab, index) =>(
           <div className="navigation" key={`tab-${index}`}>
             <NavLink className="nav-routes" exact activeClassName="selected" to={tab.route}>
               {tab.name}
             </NavLink>
           </div>
         ))
+        
+        :
+        
+          tabs.map((tab, index) =>(
+            <div className="navigation" key={`tab-${index}`}>
+              <NavLink className="nav-routes" exact activeClassName="selected" to={tab.route}>
+                {tab.name}
+              </NavLink>
+            </div>
+          ))
+          
       }
+
       {
       socials.map((socials, index) =>(
         <div className="navigation" key={`tab-${index}`}>
           <Link to={{ pathname: socials.link }} target="_blank" >
-            <img src ={socials.icon}/>
+        {/* <img src ={socials.icon}/> */}
           </Link>
         </div>
       ))
@@ -86,6 +157,7 @@ const Navigation = (props) => (
   </nav>
 );
 
+}
 export default Navigation;
 
 /* function Navigation(props){
@@ -98,7 +170,8 @@ export default Navigation;
          setLoginStatus("true");
        }else{
          setLoginStatus("false");
-
+       }
+    }
 
   
   const tabs = [{

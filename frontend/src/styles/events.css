@@ -1,29 +1,49 @@
-#events{
+.admin_container{
     width:100%;
-  }
-  
-  #events th, #events td{
-    border: 1px solid #ebebeb;
-    padding: 8px;
-  }
-  
-  #events th{
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-  }
-
-.input_events_container{
-  width:100%;
-  height:100%;
-  align-items: center;
-  justify-content: center;
-  display:flex;
-  flex-direction: column;
-
+    height: 400px;
+    border: 1px solid black;
+    display:flex;
+    justify-content: center;
 }
+.Dropdown-root{
+    width:100%;
+}
+
+.admin_left_container{
+    width:50%;
+    /* border: 1px solid pink; */
+    padding: 15px;
+    padding-top:25px;
+}
+.admin_right_container{
+    width:50%;
+    /* border: 1px solid blue; */
+    display:flex;
+    flex-direction: column;
+    padding: 15px;
+}
+.react-date-picker{
+    margin-left:10px;
+}
+
+.react-time-picker{
+    margin-left:10px;
+}
+
 .inner_container{
-  display:flex;
+    margin-top:10px;
+}
+
+.error_container{
+    text-align: center;
+    color: red;
+    font-size: 20px;
+}
+
+.fc-event-main{
+    cursor: pointer;
+}
+
+#events>*, #events>*::before, #events>*::after{
+  box-sizing: border-box;
 }
