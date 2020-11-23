@@ -11,6 +11,9 @@
   display: flex;
   justify-content: center;
   margin:0.5em;
+  *{
+    box-sizing: content-box;
+  }
 }
 
 @media only screen and (max-width: 1024px) {

@@ -63,10 +63,11 @@ function SignUp() {
         </div>
         <br/><br/>
         <div className="button-container">
-        <Button type="primary" onClick={submitUser}>Submit</Button>
+        <Button type="primary" onClick={submitUser}>Create</Button><br />
+       <h5>Already have an account? </h5>
         <Button type="primary" onClick={() => {
         router.push('/login');
-      }}>Already have an account? Sign In</Button>
+      }}>Log In</Button>
 
         {/* {userNameList.map((val)=>{
           return (

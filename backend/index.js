@@ -200,7 +200,6 @@ app.post('/api/getEvents',(req,res)=>{
         db.query(sqlGet, (err, result)=>{
             res.send(result);
         });
-
     }
     catch(err) {
         console.error(err.message);

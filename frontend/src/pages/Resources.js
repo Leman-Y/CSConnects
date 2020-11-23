@@ -4,6 +4,7 @@ import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import SmallSection from '../components/SmallSection';
 import Panel from '../components/Panel';
+import IconContainer from '../components/IconContainer';
 import plus from '../images/plus.svg';
 import '../styles/Home.scss';
 import '../styles/themes.scss';
@@ -14,6 +15,8 @@ function ResourcesPage() {
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
       </div>
+      {/* <IconContainer title="Computer Science Resources"/> */}
+      <h4 style={{display:'grid',placeItems:'center', margin:'1em'}}>Computer Science Resources</h4>
       <Panel title="Internships & Jobs" icon={plus} id="1">
         <SmallSection title="Angel" link="https://angel.co/jobs?ref=onboarding"
         about="Startups nationwide"/>
@@ -27,8 +30,8 @@ function ResourcesPage() {
         <SmallSection title="RTC" link="https://rewritingthecode.org/fellowship/" about="A national program for college women interested in careers in tech."/>
       </Panel>
       <Panel title="Hunter College Resources" icon={plus} id="3">
-        <SmallSection title="Hunter's CS Syllabi Directory" link="http://syllabi.hunterosc.org/" about="This site will hold the syllabi for computer science courses at Hunter College."/>
-        <SmallSection title="Computer Science Department" link="http://www.hunter.cuny.edu/csci" about="Official webite of Hunter College's CS department."/>
+        <SmallSection title="Syllabi Directory" link="http://syllabi.hunterosc.org/" about="This site will hold the syllabi for computer science courses at Hunter College."/>
+        <SmallSection title="CS Department" link="http://www.hunter.cuny.edu/csci" about="Official webite of Hunter College's CS department."/>
       </Panel>
     </div>
   );

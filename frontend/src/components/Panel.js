@@ -12,17 +12,20 @@ function OpenPanel(id){
 
 const Panel = (props) =>{
   return(
-    <div className="panel-container" >
-      <div className="accordian">
-        <div className="panel-title">
-          {props.title}
+    <div className="panel">
+      <div className="panel-container" >
+        <div className="accordian">
+          <div className="panel-title">
+            {props.title}
+          </div>
+          <img className="panel-icon" alt= "drop down menu" src={props.icon} onClick={() => OpenPanel(props.id)}>
+          </img>
         </div>
-        <img className="panel-icon" src={props.icon} onClick={() => OpenPanel(props.id)}>
-        </img>
-      </div>
-      <div id={props.id} className="panel-children">
-        <div>
-          {props.children}
+        <div id={props.id} className="panel-children">
+          <hr className="panel-cut"></hr>
+          <div>
+            {props.children}
+          </div>
         </div>
       </div>
     </div>

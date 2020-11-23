@@ -95,7 +95,7 @@ class EventsPage extends Component{
     return(
       <div className="App">
         <Navigation/>
-        <Calendar style={style} width = "500px" onDayClick={(e , day,month, year)=>this.onDayClick(e,day,month, year)}/>
+        <Calendar id="events"style={style} width = "500px" onDayClick={(e , day,month, year)=>this.onDayClick(e,day,month, year)}/>
         <div>
           {this.state.myYear}{"-"}{this.state.myMonth}{"-"}{this.state.myDay}
           
