@@ -16,6 +16,8 @@ import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import burger from '../images/burger.svg';
+import Computer from '../images/comp.svg';
 
 Axios.defaults.withCredentials = true;
 /*
@@ -268,7 +270,7 @@ export default class DemoApp extends React.Component {
     render() {
         return (
         <div>
-            <Navigation/>
+            <Navigation icon={Computer} name="CSConnects" burger={burger}/>
             <div className="main_container">
                 <div className="calendar_container" style={{width: "50vw"}}>  
 
