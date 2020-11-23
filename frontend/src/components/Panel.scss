@@ -1,8 +1,15 @@
+@import '../styles/themes.scss';
+.panel{
+  display: grid;
+  place-items: center;
+}
 .panel-container{
   display: grid;
   place-items: center;
   font-size:1rem;
   box-sizing: content-box;
+  margin: 0.5em;
+  // width: 80%;
 
   .panel-title{
     padding:1em;
@@ -22,11 +29,20 @@
   }
   .accordian{
     display: flex;
+    // width: 50%;
+    // white-space: nowrap;
+    // justify-content: space-between;
   }
+  // .accordian>.panel-icon{
+  //   float:right;
+  // }
   .panel-cut{
     margin: 0em 1em 1em 1em;
     width: 120%;
     display: grid;
-    place-items: center;
+    place-items: center; 
+  }
+  hr.panel-cut{
+    border-top: 0.05em solid $lightPurple; 
   }
 }
