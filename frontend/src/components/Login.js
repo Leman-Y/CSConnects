@@ -71,7 +71,7 @@ function Login(props) {
           null : 
           <React.Fragment>
               <p>Phone Number</p>
-              <div style={{fontStyle:"italic"}}>Example:+15166951142</div>
+              <div style={{fontStyle:"italic"}}>Example:5166951142</div>
                 <input className="sign-inputs" type="text" autoComplete="new-password" 
                 onChange={(e) =>{
                   setPhonenumber(e.target.value);

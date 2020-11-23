@@ -67,7 +67,7 @@ function SignUp() {
 
         <div className="sign-info"> 
           <p>Phone Number</p>
-          <div style={{fontStyle:"italic"}}>Example:+15166951142</div>
+          <div style={{fontStyle:"italic"}}>Example:5166951142</div>
           <input className="sign-inputs" type="text" name="user" onChange={(e)=>{ //when the value changes, update the variable setUsername
             validate(e.target.value);
 

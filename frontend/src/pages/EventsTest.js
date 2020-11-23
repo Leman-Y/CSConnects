@@ -98,6 +98,7 @@ export default class DemoApp extends React.Component {
         num: '',
         logged:false,
         toNotify:false,
+        notifyMsg:''
     }
 
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
@@ -193,16 +194,26 @@ export default class DemoApp extends React.Component {
             //     error_message: 'successfully inserted'
             // })
             console.log("response: ",response.data.length)
-            if(response.data.length > 0)
+            if(this.state.logged === false)
+            {
+                this.setState({
+                    toNotify:false,
+                    notifyMsg:"Login!"
+                }) 
+            }
+           else if(response.data.length > 0)
             {
                this.setState({
                    toNotify:false,
+                   notifyMsg:"You will be notified for this event."
                })
             }
+          
             else
             {
                 this.setState({
                     toNotify:true,
+                    notifyMsg:"button"
                 })
             }
             
@@ -346,10 +357,13 @@ export default class DemoApp extends React.Component {
                                     </tr>
                                     </tbody>
                                     {/* {console.log("toNotify",this.toNotify())} */}
+                                    {/* {this.state.logged===false &&<div>{this.state.notifyMsg}</div>} */}
                                     {
                                         
-                                        (this.state.logged === true &&  this.state.toNotify === true)? (<button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>): (<div>You will be notified for this event!</div>)
+                                       (this.state.toNotify === true) ?( <button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
+                                        //: (<div>You will be notified for this event!</div>)
                                     }
+                                    
                                 
                                    
                                 </Table>
