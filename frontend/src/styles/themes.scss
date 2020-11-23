@@ -6,6 +6,13 @@ $bgcolor: #F8F9FC;
 $gold: #E5DF88;
 $white: #F8F9FC;
 
+#root{
+  background-color: $bgcolor;
+}
+.App{
+  background-color: $bgcolor;
+}
+
 :export{
   black: $black;
   grey: $grey;
