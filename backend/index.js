@@ -316,9 +316,9 @@ app.post('/api/toNotify', (req,res)=>{
 //to display all events that the user are notified to in account page
 app.post('/api/getNotifyEvent', (req,res)=>{
     try{
-       
-         const phoneNum = req.body.phoneNum;
-        var sqlSelect = 'SELECT * from hunter_events, event_notifications where event_notifications.event_id = hunter_events.event_id AND event_notifications.phoneNum = ' +phoneNum ; 
+        console.log(req.body);
+        const phoneNum = req.body.phoneNum;
+        var sqlSelect = 'SELECT * from hunter_events, event_notifications where event_notifications.event_id = hunter_events.event_id AND event_notifications.phoneNum = ' + phoneNum ; 
         //console.log("in toNotify in index.js",sqlSelect);
         db.query(sqlSelect, (err, result)=>{
             res.send(result);
@@ -329,7 +329,7 @@ app.post('/api/getNotifyEvent', (req,res)=>{
 
     }
     catch(err) {
-        console.error(err.message);
+        //console.error(err.message);
         console.log("didn't work");
     }
     

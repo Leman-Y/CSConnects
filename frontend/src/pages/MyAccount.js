@@ -9,10 +9,62 @@ import '../styles/MyAccount.css';
 
 import { Button } from 'antd';
 
+export async function checkIfLoggedIn(){
+  const arr =  await Axios.get('http://localhost:3001/login').then((response) =>
+  response.data
+  ).catch(err => {
+        console.log(err);
+    }
+  )
+  console.log(arr);
+
+  const jsonArr = [];
+  jsonArr.push(
+    arr.loggedIn
+
+  )
+  jsonArr.push(
+    arr.user[0].phoneNum
+
+  )
+
+
+  console.log("json:" , jsonArr);
+  return jsonArr;
+
+  // const arr = await Axios.get("http://localhost:3001/login").then((response)=>{
+  //   response.data
+
+
+
+
+
+  //   // if(response.data.loggedIn == true){
+  //   //   console.log(response);
+  //   //   setLoginStatus("Your number: " + response.data.user[0].phoneNum);
+  //   //   setUserPhoneNum(response.data.user[0].phoneNum);
+  //   //   setLoggedin(true);
+  //   //   const jsonArr = [];
+  //   //   jsonArr.push(response.data.user[0].phoneNum);
+  //   //   console.log(jsonArr);
+  //   //   return jsonArr;
+  //   // }else{
+  //   //   // router.push("/login");
+  //   //   return null;
+  //   // }
+  // })
+
+  
+}
+
+
+
+
+
 function MyAccountPage() {
   const [loggedIn, setLoggedin] = useState(false);
 
-  const [userPhoneNum, setUserPhoneNum] = useState('');
+  const [userPhoneNum, setUserPhoneNum] = useState("");
 
   const [loginStatus, setLoginStatus] = useState("");
 
@@ -22,8 +74,6 @@ function MyAccountPage() {
   const router = useRouter();
 
   Axios.defaults.withCredentials = true;
-
-
 
   const logout = () =>{
     Axios.get("http://localhost:3001/logout").then((response)=>{
@@ -37,30 +87,46 @@ function MyAccountPage() {
     })
   };
 
-  useEffect(()=>{ //everytime the page loads, display all events that the user wants notification for
-    Axios.post('http://localhost:3001/api/getNotifyEvent', {  
-      phoneNum : userPhoneNum
-     
-      }).then((response)=>{
-        setEventNotifyList(response.data);
-        console.log("event list: ");
-        console.log(EventNotifyList);
-          
-      })
-  }, []);
+
+
 
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get("http://localhost:3001/login").then((response)=>{
-      if(response.data.loggedIn == true){
-        //console.log(response);
-        setLoginStatus("Your number: " + response.data.user[0].phoneNum);
-        setUserPhoneNum(response.data.user[0].phoneNum);
+    var something;
+    var arr =  checkIfLoggedIn();
+    arr.then((result => {
+      something = result;
+      
+    }));
+    console.log("something: ", something);
+    console.log("arr" , arr);
+     if(arr == null){
+      router.push("/login");
+     }else{
+        setUserPhoneNum(arr[0]);
+        setLoginStatus("Your number: " + arr[0]);
         setLoggedin(true);
-      }else{
-        router.push("/login");
-      }
-    }, {withCredentials: true})
+        Axios.post('http://localhost:3001/api/getNotifyEvent', {  
+          phoneNum : Number(userPhoneNum)
+    
+          }).then((response)=>{
+            setEventNotifyList(response.data);
+            console.log("event list: ");
+            console.log(EventNotifyList);
+              
+          })
+     }
+
+
+
+
   }, []);
+
+  useEffect(()=>{ //everytime the page loads, display all events that the user wants notification for
+    console.log(userPhoneNum);
+
+  }, []);
+
+
 
 
 
@@ -72,6 +138,7 @@ function MyAccountPage() {
       <div className="sign-up">
         <div className="button-container">
           <h1>{loginStatus}</h1>
+          <h1>{userPhoneNum}</h1>
           {loggedIn ? 
           <React.Fragment>
             <Button type="primary" onClick={logout} >Logout</Button><br />
@@ -92,6 +159,12 @@ function MyAccountPage() {
             <th>event type</th>
             
           </tr>
+          {
+
+
+
+          }
+
           {EventNotifyList.map((val)=>{
               return (
               <tr>
