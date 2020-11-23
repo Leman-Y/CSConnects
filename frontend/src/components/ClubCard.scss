@@ -1,4 +1,5 @@
 .Clubs-container{
+  // box-sizing: content-box;
   padding: 4em 7em;
   height:3em;
   background-image: var(--image);
@@ -42,7 +43,16 @@
     filter: drop-shadow(0em 0.25em 0.25em rgba(0, 0, 0, 0.25));
     border-radius: 2em;
   }
-  .Clubs-container:hover{
-    filter: drop-shadow(0em 0.25em 0.25em rgba(130, 57, 213, 1));
+  // .Clubs-container:hover{
+  //   filter: drop-shadow(0em 0.25em 0.25em rgba(130, 57, 213, 1));
+  // }
+  .text-container{
+    visibility: visible !important;
+  }
+  .club-hover{
+    .Clubs-container{
+      box-shadow: inset 0 0 0 70em rgba(0,0,0,.5);
+      filter: blur(0.1em);
+    }
   }
 }
