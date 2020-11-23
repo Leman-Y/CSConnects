@@ -30,7 +30,6 @@ async function getAllEventsFromDb() {
         }
     )
     // console.log('arr ', arr);
-
     const jsonArr = [];
 
     /*

@@ -9,24 +9,42 @@ import '../styles/MyAccount.css';
 
 import { Button } from 'antd';
 
-export async function checkIfLoggedIn(){
+
+
+
+async function checkIfLoggedIn(){
   const arr =  await Axios.get('http://localhost:3001/login').then((response) =>
-  response.data
-  ).catch(err => {
-        console.log(err);
+    response.data
+    ).catch(err => {
+          console.log(err);
+      }
+    )
+    console.log(arr);
+
+    const jsonArr = [];
+    jsonArr.push({
+      loggedIn: arr.loggedIn
     }
-  )
-  console.log(arr);
 
-  const jsonArr = [];
-  jsonArr.push(
-    arr.loggedIn
+    )
 
-  )
-  jsonArr.push(
-    arr.user[0].phoneNum
 
-  )
+  const arr1 = await Axios.post('http://localhost:3001/api/getNotifyEvent', {  
+    phoneNum : Number(arr.user[0].phoneNum)
+    }).then((resp)=>
+      resp.data
+    ).catch(err=> {
+        console.log("error:" , err);
+    })
+      console.log(arr1);
+
+    jsonArr.push({
+      EventNotifyList: arr1
+    })
+
+    // jsonArr.push(
+    //     arr.user[0].phoneNum
+    // )
 
 
   console.log("json:" , jsonArr);
@@ -115,16 +133,12 @@ function MyAccountPage() {
               
           })
      }
-
-
-
-
   }, []);
 
-  useEffect(()=>{ //everytime the page loads, display all events that the user wants notification for
-    console.log(userPhoneNum);
+  // useEffect(()=>{ //everytime the page loads, display all events that the user wants notification for
+  //   console.log(userPhoneNum);
 
-  }, []);
+  // }, []);
 
 
 
@@ -159,13 +173,10 @@ function MyAccountPage() {
             <th>event type</th>
             
           </tr>
-          {
 
-
-
-          }
-
-          {EventNotifyList.map((val)=>{
+          {console.log("running function: ", checkIfLoggedIn())}
+        
+          {/* {checkIfLoggedIn.EventNotifyList.map((val)=>{
               return (
               <tr>
                 <td>{val.event_name}</td>
@@ -176,7 +187,9 @@ function MyAccountPage() {
               </tr>
 
               );
-            })}
+            })
+            
+            } */}
         </table>
 
       </div>
