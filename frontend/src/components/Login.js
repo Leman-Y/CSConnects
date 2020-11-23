@@ -74,7 +74,7 @@ function Login(props) {
               <div style={{fontStyle:"italic"}}>Example:5166951142</div>
                 <input className="sign-inputs" type="text" autoComplete="new-password" 
                 onChange={(e) =>{
-                  setPhonenumber(e.target.value);
+                  setPhonenumber("+1"+e.target.value);
                 }} />
         
                 <p>Password</p>
