@@ -1,3 +1,4 @@
+@import '../styles/themes.scss';
 .Clubs-container{
   // box-sizing: content-box;
   padding: 4em 7em;
@@ -19,19 +20,43 @@
 }
 .club-text{
   position: absolute;
-  width:11em;
+  width:15em;
   // margin: 1em;
   padding: 0.5em;
   z-index: 1;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: bolder;
   color:white;
   text-align: center;
+  overflow:hidden;
+
+  .card-title{
+    font-size:0.8rem;
+    // white-space: nowrap;
+    padding:0.1em;
+    margin:0;
+    top:0;
+  }
+  hr.divider{
+    border-top: 0.05em solid white; 
+    margin:0.5em;
+  }
+  .card-description{
+    height: 4.5em;
+    overflow: hidden;
+  }
+}
+.club-link>a{
+  color: $lightLink;
+}
+.club-link>a:hover{
+  color: $purple;
+  text-decoration: none;
 }
 
-#1 .club-text{
-  font-size: 11px;
-}
+// #1 .club-text{
+//   font-size: 11px;
+// }
 
 @media only screen and (max-width: 1024px) {
   .Clubs-container{

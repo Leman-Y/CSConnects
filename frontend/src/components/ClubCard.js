@@ -14,7 +14,13 @@ const ClubCard = (props) =>(
   <div id="club" className="club-hover" onMouseEnter={() => showText(props.id)} onMouseLeave={() => hideText(props.id)} >
     <div id={props.id} className="text-container">
       <div className="club-text" >
-        {props.des}
+        <div className="card-title">
+          {props.title}
+          <hr className="divider"></hr>
+        </div>
+        <div className="card-description">
+          {props.des}
+        </div>
         <div className="club-link">
           <a href={props.link} rel="noreferrer" target="_blank">Read More</a>
         </div>

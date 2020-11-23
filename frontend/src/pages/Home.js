@@ -51,10 +51,10 @@ function HomePage() {
           <Icon icon={Celebrate} des="Have fun!"/>
         </IconContainer>
         <ClubContainer title="Meet our clubs!">
-          <ClubCard image={wics} link="https://hunterwics.github.io/" id="1" des="Women in Computer Science is a ..." font="11px"/>
-          <ClubCard image={osc} link="https://hunterosc.org/?fbclid=IwAR0C49eFyepwX__DJwg4nkggWhpE0d-cLl06DY1nu8f-8eltissn97QoRyo" id="2" des="Open Source Club is ....."/>
-          <ClubCard image={acm} link="https://www.hunteracm.org/" id="3" des="ACM is...."/>
-          <ClubCard image={google} link="https://dsc.community.dev/hunter-college/" id="4" des="Google Developer Student Club is..."/>
+          <ClubCard image={wics} title="Women in Computer Science" link="https://hunterwics.github.io/" id="1" des="A supportive and friendly community for women interested in tech."/>
+          <ClubCard image={osc} title="Open Source Club" link="https://hunterosc.org/?fbclid=IwAR0C49eFyepwX__DJwg4nkggWhpE0d-cLl06DY1nu8f-8eltissn97QoRyo" id="2" des="A group of Open Source programmers dedicated to using code to make Hunter, and the world at large a better place."/>
+          <ClubCard image={acm} title="Association for Computer Machinery" link="https://www.hunteracm.org/" id="3" des="We're a community of Hunter College students interested in CS and tech. We design, code, build, and learn about topics not taught in our classes."/>
+          <ClubCard image={google} title="Google Developer Student Club" link="https://dsc.community.dev/hunter-college/" id="4" des="DSC Hunter is Hunter College's chapter of Google Developer Student Club, supported by Google and Google Developers."/>
         </ClubContainer>
       </header>
     </div>
