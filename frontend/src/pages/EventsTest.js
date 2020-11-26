@@ -19,6 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import burger from '../images/burger.svg';
 import Computer from '../images/comp.svg';
 
+
 Axios.defaults.withCredentials = true;
 /*
  Get all events from database and then puts the the events into the correct object type to pass into Fullcalendar.
@@ -200,7 +201,7 @@ export default class DemoApp extends React.Component {
             {
                 this.setState({
                     toNotify:false,
-                    notifyMsg:"Login!"
+                    notifyMsg:"Login to get notified!"
                 }) 
             }
            else if(response.data.length > 0)
@@ -215,7 +216,7 @@ export default class DemoApp extends React.Component {
             {
                 this.setState({
                     toNotify:true,
-                    notifyMsg:"button"
+                    notifyMsg:"You will be notified for this event."
                 })
             }
             
@@ -240,7 +241,23 @@ export default class DemoApp extends React.Component {
       
         //make the insert post request here
     }
-
+    handleDelete=(event)=>{
+        this.setState({
+            error_message: ""
+        })
+        Axios.post('http://localhost:3001/api/deleteAdmin', {  
+        event_id: this.state.event.extendedProps.event_id,
+       
+        }).then((response)=>{
+           
+            console.log("finished deleting event")
+            window.location.reload(false);
+            
+        });
+        //========
+       
+        //make the insert post request here
+    }
     handleEventSubmit = (event) =>{
         if(this.state.event_name == ''){
             this.setState({
@@ -275,6 +292,7 @@ export default class DemoApp extends React.Component {
             }
         // console.log(event);
         //event.preventDefault();
+        
     }
    
     
@@ -365,7 +383,9 @@ export default class DemoApp extends React.Component {
                                        (this.state.toNotify === true) ?( <button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
                                         //: (<div>You will be notified for this event!</div>)
                                     }
+                                    {this.state.role &&<button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleDelete}>Delete this event</button>}
                                     
+                                    {/* <p>{this.state.error_message}</p> */}
                                 
                                    
                                 </Table>
@@ -468,9 +488,11 @@ export default class DemoApp extends React.Component {
 
 
                     </div>
-                    <Button variant="primary" type="submit">
+                    <div className="button-container" >
+                    <Button variant="primary" type="submit" style={{backgroundColor: "purple"}}>
                         Submit
                     </Button>
+                    </div>
                     </form>
                 </React.Fragment>
             :
