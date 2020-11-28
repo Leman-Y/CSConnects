@@ -19,6 +19,7 @@ import burger from '../images/burger.svg';
 import Computer from '../images/comp.svg';
 import '../styles/events.css';
 
+
 Axios.defaults.withCredentials = true;
 /*
  Get all events from database and then puts the the events into the correct object type to pass into Fullcalendar.
@@ -32,7 +33,6 @@ async function getAllEventsFromDb() {
         }
     )
     // console.log('arr ', arr);
-
     const jsonArr = [];
 
     /*
@@ -186,7 +186,7 @@ export default class DemoApp extends React.Component {
         //takes the id of the event as well as the phone number of the user and checks if it already exists in the table. 
         //if so it returns false and shows "notified"
         //if not it returns true and shows the button
-        console.log("yoooo")
+
         Axios.post('http://localhost:3001/api/toNotify', {  
         event_id: this.state.event.extendedProps.event_id,
         phoneNum : this.state.num
@@ -200,7 +200,7 @@ export default class DemoApp extends React.Component {
             {
                 this.setState({
                     toNotify:false,
-                    notifyMsg:"Login!"
+                    notifyMsg:"Login to get notified!"
                 }) 
             }
            else if(response.data.length > 0)
@@ -215,7 +215,7 @@ export default class DemoApp extends React.Component {
             {
                 this.setState({
                     toNotify:true,
-                    notifyMsg:"button"
+                    notifyMsg:"You will be notified for this event."
                 })
             }
             
@@ -240,7 +240,23 @@ export default class DemoApp extends React.Component {
       
         //make the insert post request here
     }
-
+    handleDelete=(event)=>{
+        this.setState({
+            error_message: ""
+        })
+        Axios.post('http://localhost:3001/api/deleteAdmin', {  
+        event_id: this.state.event.extendedProps.event_id,
+       
+        }).then((response)=>{
+           
+            console.log("finished deleting event")
+            window.location.reload(false);
+            
+        });
+        //========
+       
+        //make the insert post request here
+    }
     handleEventSubmit = (event) =>{
         if(this.state.event_name == ''){
             this.setState({
@@ -275,6 +291,7 @@ export default class DemoApp extends React.Component {
             }
         // console.log(event);
         //event.preventDefault();
+        
     }
 
     handleFilterSubmit = (event) =>
@@ -453,7 +470,6 @@ export default class DemoApp extends React.Component {
                                     <tr>
                                         <td>Description</td>
                                         <td>{this.state.event.extendedProps.event_description}</td>
-                                        {console.log("here!",this.state.event.extendedProps.event_id)}
                                     </tr>
                                     </tbody>
                                     {/* {console.log("toNotify",this.toNotify())} */}
@@ -463,7 +479,9 @@ export default class DemoApp extends React.Component {
                                        (this.state.toNotify === true) ?( <button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
                                         //: (<div>You will be notified for this event!</div>)
                                     }
+                                    {this.state.role &&<button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleDelete}>Delete this event</button>}
                                     
+                                    {/* <p>{this.state.error_message}</p> */}
                                 
                                    
                                 </Table>
@@ -566,9 +584,11 @@ export default class DemoApp extends React.Component {
 
 
                     </div>
-                    <Button variant="primary" type="submit">
+                    <div className="button-container" >
+                    <Button variant="primary" type="submit" style={{backgroundColor: "purple"}}>
                         Submit
                     </Button>
+                    </div>
                     </form>
                 </React.Fragment>
             :
