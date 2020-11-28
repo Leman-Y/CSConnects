@@ -4,7 +4,6 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import Navigation from '../components/Navigation';
-import '../styles/events.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import {Form, Button} from 'react-bootstrap/';
@@ -18,6 +17,7 @@ import Row from 'react-bootstrap/Row'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import burger from '../images/burger.svg';
 import Computer from '../images/comp.svg';
+import '../styles/events.css';
 
 Axios.defaults.withCredentials = true;
 /*
@@ -379,7 +379,7 @@ export default class DemoApp extends React.Component {
             <Container className="calendar">
                 <Row>
                     <Col>
-                        <Form onSubmit={this.handleFilterSubmit}>
+                        <Form className="border border-dark m-2 p-2" onSubmit={this.handleFilterSubmit}>
                             <Form.Label>Club</Form.Label>
                             <div key={`inline-${'checkbox'}`} className="mb-3">
                                 <Form.Check inline label="Hunter ACM" name="HunterACM" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
