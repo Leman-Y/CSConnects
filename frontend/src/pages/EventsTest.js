@@ -4,7 +4,6 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import Navigation from '../components/Navigation';
-import '../styles/events.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import {Form, Button} from 'react-bootstrap/';
@@ -18,6 +17,7 @@ import Row from 'react-bootstrap/Row'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import burger from '../images/burger.svg';
 import Computer from '../images/comp.svg';
+import '../styles/events.css';
 
 
 Axios.defaults.withCredentials = true;
@@ -131,9 +131,9 @@ export default class DemoApp extends React.Component {
         })
     }
 
-
+    // Handles the event when a user clicks on a date in the calendar
     handleDateClick = (arg) => { // bind with an arrow function
-        alert(arg.dateStr)
+        // alert(arg.dateStr)
         // Axios.get('http://localhost:3001/api/getEvents').then((response)=>{
         //     console.log(response.data);
         // })
@@ -293,6 +293,91 @@ export default class DemoApp extends React.Component {
         //event.preventDefault();
         
     }
+
+    handleFilterSubmit = (event) =>
+    {
+        event.preventDefault();
+
+        const clubMap = new Map([
+            ['HunterACM', 1],
+            ['OpenSource', 2],
+            ['WomeninCS', 3],
+            ['Appsclub', 4]
+        ]);
+
+        const clubIds = [];
+
+        if (event.target.HunterACM.checked)
+        {
+            clubIds.push(clubMap.get('HunterACM'));
+        }
+        if (event.target.OpenSource.checked)
+        {
+            clubIds.push(clubMap.get('OpenSource'));
+        }
+        if (event.target.WomeninCS.checked)
+        {
+            clubIds.push(clubMap.get('WomeninCS'));
+        }
+        if (event.target.Appsclub.checked)
+        {
+            clubIds.push(clubMap.get('Appsclub'));
+        }
+
+        const eventTypeMap = new Map([
+           ['Interview', 1],
+            ['Social', 2],
+            ['Network', 3],
+            ['Career', 4],
+            ['Hackathon', 5],
+            ['Study', 6],
+            ['Exercise', 7],
+            ['Volunteer', 8]
+        ]);
+
+        const eventTypeIds = [];
+
+        if (event.target.Interview.checked)
+        {
+            eventTypeIds.push(1);
+        }
+        if (event.target.Social.checked)
+        {
+            eventTypeIds.push(2);
+        }
+        if (event.target.Network.checked)
+        {
+            eventTypeIds.push(3);
+        }
+        if (event.target.Career.checked)
+        {
+            eventTypeIds.push(4);
+        }
+        if (event.target.Hackathon.checked)
+        {
+            eventTypeIds.push(5);
+        }
+        if (event.target.Study.checked)
+        {
+            eventTypeIds.push(6);
+        }
+        if (event.target.Exercise.checked)
+        {
+            eventTypeIds.push(7);
+        }
+        if (event.target.Volunteer.checked)
+        {
+            eventTypeIds.push(8);
+        }
+
+        // console.log("club ids: ", clubIds);
+        // console.log('event ids: ', eventTypeIds);
+
+        const obj = {
+            'club_id': clubIds,
+            'event_type_id': eventTypeIds
+        }
+    }
    
     
     render() {
@@ -311,12 +396,37 @@ export default class DemoApp extends React.Component {
             <Container className="calendar">
                 <Row>
                     <Col>
+                        <Form className="border border-dark m-2 p-2" onSubmit={this.handleFilterSubmit}>
+                            <Form.Label>Club</Form.Label>
+                            <div key={`inline-${'checkbox'}`} className="mb-3">
+                                <Form.Check inline label="Hunter ACM" name="HunterACM" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
+                                <Form.Check inline label="Open Source" name="OpenSource" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Women in CS" name ="WomeninCS" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
+                                <Form.Check inline label="Apps club" name ="Appsclub" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
+                            </div>
+                            <Form.Label>Event Type</Form.Label>
+                            <div key={`inline-${'checkbox2'}`} className="mb-3">
+                                <Form.Check inline label="Interview" name="Interview" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
+                                <Form.Check inline label="Social" name="Social" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Network" name="Network" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Career" name="Career" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Hackathon" name="Hackathon" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Study" name="Study" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Exercise" name="Exercise" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Volunteer" name="Volunteer" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+
+                            </div>
+                            <Button variant="primary" type="submit">
+                                Filter
+                            </Button>
+                        </Form>
+
                         <FullCalendar
                             plugins={[ dayGridPlugin, interactionPlugin ]}
                             initialView="dayGridMonth"
-                            dateClick={this.handleDateClick}
                             events={getAllEventsFromDb}
                             eventClick = {this.handleEventClick}
+                            dateClick = {this.handleDateClick}
                         />
                     </Col>
                     <Col sm={4}>
@@ -328,18 +438,6 @@ export default class DemoApp extends React.Component {
                                         <th colSpan="2">Event Information</th>
                                     </tr>
                                     </thead>
-                                    {/*
-                                    title: val.event_name,
-                                    date: val.date,
-                                    extendedProps: {
-                                    club_name: val.club_name,
-                                    date: val.date,
-                                    start_time: val.start_time,
-                                    end_time: val.end_time,
-                                    event_description: val.event_description,
-                                    event_location: val.event_location,
-                                    event_type: val.keyboard_name
-                                */}
                                     <tbody>
                                     <tr>
                                         <td>Title</td>
