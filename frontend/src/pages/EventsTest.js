@@ -33,7 +33,6 @@ async function getAllEventsFromDb() {
         }
     )
     // console.log('arr ', arr);
-
     const jsonArr = [];
 
     /*
@@ -187,7 +186,7 @@ export default class DemoApp extends React.Component {
         //takes the id of the event as well as the phone number of the user and checks if it already exists in the table. 
         //if so it returns false and shows "notified"
         //if not it returns true and shows the button
-        console.log("yoooo")
+
         Axios.post('http://localhost:3001/api/toNotify', {  
         event_id: this.state.event.extendedProps.event_id,
         phoneNum : this.state.num
@@ -373,7 +372,6 @@ export default class DemoApp extends React.Component {
                                     <tr>
                                         <td>Description</td>
                                         <td>{this.state.event.extendedProps.event_description}</td>
-                                        {console.log("here!",this.state.event.extendedProps.event_id)}
                                     </tr>
                                     </tbody>
                                     {/* {console.log("toNotify",this.toNotify())} */}

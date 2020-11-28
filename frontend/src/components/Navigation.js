@@ -63,7 +63,7 @@ const tabsLoggedIn = [{
   name: "Contact",
 },
 {
-  route: "/login",
+  route: "/MyAccount",
   name: "My Account",
 }]
 const socials = [

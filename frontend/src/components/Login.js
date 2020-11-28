@@ -53,9 +53,9 @@ function Login(props) {
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
     Axios.get("http://localhost:3001/login").then((response)=>{
       if(response.data.loggedIn == true){
-        //console.log(response);
-        setLoginStatus("You're logged in as " + response.data.user[0].phoneNum);
-        setLoggedin(true);
+        router.push("/MyAccount");
+      }else{
+        router.push("/login");
       }
       
     }, {withCredentials: true})
