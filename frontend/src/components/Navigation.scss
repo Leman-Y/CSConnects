@@ -24,7 +24,7 @@
     z-index: 2;
 
     .site-title{
-      margin: 0.5em 1em;
+      margin: 0.2em 1em;
       font-size: 1.5rem;
       font-weight: bold;
       font-family: 'Barlow', sans-serif;
@@ -63,7 +63,7 @@
   width: 1.5em;
   margin:1.2em;
 }
-.home-icon{
+.home-icon, .home-icon:hover{
   text-decoration: none;
 }
 @media only screen and (max-width: 1024px) {
@@ -71,7 +71,7 @@
     display:none;
   }
   .nav-container>.left-container>.site-title{
-    margin: 0.5em 0em;
+    // margin: 0.5em 0em;
     font-weight: bold;
   }
   .nav-container .left-container{
@@ -94,8 +94,8 @@
     position: relative;
     text-align: center;
     font-size: 1.5rem;
-    z-index: 1;
-    margin: 5em 0 100% 0;
+    z-index: 3;
+    // margin: 5em 0 100% 0;
   }
   .nav-container.responsive .icon{
     // position: relative;
@@ -109,7 +109,7 @@
     background-color: $bgcolor;
   }
   .nav-container.responsive>.left-container>.site-title{
-    margin: 1em 0em;
+    // margin: 1em 0em;
   }
 
 }

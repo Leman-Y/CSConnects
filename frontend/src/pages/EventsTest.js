@@ -15,6 +15,9 @@ import Table from 'react-bootstrap/Table' // Bootstrap table
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import burger from '../images/burger.svg';
+import Computer from '../images/comp.svg';
 
 
 Axios.defaults.withCredentials = true;
@@ -97,6 +100,7 @@ export default class DemoApp extends React.Component {
         num: '',
         logged:false,
         toNotify:false,
+        notifyMsg:''
     }
 
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
@@ -192,16 +196,26 @@ export default class DemoApp extends React.Component {
             //     error_message: 'successfully inserted'
             // })
             console.log("response: ",response.data.length)
-            if(response.data.length > 0)
+            if(this.state.logged === false)
+            {
+                this.setState({
+                    toNotify:false,
+                    notifyMsg:"Login to get notified!"
+                }) 
+            }
+           else if(response.data.length > 0)
             {
                this.setState({
                    toNotify:false,
+                   notifyMsg:"You will be notified for this event."
                })
             }
+          
             else
             {
                 this.setState({
                     toNotify:true,
+                    notifyMsg:"You will be notified for this event."
                 })
             }
             
@@ -226,7 +240,23 @@ export default class DemoApp extends React.Component {
       
         //make the insert post request here
     }
-
+    handleDelete=(event)=>{
+        this.setState({
+            error_message: ""
+        })
+        Axios.post('http://localhost:3001/api/deleteAdmin', {  
+        event_id: this.state.event.extendedProps.event_id,
+       
+        }).then((response)=>{
+           
+            console.log("finished deleting event")
+            window.location.reload(false);
+            
+        });
+        //========
+       
+        //make the insert post request here
+    }
     handleEventSubmit = (event) =>{
         if(this.state.event_name == ''){
             this.setState({
@@ -261,13 +291,14 @@ export default class DemoApp extends React.Component {
             }
         // console.log(event);
         //event.preventDefault();
+        
     }
    
     
     render() {
         return (
         <div>
-            <Navigation/>
+            <Navigation icon={Computer} name="CSConnects" burger={burger}/>
             <div className="main_container">
                 <div className="calendar_container" style={{width: "50vw"}}>  
 
@@ -344,10 +375,15 @@ export default class DemoApp extends React.Component {
                                     </tr>
                                     </tbody>
                                     {/* {console.log("toNotify",this.toNotify())} */}
+                                    {/* {this.state.logged===false &&<div>{this.state.notifyMsg}</div>} */}
                                     {
                                         
-                                        (this.state.logged === true &&  this.state.toNotify === true)? (<button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>): (<div>You will be notified for this event!</div>)
+                                       (this.state.toNotify === true) ?( <button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
+                                        //: (<div>You will be notified for this event!</div>)
                                     }
+                                    {this.state.role &&<button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleDelete}>Delete this event</button>}
+                                    
+                                    {/* <p>{this.state.error_message}</p> */}
                                 
                                    
                                 </Table>
@@ -450,9 +486,11 @@ export default class DemoApp extends React.Component {
 
 
                     </div>
-                    <Button variant="primary" type="submit">
+                    <div className="button-container" >
+                    <Button variant="primary" type="submit" style={{backgroundColor: "purple"}}>
                         Submit
                     </Button>
+                    </div>
                     </form>
                 </React.Fragment>
             :

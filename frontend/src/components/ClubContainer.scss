@@ -5,6 +5,7 @@
   height: clamp(25%, 50%, 50%);
   *{
     margin:0.75em;
+    box-sizing: content-box;
   }
 }
 .club-title{

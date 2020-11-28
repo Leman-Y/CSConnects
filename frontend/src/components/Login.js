@@ -71,10 +71,10 @@ function Login(props) {
           null : 
           <React.Fragment>
               <p>Phone Number</p>
-              <div style={{fontStyle:"italic"}}>Example:+15166951142</div>
+              <div style={{fontStyle:"italic"}}>Example:5166951142</div>
                 <input className="sign-inputs" type="text" autoComplete="new-password" 
                 onChange={(e) =>{
-                  setPhonenumber(e.target.value);
+                  setPhonenumber("+1"+e.target.value);
                 }} />
         
                 <p>Password</p>
@@ -95,8 +95,9 @@ function Login(props) {
           <Button type="primary" onClick={logout} >Logout</Button><br />
         </React.Fragment> : 
         <React.Fragment>
-          <Button type="primary" onClick={login} >Sign In</Button><br />
-          <Button type="primary" onClick={() => {router.push('/signup');}}>Create an account</Button><br />
+          <Button type="primary" onClick={login} >Log In</Button><br />
+          <h5>Don't have an account?</h5>
+          <Button type="primary" onClick={() => {router.push('/signup');}}>Sign up</Button><br />
         </React.Fragment>
         } 
 

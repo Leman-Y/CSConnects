@@ -24,8 +24,24 @@ function SignUp() {
   }, [])
 
   //function gets called when user clicks submit.
-  
+  function validate(phone) {
+    const regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if(regex.test(phone)==true){
+      phone = "+1"+phone;
+      console.log("true!",phone)
+      setUsername(phone)
+    }
+    else{
+      console.log("nope")
+      
+    }
+  }
   const submitUser = () =>{
+    if(userName==="")
+    {
+      alert("please input a phone number (with your 3 digit area code as a header) in the form 5166951142")
+    }
+    else{
     Axios.post('http://localhost:3001/api/insert', { //makes an API call from the backend server from this specific URL. 
       userName: userName, 
       userPassword: userPassword,
@@ -37,6 +53,7 @@ function SignUp() {
       // else{setsignupStatus("Error somewhere ");}
 
     });
+  }
   };
 
 
@@ -50,9 +67,9 @@ function SignUp() {
 
         <div className="sign-info"> 
           <p>Phone Number</p>
-          <div style={{fontStyle:"italic"}}>Example:+15166951142</div>
+          <div style={{fontStyle:"italic"}}>Example:5166951142</div>
           <input className="sign-inputs" type="text" name="user" onChange={(e)=>{ //when the value changes, update the variable setUsername
-            setUsername(e.target.value);
+            validate(e.target.value);
 
           }}/>
           <h5>{signupStatus}</h5>
@@ -63,10 +80,11 @@ function SignUp() {
         </div>
         <br/><br/>
         <div className="button-container">
-        <Button type="primary" onClick={submitUser}>Submit</Button>
+        <Button type="primary" onClick={submitUser}>Create</Button><br />
+       <h5>Already have an account? </h5>
         <Button type="primary" onClick={() => {
         router.push('/login');
-      }}>Already have an account? Sign In</Button>
+      }}>Log In</Button>
 
         {/* {userNameList.map((val)=>{
           return (
