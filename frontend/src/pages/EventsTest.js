@@ -402,23 +402,26 @@ export default class DemoApp extends React.Component {
                 <React.Fragment>
                     
                     <form onSubmit={this.handleEventSubmit}>
-                        <div className="error_container">
-                            <p style={{color: "black"}}>Insert a new event:</p>
-                            <p>{this.state.error_message}</p>
-                        </div>
+                     
                     
                     <div className = "admin_container">
-                    
+                   
                             {/* <p>{this.state.club_name}</p>
                             <p>{this.state.date.getFullYear() + "-" + (this.state.date.getMonth()+1) + "-" + this.state.date.getDate()}</p>
                             <p>{this.state.event_type}</p>
                             <p>{this.state.start_time}</p>
                             <p>{this.state.end_time}</p> */}
                             <div className = "admin_left_container">
+                            <h1 style={{color: "black"}}>Insert a new event:</h1>
+                            <div className="error_container">
+                            
+                            <p>{this.state.error_message}</p>
+                            
+                        </div>
                             <Form.Row>
                                 <Col>
                                     <Form.Label>Event Name</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Event Name" onChange={(e)=>{
+                                    <Form.Control type="text" placeholder="Example: Technical Interview Prep" onChange={(e)=>{
                                         this.setState({
                                             event_name: e.target.value
                                         })
@@ -427,7 +430,7 @@ export default class DemoApp extends React.Component {
 
                                 <Col >
                                     <Form.Label>Event Description</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Event Description" onChange={(e)=>{
+                                    <Form.Control type="text" placeholder="Example: We will whiteboard together..." onChange={(e)=>{
                                         this.setState({
                                             event_description: e.target.value
                                         })
@@ -437,7 +440,7 @@ export default class DemoApp extends React.Component {
 
                                 <Form.Group >
                                     <Form.Label>Event Location</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Event Location" onChange={(e)=>{
+                                    <Form.Control type="text" placeholder="Example: Zoom Link " onChange={(e)=>{
                                         this.setState({
                                             event_location: e.target.value
                                         })
