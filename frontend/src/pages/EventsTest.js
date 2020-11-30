@@ -25,6 +25,8 @@ Axios.defaults.withCredentials = true;
  Get all events from database and then puts the the events into the correct object type to pass into Fullcalendar.
  Relevant doc: https://fullcalendar.io/docs/v3/events-array
  */
+
+
 async function getAllEventsFromDb() {
     const arr =  await Axios.get('http://localhost:3001/api/getEvents').then((response) =>
         response.data
@@ -32,7 +34,6 @@ async function getAllEventsFromDb() {
             console.log(err);
         }
     )
-    // console.log('arr ', arr);
     const jsonArr = [];
 
     /*
@@ -100,10 +101,13 @@ export default class DemoApp extends React.Component {
         num: '',
         logged:false,
         toNotify:false,
-        notifyMsg:''
+        notifyMsg:'',
+        EventsFromDB: []
     }
 
+
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
+        //as soon as page runs, check to see if the person is logged in
         Axios.get("http://localhost:3001/login").then((response)=>{
             if(response.data.loggedIn == true){
                 this.setState({
@@ -111,6 +115,8 @@ export default class DemoApp extends React.Component {
                     num:response.data.user[0].phoneNum
                 })
                 console.log("grabbed the num",this.state.num)
+                //if the person that is logged in is an admin, 
+                //then do an api call to grab the list of event types for drop down menu
                 if(response.data.user[0].role == 'admin'){
                     this.setState({
                         role: true,
@@ -128,7 +134,35 @@ export default class DemoApp extends React.Component {
 
                 }
             }
-        })
+        });
+
+        //as soon as page runs, make an api call to grab all events, and populate them into this.state.EventsFromDB
+        Axios.get('http://localhost:3001/api/getEvents').then((response) =>{
+            var jsonArr = [];
+            response.data.map( (val) =>
+            {
+                jsonArr.push({
+                    title: val.event_name,
+                    date: val.date,
+                    extendedProps: {
+                        event_id:val.event_id,
+                        club_name: val.club_name,
+                        date: val.date,
+                        start_time: val.start_time,
+                        end_time: val.end_time,
+                        event_description: val.event_description,
+                        event_location: val.event_location,
+                        event_type: val.keyword_name
+    
+                    }
+                })
+            });
+            this.setState({
+                EventsFromDB: jsonArr
+            })
+            console.log("eventsFromDB: ", this.state.EventsFromDB);
+
+        });
     }
 
     // Handles the event when a user clicks on a date in the calendar
@@ -370,13 +404,49 @@ export default class DemoApp extends React.Component {
             eventTypeIds.push(8);
         }
 
+        
         // console.log("club ids: ", clubIds);
         // console.log('event ids: ', eventTypeIds);
 
-        const obj = {
-            'club_id': clubIds,
-            'event_type_id': eventTypeIds
+        //if the user clicks submit and there is nothing selected for filter
+        if(clubIds.length <= 0 && eventTypeIds.length <=0){
+            window.location.reload();
+        }else{
+
+        //else, make an API call that grabs events that are filtered
+            //console.log("something is selected");
+            Axios.post('http://localhost:3001/api/getFilteredEvent', { //makes an API call from the backend server from this specific URL. 
+                clubIds: clubIds,
+                eventTypeIds: eventTypeIds
+            }).then((response)=>{
+                var jsonArr = [];
+                response.data.map( (val) =>
+                {
+                    
+                    jsonArr.push({
+                        title: val.event_name,
+                        date: val.date,
+                        extendedProps: {
+                            event_id:val.event_id,
+                            club_name: val.club_name,
+                            date: val.date,
+                            start_time: val.start_time,
+                            end_time: val.end_time,
+                            event_description: val.event_description,
+                            event_location: val.event_location,
+                            event_type: val.keyword_name
+        
+                        }
+                    })
+                });
+                this.setState({
+                    EventsFromDB: jsonArr
+                })
+                console.log("eventsFromDB: ", this.state.EventsFromDB);
+            });
         }
+
+
     }
    
     
@@ -424,7 +494,7 @@ export default class DemoApp extends React.Component {
                         <FullCalendar
                             plugins={[ dayGridPlugin, interactionPlugin ]}
                             initialView="dayGridMonth"
-                            events={getAllEventsFromDb}
+                            events={this.state.EventsFromDB}
                             eventClick = {this.handleEventClick}
                             dateClick = {this.handleDateClick}
                         />
