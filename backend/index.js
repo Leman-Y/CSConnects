@@ -197,6 +197,38 @@ app.get("/api/getEventType", (req, res) =>{
     }
 })
 
+
+//get all events type for admin panel on event page
+app.post("/api/getFilteredEvent", (req, res) =>{
+    //we are doing .join() to implode array to prepare for MYSQL statement. 
+
+    const clubIds = req.body.clubIds;
+    const eventTypeIds = req.body.eventTypeIds;
+
+
+    // var joinedClubIds = clubIds.join();
+    // var joinedEventTypeIds = eventTypeIds.join();
+    //if clubIds length has nothing, then only check eventType
+    
+        if(clubIds.length <= 0){
+            var sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND (hunter_events.event_type in ("+eventTypeIds.join()+"))";
+        }else if(eventTypeIds <=0){
+            var sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND (hunter_events.event_club in (" +clubIds.join() +" ))";
+        }else{
+            var sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND (hunter_events.event_type in (" +clubIds +" ) AND hunter_events.event_club in ("+eventTypeIds+"))";
+        }
+    try{
+        console.log(sqlGet);
+        db.query(sqlGet, (err, result)=>{
+            res.send(result);
+        });
+    }
+    catch (err) {
+        console.error(err.message);
+    }
+})
+
+
 //gets all events with specific date as parameter
 app.post('/api/getEvents',(req,res)=>{
     try {
