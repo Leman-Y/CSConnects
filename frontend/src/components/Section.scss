@@ -1,0 +1,49 @@
+@import '../styles/themes.scss';
+.section-container{
+  font-size: 1rem;
+  font-family: 'Barlow', sans-serif;
+  text-align: center;
+  // color: $white;
+  line-height: 200%;
+
+  .section-title{
+    font-size: 1.5rem;
+  }
+  .section-title a{
+    text-decoration: none;
+    font-size: 1.2rem;
+  }
+  .section-top>.section-body,  .section-bottom>.section-body{
+    padding: 1em;
+    width: 90%;
+  }
+  .section-img{
+    width: 100%;
+    // height:30em;
+    // width: 200px;
+    // height: 400px;
+    object-fit: cover;
+  //  object-fit: contain;
+  
+  }
+  .section-top{
+    background-color: $lightPurple;
+    color: $white;
+  }
+  .section-bottom{
+    background-color: $gold;
+  }
+  .section-top, .section-bottom{
+    padding: 1.5em;
+    display: grid;
+    place-items: center;
+  }
+}
+
+.section-des{
+  font-size: 1rem;
+  margin-bottom: 0.5em;
+}
+.section-title>a{
+  color: $purple;
+}

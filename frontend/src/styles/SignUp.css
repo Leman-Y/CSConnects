@@ -1,0 +1,15 @@
+/* .App {
+  text-align: center;
+} */
+.inputBoxes{
+  justify-content: center;
+  align-items: center;
+  display:flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.inputBoxes input{
+  width: 50%;
+  padding: 10px;
+}
