@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const cors = require('cors'); //to bypass cors policy
+// const cors = require('cors'); //to bypass cors policy
 
 const app = express();
 // app.use(cors());
@@ -95,11 +95,11 @@ app.post('/api/messages', (req, res) => {
     });
 });
 //get all events
-app.use(cors({
-    origin: ["http://localhost:3000"], //put the URL of what we want the session to work on. may have to change when deploying
-    methods: ["GET", "POST"],
-    credentials: true  //allows cookies to be enabled, enabling sessions
-}));
+// app.use(cors({
+//     origin: ["http://localhost:3000"], //put the URL of what we want the session to work on. may have to change when deploying
+//     methods: ["GET", "POST"],
+//     credentials: true  //allows cookies to be enabled, enabling sessions
+// }));
 app.use(cookieParser());
 app.use(express.json()); //convert mysql result to json, to make it readable
 app.use(bodyParser.urlencoded({extended: true}));
@@ -226,7 +226,7 @@ app.post("/api/getFilteredEvent", (req, res) =>{
             var sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND (hunter_events.event_type in (" +clubIds +" ) AND hunter_events.event_club in ("+eventTypeIds+"))";
         }
     try{
-        console.log(sqlGet);
+        // console.log(sqlGet);
         db.query(sqlGet, (err, result)=>{
             res.send(result);
         });
@@ -401,7 +401,7 @@ app.post('/api/deleteAdmin', (req,res)=>{
         const notification = 0;
        // INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`) VALUES ((select user.user_id from `user` where user.phoneNum = "+15166951144"), "+15166951144","3","0")
         var sqlSelect = 'DELETE FROM `hunter_events` WHERE event_id = \"' + eventId + '\"'; 
-        console.log("in deleteAdmin in index.js",sqlSelect);
+        // console.log("in deleteAdmin in index.js",sqlSelect);
         db.query(sqlSelect, (err, result)=>{
             res.send(result);
         });
