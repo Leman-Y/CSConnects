@@ -4,7 +4,6 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import Navigation from '../components/Navigation';
-import '../styles/events.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import {Form, Button} from 'react-bootstrap/';
@@ -18,6 +17,7 @@ import Row from 'react-bootstrap/Row'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import burger from '../images/burger.svg';
 import Computer from '../images/comp.svg';
+import '../styles/events.css';
 
 
 Axios.defaults.withCredentials = true;
@@ -25,6 +25,8 @@ Axios.defaults.withCredentials = true;
  Get all events from database and then puts the the events into the correct object type to pass into Fullcalendar.
  Relevant doc: https://fullcalendar.io/docs/v3/events-array
  */
+
+
 async function getAllEventsFromDb() {
     const arr =  await Axios.get('http://localhost:3001/api/getEvents').then((response) =>
         response.data
@@ -32,8 +34,6 @@ async function getAllEventsFromDb() {
             console.log(err);
         }
     )
-    // console.log('arr ', arr);
-
     const jsonArr = [];
 
     /*
@@ -101,10 +101,13 @@ export default class DemoApp extends React.Component {
         num: '',
         logged:false,
         toNotify:false,
-        notifyMsg:''
+        notifyMsg:'',
+        EventsFromDB: []
     }
 
+
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
+        //as soon as page runs, check to see if the person is logged in
         Axios.get("http://localhost:3001/login").then((response)=>{
             if(response.data.loggedIn == true){
                 this.setState({
@@ -112,6 +115,8 @@ export default class DemoApp extends React.Component {
                     num:response.data.user[0].phoneNum
                 })
                 console.log("grabbed the num",this.state.num)
+                //if the person that is logged in is an admin, 
+                //then do an api call to grab the list of event types for drop down menu
                 if(response.data.user[0].role == 'admin'){
                     this.setState({
                         role: true,
@@ -129,12 +134,40 @@ export default class DemoApp extends React.Component {
 
                 }
             }
-        })
+        });
+
+        //as soon as page runs, make an api call to grab all events, and populate them into this.state.EventsFromDB
+        Axios.get('http://localhost:3001/api/getEvents').then((response) =>{
+            var jsonArr = [];
+            response.data.map( (val) =>
+            {
+                jsonArr.push({
+                    title: val.event_name,
+                    date: val.date,
+                    extendedProps: {
+                        event_id:val.event_id,
+                        club_name: val.club_name,
+                        date: val.date,
+                        start_time: val.start_time,
+                        end_time: val.end_time,
+                        event_description: val.event_description,
+                        event_location: val.event_location,
+                        event_type: val.keyword_name
+    
+                    }
+                })
+            });
+            this.setState({
+                EventsFromDB: jsonArr
+            })
+            console.log("eventsFromDB: ", this.state.EventsFromDB);
+
+        });
     }
 
-
+    // Handles the event when a user clicks on a date in the calendar
     handleDateClick = (arg) => { // bind with an arrow function
-        alert(arg.dateStr)
+        // alert(arg.dateStr)
         // Axios.get('http://localhost:3001/api/getEvents').then((response)=>{
         //     console.log(response.data);
         // })
@@ -187,7 +220,7 @@ export default class DemoApp extends React.Component {
         //takes the id of the event as well as the phone number of the user and checks if it already exists in the table. 
         //if so it returns false and shows "notified"
         //if not it returns true and shows the button
-        console.log("yoooo")
+
         Axios.post('http://localhost:3001/api/toNotify', {  
         event_id: this.state.event.extendedProps.event_id,
         phoneNum : this.state.num
@@ -294,6 +327,127 @@ export default class DemoApp extends React.Component {
         //event.preventDefault();
         
     }
+
+    handleFilterSubmit = (event) =>
+    {
+        event.preventDefault();
+
+        const clubMap = new Map([
+            ['HunterACM', 1],
+            ['OpenSource', 2],
+            ['WomeninCS', 3],
+            ['Appsclub', 4]
+        ]);
+
+        const clubIds = [];
+
+        if (event.target.HunterACM.checked)
+        {
+            clubIds.push(clubMap.get('HunterACM'));
+        }
+        if (event.target.OpenSource.checked)
+        {
+            clubIds.push(clubMap.get('OpenSource'));
+        }
+        if (event.target.WomeninCS.checked)
+        {
+            clubIds.push(clubMap.get('WomeninCS'));
+        }
+        if (event.target.Appsclub.checked)
+        {
+            clubIds.push(clubMap.get('Appsclub'));
+        }
+
+        const eventTypeMap = new Map([
+           ['Interview', 1],
+            ['Social', 2],
+            ['Network', 3],
+            ['Career', 4],
+            ['Hackathon', 5],
+            ['Study', 6],
+            ['Exercise', 7],
+            ['Volunteer', 8]
+        ]);
+
+        const eventTypeIds = [];
+
+        if (event.target.Interview.checked)
+        {
+            eventTypeIds.push(1);
+        }
+        if (event.target.Social.checked)
+        {
+            eventTypeIds.push(2);
+        }
+        if (event.target.Network.checked)
+        {
+            eventTypeIds.push(3);
+        }
+        if (event.target.Career.checked)
+        {
+            eventTypeIds.push(4);
+        }
+        if (event.target.Hackathon.checked)
+        {
+            eventTypeIds.push(5);
+        }
+        if (event.target.Study.checked)
+        {
+            eventTypeIds.push(6);
+        }
+        if (event.target.Exercise.checked)
+        {
+            eventTypeIds.push(7);
+        }
+        if (event.target.Volunteer.checked)
+        {
+            eventTypeIds.push(8);
+        }
+
+        
+        // console.log("club ids: ", clubIds);
+        // console.log('event ids: ', eventTypeIds);
+
+        //if the user clicks submit and there is nothing selected for filter
+        if(clubIds.length <= 0 && eventTypeIds.length <=0){
+            window.location.reload();
+        }else{
+
+        //else, make an API call that grabs events that are filtered
+            //console.log("something is selected");
+            Axios.post('http://localhost:3001/api/getFilteredEvent', { //makes an API call from the backend server from this specific URL. 
+                clubIds: clubIds,
+                eventTypeIds: eventTypeIds
+            }).then((response)=>{
+                var jsonArr = [];
+                response.data.map( (val) =>
+                {
+                    
+                    jsonArr.push({
+                        title: val.event_name,
+                        date: val.date,
+                        extendedProps: {
+                            event_id:val.event_id,
+                            club_name: val.club_name,
+                            date: val.date,
+                            start_time: val.start_time,
+                            end_time: val.end_time,
+                            event_description: val.event_description,
+                            event_location: val.event_location,
+                            event_type: val.keyword_name
+        
+                        }
+                    })
+                });
+                this.setState({
+                    EventsFromDB: jsonArr
+                })
+                console.log("eventsFromDB: ", this.state.EventsFromDB);
+            });
+        }
+
+
+    }
    
     
     render() {
@@ -312,14 +466,37 @@ export default class DemoApp extends React.Component {
             <Container className="calendar" style={{backgroundColor:"#f8f9fc"}}>
                 <Row>
                     <Col>
+                        <Form className="border border-dark m-2 p-2" onSubmit={this.handleFilterSubmit}>
+                            <Form.Label>Club</Form.Label>
+                            <div key={`inline-${'checkbox'}`} className="mb-3">
+                                <Form.Check inline label="Hunter ACM" name="HunterACM" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
+                                <Form.Check inline label="Open Source" name="OpenSource" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Women in CS" name ="WomeninCS" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
+                                <Form.Check inline label="Apps club" name ="Appsclub" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
+                            </div>
+                            <Form.Label>Event Type</Form.Label>
+                            <div key={`inline-${'checkbox2'}`} className="mb-3">
+                                <Form.Check inline label="Interview" name="Interview" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
+                                <Form.Check inline label="Social" name="Social" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Network" name="Network" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Career" name="Career" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Hackathon" name="Hackathon" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Study" name="Study" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Exercise" name="Exercise" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+                                <Form.Check inline label="Volunteer" name="Volunteer" type={'checkbox'} id={`inline-${'checkbox'}-2`} />
+
+                            </div>
+                            <Button variant="primary" type="submit">
+                                Filter
+                            </Button>
+                        </Form>
+
                         <FullCalendar
                             plugins={[ dayGridPlugin, interactionPlugin ]}
                             initialView="dayGridMonth"
-                            dateClick={this.handleDateClick}
-                            events={getAllEventsFromDb}
+                            events={this.state.EventsFromDB}
                             eventClick = {this.handleEventClick}
-                            
-                            
+                            dateClick = {this.handleDateClick}
                         />
                     </Col>
                     <Col sm={4}>
@@ -331,18 +508,6 @@ export default class DemoApp extends React.Component {
                                         <th colSpan="2">Event Information</th>
                                     </tr>
                                     </thead>
-                                    {/*
-                                    title: val.event_name,
-                                    date: val.date,
-                                    extendedProps: {
-                                    club_name: val.club_name,
-                                    date: val.date,
-                                    start_time: val.start_time,
-                                    end_time: val.end_time,
-                                    event_description: val.event_description,
-                                    event_location: val.event_location,
-                                    event_type: val.keyboard_name
-                                */}
                                     <tbody>
                                     <tr>
                                         <td>Title</td>
@@ -375,7 +540,6 @@ export default class DemoApp extends React.Component {
                                     <tr>
                                         <td>Description</td>
                                         <td>{this.state.event.extendedProps.event_description}</td>
-                                        {console.log("here!",this.state.event.extendedProps.event_id)}
                                     </tr>
                                     </tbody>
                                     {/* {console.log("toNotify",this.toNotify())} */}

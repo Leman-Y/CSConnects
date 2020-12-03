@@ -10,6 +10,7 @@ import ContactPage from './Contact';
 import SignUpPage from './SignUp';
 import LoginPage from './Login';
 import EventsTestPage from './EventsTest';
+import MyAccount from './MyAccount';
 
 function App(){
   return(
@@ -25,6 +26,8 @@ function App(){
         <Route exact path="/SignUp" component={SignUpPage}/>
         <Route exact path="/Login" component={LoginPage}/>
         <Route exact path="/EventsTest" component={EventsTestPage}/>
+        <Route exact path="/MyAccount" component={MyAccount}/>
+        
       </Switch>
     </Router>
 

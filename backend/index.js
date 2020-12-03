@@ -34,18 +34,32 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
 
+// const db = mysql.createPool({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'capstone' 
+// });
+
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'capstone' 
+// });
+
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'capstone' 
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
 });
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'capstone' 
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
 });
 
 app.use(express.json()); //convert mysql result to json, to make it readable
@@ -69,7 +83,7 @@ app.post('/api/messages', (req, res) => {
       res.send(JSON.stringify({ success: true }));
     })
     .catch(err => {
-      console.log(err);
+      //console.log(err);
       res.send(JSON.stringify({ success: false }));
     });
 });
@@ -144,7 +158,7 @@ app.post('/api/insert', (req,res)=>{
                             bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
 
                                 if(err){
-                                    console.log("error!",err);
+                                    //console.log("error!",err);
                                 }
 
                                 const sqlInsert = "INSERT INTO user (phoneNum, password, role) VALUES (?,?,?)";
@@ -152,8 +166,11 @@ app.post('/api/insert', (req,res)=>{
                                     sqlInsert, 
                                     [userName, hash,userRole], 
                                     (err, result)=>{
-                                        if(err){console.log("error#2!",err)}
-                                        else{console.log("result!",result);
+                                        if(err){
+                                            //console.log("error#2!",err);
+                                        // }else{
+                                        //     console.log("result!",result)
+                                            
                                         // res.send({message2: "You signed up!"});
                                     }
 
@@ -180,6 +197,38 @@ app.get("/api/getEventType", (req, res) =>{
         console.error(err.message);
     }
 })
+
+
+//get all events type for admin panel on event page
+app.post("/api/getFilteredEvent", (req, res) =>{
+    //we are doing .join() to implode array to prepare for MYSQL statement. 
+
+    const clubIds = req.body.clubIds;
+    const eventTypeIds = req.body.eventTypeIds;
+
+
+    // var joinedClubIds = clubIds.join();
+    // var joinedEventTypeIds = eventTypeIds.join();
+    //if clubIds length has nothing, then only check eventType
+    
+        if(clubIds.length <= 0){
+            var sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND (hunter_events.event_type in ("+eventTypeIds.join()+"))";
+        }else if(eventTypeIds <=0){
+            var sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND (hunter_events.event_club in (" +clubIds.join() +" ))";
+        }else{
+            var sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND (hunter_events.event_type in (" +clubIds +" ) AND hunter_events.event_club in ("+eventTypeIds+"))";
+        }
+    try{
+        console.log(sqlGet);
+        db.query(sqlGet, (err, result)=>{
+            res.send(result);
+        });
+    }
+    catch (err) {
+        console.error(err.message);
+    }
+})
+
 
 //gets all events with specific date as parameter
 app.post('/api/getEvents',(req,res)=>{
@@ -243,13 +292,13 @@ app.post('/api/insertEvent', (req,res)=>{
             res.send(result);
         });
 
-        console.log(sqlInsert);
+        //console.log(sqlInsert);
 
 
     }
     catch(err) {
         console.error(err.message);
-        console.log("didn't work");
+        //console.log("didn't work");
     }
     
 });
@@ -266,18 +315,18 @@ app.post('/api/insertNotification', (req,res)=>{
        // INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`) VALUES ((select user.user_id from `user` where user.phoneNum = "+15166951144"), "+15166951144","3","0")
         var sqlInsert = 'INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`)'; 
         sqlInsert += ' VALUES (' +'(select user.user_id from `user` where user.phoneNum = \"'+phoneNum+'\"),\"' + phoneNum + '\",\"' + eventId + '\",\"' + notification +'\")' ;
-        console.log("in insertNotification in index.js",sqlInsert);
+        //console.log("in insertNotification in index.js",sqlInsert);
         db.query(sqlInsert, (err, result)=>{
             res.send(result);
         });
 
-        console.log(sqlInsert);
+        //console.log(sqlInsert);
 
 
     }
     catch(err) {
-        console.error(err.message);
-        console.log("didn't work");
+        //console.error(err.message);
+        //console.log("didn't work");
     }
     
 });
@@ -293,7 +342,7 @@ app.post('/api/toNotify', (req,res)=>{
         const notification = 0;
        // INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`) VALUES ((select user.user_id from `user` where user.phoneNum = "+15166951144"), "+15166951144","3","0")
         var sqlSelect = 'SELECT * FROM `event_notifications` WHERE event_id = \"' + eventId + '\" AND phoneNum = \"' + phoneNum+ '\"'; 
-        console.log("in toNotify in index.js",sqlSelect);
+        //console.log("in toNotify in index.js",sqlSelect);
         db.query(sqlSelect, (err, result)=>{
             res.send(result);
         });
@@ -303,11 +352,36 @@ app.post('/api/toNotify', (req,res)=>{
 
     }
     catch(err) {
-        console.error(err.message);
-        console.log("didn't work");
+        //console.error(err.message);
+        //console.log("didn't work");
     }
     
 });
+
+//to display all events that the user are notified to in account page
+app.get('/api/getNotifyEvent', (req,res)=>{
+    if(req.session.user){ //if there already exists a user session
+        try{
+            const phoneNum = req.session.user[0].phoneNum;
+            var sqlSelect = 'SELECT * from hunter_events, event_notifications where event_notifications.event_id = hunter_events.event_id AND event_notifications.phoneNum = ' + phoneNum ; 
+            //console.log("in toNotify in index.js",sqlSelect);
+            db.query(sqlSelect, (err, result)=>{
+                res.send({loggedIn: true, user: req.session.user, events: result})
+                // res.send(result);
+            });
+    
+        }
+        catch(err) {
+            //console.error(err.message);
+            console.log("didn't work");
+        }
+        // res.send({loggedIn: true, user: req.session.user});//send an object loggedIn as true, and send user session information
+        // console.log(req.session.user);
+    }else{
+        res.send({loggedIn: false}); //send object loggedIn as false, don't send user information
+    }
+});
+
 
 //this is for Admins to delete an event from the database
 app.post('/api/deleteAdmin', (req,res)=>{
@@ -362,7 +436,7 @@ app.post('/api/insert', (req,res)=>{
                         bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
 
                             if(err){
-                                console.log(err);
+                                //console.log(err);
                             }
 
                             const sqlInsert = "INSERT INTO user (phoneNum, password, role) VALUES (?,?, 'user')";
@@ -427,41 +501,29 @@ app.post('/login',(req,res)=>{
 })
 
 
-
-
-
 /* Twilio text scheduling */
 function updateAppointment(list){
-    console.log("updating...")
+    //console.log("updating...")
     //update appointment to notified=1
     list=list.join()
     var sql = "UPDATE event_notifications SET notified = 1 WHERE event_id IN ("+list+")"
-    console.log(sql)
+    //console.log(sql)
     connection.query(
         sql, 
 
         function(error, results, fields){
             if(!error){
-                console.log('updated appointmen');
+                //console.log('updated appointmen');
             }
             else{
-                console.log("Error")
+                //console.log("Error")
             }
         }
     );
 }
-   
-
-    
-
-
- 
-   
- 
-    
 
 function sendNotification(arr){
-    console.log("sending message", arr)
+    //console.log("sending message", arr)
     return;
     //##
 //     const bindings = arr.map(number => {
@@ -522,15 +584,15 @@ if(month<10)
 }
 var year = currentDate.getFullYear();
 var total=year+'-'+month+'-'+day
-console.log(total);
+//console.log(total);
 //Schedule tasks to be run on the server.
 //run every day @ 8 am
 var task = cron.schedule('0 9 * * *', ()=>{
-    console.log("starting in getInfo...")
+    //console.log("starting in getInfo...")
         var returnNum=[]
         var returnEvent=[]
         var sql = "SELECT DISTINCT(event_notifications.phoneNum), hunter_events.event_id FROM event_notifications, hunter_events WHERE DATE(date)= '"+total +"'";
-        console.log(sql)
+        //console.log(sql)
         connection.query(sql, function (err, results) 
         {
             
@@ -544,17 +606,17 @@ var task = cron.schedule('0 9 * * *', ()=>{
                 var uniqueNums = Array.from(new Set(returnNum))
                 sendNotification(uniqueNums);
                 var uniqueItems = Array.from(new Set(returnEvent))
-                console.log("here",uniqueItems);
+                //console.log("here",uniqueItems);
                 updateAppointment(uniqueItems);
             
             }
         }
         else{
-            console.log("no dates")
+            //console.log("no dates")
         }
             
             
-            console.log("end of query")
+            //console.log("end of query")
         });
 
 }, 
@@ -582,15 +644,5 @@ app.get('/logout',(req,res)=>{
 app.listen(3001, () =>{
     console.log('running on port 3001');
  });
-//handles login authentication
-app.get('/logout',(req,res)=>{
-    if(req.session.user){ //if there already exists a user session
-        console.log("there exists a session " + req.session.user + ". Destroying session now");
-        res.clearCookie('user');
-        req.session.destroy();
-        res.send({loggedIn: false});
-    }else{
-        console.log("unsuccessful logout");
-    }   
-})
+
 
