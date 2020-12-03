@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation';
 import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import '../styles/MyAccount.css';
+import { BASE_API_URL } from '../util/constants';
 
 import { Button } from 'antd';
 
@@ -25,7 +26,7 @@ function MyAccountPage() {
   Axios.defaults.withCredentials = true;
 
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get("http://localhost:3001/api/getNotifyEvent").then((response)=>{
+    Axios.get(`${ BASE_API_URL }/api/getNotifyEvent`).then((response)=>{
       if(response.data.loggedIn == true){
         setLoginStatus("Welcome " + response.data.user[0].phoneNum + ". You are a "+ response.data.user[0].role);
         setEventNotifyList(response.data.events);
@@ -37,7 +38,7 @@ function MyAccountPage() {
 
   
   const logout = () =>{
-    Axios.get("http://localhost:3001/logout").then((response)=>{
+    Axios.get(`${ BASE_API_URL }/logout`).then((response)=>{
       if(response.data.loggedIn == false){
         setLoginStatus(null);
         setLoggedin(false);

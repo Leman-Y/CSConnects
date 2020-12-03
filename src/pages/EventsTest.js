@@ -18,7 +18,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import burger from '../images/burger.svg';
 import Computer from '../images/comp.svg';
 import '../styles/events.css';
-
+import { BASE_API_URL } from '../util/constants';
 
 Axios.defaults.withCredentials = true;
 /*
@@ -28,7 +28,7 @@ Axios.defaults.withCredentials = true;
 
 
 async function getAllEventsFromDb() {
-    const arr =  await Axios.get('http://localhost:3001/api/getEvents').then((response) =>
+    const arr =  await Axios.get(`${BASE_API_URL}/api/getEvents`).then((response) =>
         response.data
     ).catch(err => {
             console.log(err);
@@ -108,7 +108,7 @@ export default class DemoApp extends React.Component {
 
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
         //as soon as page runs, check to see if the person is logged in
-        Axios.get("http://localhost:3001/login").then((response)=>{
+        Axios.get(`${BASE_API_URL}/login`).then((response)=>{
             if(response.data.loggedIn == true){
                 this.setState({
                     logged:true,
@@ -122,7 +122,7 @@ export default class DemoApp extends React.Component {
                         role: true,
                         date: new Date()
                     })
-                    Axios.get('http://localhost:3001/api/getEventType').then((response)=>{
+                    Axios.get(`${BASE_API_URL}/api/getEventType`).then((response)=>{
                         console.log(response.data);
                         response.data.map( (val) =>
                         {
@@ -137,7 +137,7 @@ export default class DemoApp extends React.Component {
         });
 
         //as soon as page runs, make an api call to grab all events, and populate them into this.state.EventsFromDB
-        Axios.get('http://localhost:3001/api/getEvents').then((response) =>{
+        Axios.get(`${BASE_API_URL}/api/getEvents`).then((response) =>{
             var jsonArr = [];
             response.data.map( (val) =>
             {
@@ -221,7 +221,7 @@ export default class DemoApp extends React.Component {
         //if so it returns false and shows "notified"
         //if not it returns true and shows the button
 
-        Axios.post('http://localhost:3001/api/toNotify', {  
+        Axios.post(`${BASE_API_URL}/api/toNotify`, {
         event_id: this.state.event.extendedProps.event_id,
         phoneNum : this.state.num
        
@@ -258,7 +258,7 @@ export default class DemoApp extends React.Component {
    
     handleNotifyClick=(event)=>{
         
-        Axios.post('http://localhost:3001/api/insertNotification', {  
+        Axios.post(`${BASE_API_URL}/api/insertNotification`, {
         event_id: this.state.event.extendedProps.event_id,
         phoneNum : this.state.num
        
@@ -278,7 +278,7 @@ export default class DemoApp extends React.Component {
         this.setState({
             error_message: ""
         })
-        Axios.post('http://localhost:3001/api/deleteAdmin', {  
+        Axios.post(`${BASE_API_URL}/api/deleteAdmin`, {
         event_id: this.state.event.extendedProps.event_id,
        
         }).then((response)=>{
@@ -308,7 +308,7 @@ export default class DemoApp extends React.Component {
             this.setState({
                 error_message: ""
             })
-            Axios.post('http://localhost:3001/api/insertEvent', { //makes an API call from the backend server from this specific URL. 
+            Axios.post(`${BASE_API_URL}/api/insertEvent`, { //makes an API call from the backend server from this specific URL.
             date: this.state.date.getFullYear() + "-" + (this.state.date.getMonth()+1) + "-" + this.state.date.getDate(),
             start_time: this.state.start_time,
             end_time: this.state.end_time,
@@ -415,7 +415,7 @@ export default class DemoApp extends React.Component {
 
         //else, make an API call that grabs events that are filtered
             //console.log("something is selected");
-            Axios.post('http://localhost:3001/api/getFilteredEvent', { //makes an API call from the backend server from this specific URL. 
+            Axios.post(`${BASE_API_URL}/api/getFilteredEvent`, { //makes an API call from the backend server from this specific URL.
                 clubIds: clubIds,
                 eventTypeIds: eventTypeIds
             }).then((response)=>{

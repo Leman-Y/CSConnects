@@ -1,12 +1,7 @@
-To test this file, you need to turn on the frontend development server to render the interface, as well as the backend express server to handle insertion into the database.
-
-When you're CD into frontend folder, type "npm start" to start the frontend react development server.
-
-Then cd ..
-
-cd backend 
-
-then type "npm run devstart" to start the express backend server.
+# HOW TO RUN
+1. At root folder /CSConnects. Run npm run-script build
+2. Run npm start
+3. Go to localhost:3001 to view the web application
 
 ----------------------
 

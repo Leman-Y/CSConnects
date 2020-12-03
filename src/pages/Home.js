@@ -16,10 +16,8 @@ import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import '../styles/Home.scss';
 import {useRouter} from '../util/router.js'
-
-
-
 import Axios from 'axios';
+import { BASE_API_URL } from '../util/constants';
 
 
 
@@ -30,7 +28,7 @@ function HomePage() {
   Axios.defaults.withCredentials = true;
 
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get("http://localhost:3001/login").then((response)=>{
+    Axios.get(`${ BASE_API_URL }/login`).then((response)=>{
       if(response.data.loggedIn == true){
         setRole("Welcome " + response.data.user[0].phoneNum + ". You are a "+ response.data.user[0].role);
       }
