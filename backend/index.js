@@ -11,7 +11,7 @@ require('dotenv').config()
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 8;
 
 const CronJob = require('cron').CronJob;
@@ -50,14 +50,14 @@ app.use(pino);
 
 const db = mysql.createPool({
     host: process.env.HOST,
-    user: process.env.USER,
+    user: process.env.USER1,
     password: process.env.PASSWORD,
     database: process.env.DATABASE
 });
 
 const connection = mysql.createConnection({
     host: process.env.HOST,
-    user: process.env.USER,
+    user: process.env.USER1,
     password: process.env.PASSWORD,
     database: process.env.DATABASE
 });
