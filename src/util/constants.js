@@ -1,1 +1,1 @@
-export const BASE_API_URL = 'huntercsconnects.herokuapp.com';
+export const BASE_API_URL = '';
