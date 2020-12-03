@@ -25,9 +25,10 @@ const path = require('path');
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
-app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
+// app.get('/*', function (req, res) {
+//     //console.log('path', path.join(__dirname, '../build', 'index.html'));
+//     res.sendFile(path.join(__dirname, '../build', 'index.html'));
+// });
 
 
 
