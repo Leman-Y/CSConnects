@@ -319,6 +319,7 @@ export default class DemoApp extends React.Component {
                             events={getAllEventsFromDb}
                             eventClick = {this.handleEventClick}
                             
+                            
                         />
                     </Col>
                     <Col sm={4}>
