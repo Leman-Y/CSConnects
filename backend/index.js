@@ -90,7 +90,7 @@ app.post('/api/messages', (req, res) => {
       res.send(JSON.stringify({ success: true }));
     })
     .catch(err => {
-      //console.log(err);
+      console.log("Error: ",err);
       res.send(JSON.stringify({ success: false }));
     });
 });
@@ -226,7 +226,6 @@ app.post("/api/getFilteredEvent", (req, res) =>{
             var sqlGet = "select hunter_events.event_id, DATE_FORMAT(hunter_events.date, '%Y-%m-%d') as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND (hunter_events.event_type in (" +clubIds +" ) AND hunter_events.event_club in ("+eventTypeIds+"))";
         }
     try{
-        // console.log(sqlGet);
         db.query(sqlGet, (err, result)=>{
             res.send(result);
         });
@@ -299,13 +298,11 @@ app.post('/api/insertEvent', (req,res)=>{
             res.send(result);
         });
 
-        //console.log(sqlInsert);
 
 
     }
     catch(err) {
         console.error(err.message);
-        //console.log("didn't work");
     }
     
 });
@@ -322,17 +319,15 @@ app.post('/api/insertNotification', (req,res)=>{
        // INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`) VALUES ((select user.user_id from `user` where user.phoneNum = "+15166951144"), "+15166951144","3","0")
         var sqlInsert = 'INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`)'; 
         sqlInsert += ' VALUES (' +'(select user.user_id from `user` where user.phoneNum = \"'+phoneNum+'\"),\"' + phoneNum + '\",\"' + eventId + '\",\"' + notification +'\")' ;
-        //console.log("in insertNotification in index.js",sqlInsert);
         db.query(sqlInsert, (err, result)=>{
             res.send(result);
         });
 
-        //console.log(sqlInsert);
 
 
     }
     catch(err) {
-        //console.error(err.message);
+        console.error(err.message);
         //console.log("didn't work");
     }
     
@@ -349,17 +344,15 @@ app.post('/api/toNotify', (req,res)=>{
         const notification = 0;
        // INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`) VALUES ((select user.user_id from `user` where user.phoneNum = "+15166951144"), "+15166951144","3","0")
         var sqlSelect = 'SELECT * FROM `event_notifications` WHERE event_id = \"' + eventId + '\" AND phoneNum = \"' + phoneNum+ '\"'; 
-        //console.log("in toNotify in index.js",sqlSelect);
         db.query(sqlSelect, (err, result)=>{
             res.send(result);
         });
 
-        // console.log(sqlInsert);
 
 
     }
     catch(err) {
-        //console.error(err.message);
+        console.error(err.message);
         //console.log("didn't work");
     }
     
@@ -371,7 +364,6 @@ app.get('/api/getNotifyEvent', (req,res)=>{
         try{
             const phoneNum = req.session.user[0].phoneNum;
             var sqlSelect = 'SELECT * from hunter_events, event_notifications where event_notifications.event_id = hunter_events.event_id AND event_notifications.phoneNum = ' + phoneNum ; 
-            //console.log("in toNotify in index.js",sqlSelect);
             db.query(sqlSelect, (err, result)=>{
                 res.send({loggedIn: true, user: req.session.user, events: result})
                 // res.send(result);
@@ -379,11 +371,9 @@ app.get('/api/getNotifyEvent', (req,res)=>{
     
         }
         catch(err) {
-            //console.error(err.message);
-            console.log("didn't work");
+            console.error(err.message);
         }
         // res.send({loggedIn: true, user: req.session.user});//send an object loggedIn as true, and send user session information
-        // console.log(req.session.user);
     }else{
         res.send({loggedIn: false}); //send object loggedIn as false, don't send user information
     }
@@ -401,12 +391,10 @@ app.post('/api/deleteAdmin', (req,res)=>{
         const notification = 0;
        // INSERT INTO `event_notifications`(`user_id`, `phoneNum`, `event_id`, `notified`) VALUES ((select user.user_id from `user` where user.phoneNum = "+15166951144"), "+15166951144","3","0")
         var sqlSelect = 'DELETE FROM `hunter_events` WHERE event_id = \"' + eventId + '\"'; 
-        // console.log("in deleteAdmin in index.js",sqlSelect);
         db.query(sqlSelect, (err, result)=>{
             res.send(result);
         });
 
-        // console.log(sqlInsert);
 
 
     }
@@ -469,7 +457,6 @@ app.post('/api/insert', (req,res)=>{
 app.get("/login", (req,res)=>{
     if(req.session.user){ //if there already exists a user session
         res.send({loggedIn: true, user: req.session.user});//send an object loggedIn as true, and send user session information
-        // console.log(req.session.user);
     }else{
         res.send({loggedIn: false}); //send object loggedIn as false, don't send user information
     }
@@ -495,7 +482,6 @@ app.post('/login',(req,res)=>{
             bcrypt.compare(userPassword, result[0].password, (error, response) =>{
                 if(response){//if user successfully logins
                     req.session.user = result; //create a session with user information passed into the session variable.
-                    //console.log(req.session.user);
                     res.send(result);
                 }else{
                     res.send({message: "Incorrect phone or password"});
@@ -510,17 +496,14 @@ app.post('/login',(req,res)=>{
 
 /* Twilio text scheduling */
 function updateAppointment(list){
-    //console.log("updating...")
     //update appointment to notified=1
     list=list.join()
     var sql = "UPDATE event_notifications SET notified = 1 WHERE event_id IN ("+list+")"
-    //console.log(sql)
     connection.query(
         sql, 
 
         function(error, results, fields){
             if(!error){
-                //console.log('updated appointmen');
             }
             else{
                 //console.log("Error")
@@ -591,7 +574,7 @@ if(month<10)
 }
 var year = currentDate.getFullYear();
 var total=year+'-'+month+'-'+day
-//console.log(total);
+
 //Schedule tasks to be run on the server.
 //run every day @ 8 am
 var task = cron.schedule('0 9 * * *', ()=>{
@@ -599,8 +582,7 @@ var task = cron.schedule('0 9 * * *', ()=>{
         var returnNum=[]
         var returnEvent=[]
         var sql = "SELECT DISTINCT(event_notifications.phoneNum), hunter_events.event_id FROM event_notifications, hunter_events WHERE DATE(date)= '"+total +"'";
-        //console.log(sql)
-        connection.query(sql, function (err, results) 
+        connection.query(sql, function (err, results)
         {
             
             if(results)
