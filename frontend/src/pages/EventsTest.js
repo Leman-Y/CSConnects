@@ -463,7 +463,7 @@ export default class DemoApp extends React.Component {
 
 
                 </div>
-            <Container className="calendar">
+            <Container className="calendar" style={{backgroundColor:"#f8f9fc"}}>
                 <Row>
                     <Col>
                         <Form className="border border-dark m-2 p-2" onSubmit={this.handleFilterSubmit}>
@@ -502,7 +502,7 @@ export default class DemoApp extends React.Component {
                     <Col sm={4}>
                         {this.state.event ?
                             <React.Fragment>
-                                <Table striped bordered hover responsive="md">
+                                <Table striped bordered  responsive="md" style={{backgroundColor:"#f8f9fc"}}>
                                     <thead>
                                     <tr>
                                         <th colSpan="2">Event Information</th>
@@ -546,10 +546,10 @@ export default class DemoApp extends React.Component {
                                     {/* {this.state.logged===false &&<div>{this.state.notifyMsg}</div>} */}
                                     {
                                         
-                                       (this.state.toNotify === true) ?( <button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
+                                       (this.state.toNotify === true) ?( <button style={{backgroundColor:"purple",borderRadius:"4px",borderColor:"purple", color:"white"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
                                         //: (<div>You will be notified for this event!</div>)
                                     }
-                                    {this.state.role &&<button style={{backgroundColor:"#008CBA",borderRadius:"4px"}} onClick={this.handleDelete}>Delete this event</button>}
+                                    {this.state.role &&<button style={{backgroundColor:"purple",borderRadius:"4px",borderColor:"purple", color:"white"}} onClick={this.handleDelete}>Delete this event</button>}
                                     
                                     {/* <p>{this.state.error_message}</p> */}
                                 
@@ -567,40 +567,45 @@ export default class DemoApp extends React.Component {
                 <React.Fragment>
                     
                     <form onSubmit={this.handleEventSubmit}>
-                        <div className="error_container">
-                            <p style={{color: "black"}}>Panel to insert new events</p>
-                            <p>{this.state.error_message}</p>
-                        </div>
+                     
                     
                     <div className = "admin_container">
-                    
+                   
                             {/* <p>{this.state.club_name}</p>
                             <p>{this.state.date.getFullYear() + "-" + (this.state.date.getMonth()+1) + "-" + this.state.date.getDate()}</p>
                             <p>{this.state.event_type}</p>
                             <p>{this.state.start_time}</p>
                             <p>{this.state.end_time}</p> */}
                             <div className = "admin_left_container">
-                                <Form.Group >
+                            <h1 style={{color: "black"}}>Insert a new event:</h1>
+                            <div className="error_container">
+                            
+                            <p>{this.state.error_message}</p>
+                            
+                        </div>
+                            <Form.Row>
+                                <Col>
                                     <Form.Label>Event Name</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Event Name" onChange={(e)=>{
+                                    <Form.Control type="text" placeholder="Example: Technical Interview Prep" onChange={(e)=>{
                                         this.setState({
                                             event_name: e.target.value
                                         })
                                     }}/>
-                                </Form.Group>
+                                </Col>
 
-                                <Form.Group >
+                                <Col >
                                     <Form.Label>Event Description</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Event Description" onChange={(e)=>{
+                                    <Form.Control type="text" placeholder="Example: We will whiteboard together..." onChange={(e)=>{
                                         this.setState({
                                             event_description: e.target.value
                                         })
                                     }}/>
-                                </Form.Group>
+                                </Col>
+                                </Form.Row>
 
                                 <Form.Group >
                                     <Form.Label>Event Location</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Event Location" onChange={(e)=>{
+                                    <Form.Control type="text" placeholder="Example: Zoom Link " onChange={(e)=>{
                                         this.setState({
                                             event_location: e.target.value
                                         })
@@ -615,12 +620,16 @@ export default class DemoApp extends React.Component {
                                 </div>
 
                                 <div className="event_type_container inner_container">
-                                    <label>What kind of event is this?</label>
+                                    <label>Event Type</label>
                                     <Dropdown className="event_type_dropdown" options={event_types} onChange={event_type=> this.setState({event_type: event_type.value})} value={defaultEventType} placeholder="Select an option" />
                                 </div>
 
+                                <Form.Row>
+                                    <Col>
+                                <Form.Group>
+                               
                                 <div className="date_container inner_container">
-                                    <label>Choose Date of event </label>
+                                    <label>Date of event </label>
                                     <DatePicker 
                                     value={this.state.date} //this is what is inside the input of the date 
                                     // onChange={date => this.setState({date: date})} //when you change the date, update state
@@ -632,32 +641,46 @@ export default class DemoApp extends React.Component {
                                     required
                                     />
                                 </div>
-
+                                </Form.Group>
+                                </Col>
+                                <Col>
+                                <Form.Group>
                                 <div className="time_start_container inner_container">
-                                    <label>What time does the event start? </label>
+                                    <label>Start Time </label>
                                     <TimePicker
                                     onChange={start_time => this.setState({start_time: start_time})}
                                     value={this.state.start_time}
                                     // minTime={new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()}
                                     />
                                 </div>
-
+                                </Form.Group>
+                                </Col>
+                               
+                                <Col>
+                                <Form.Group>
                                 <div className="time_end_container inner_container">
-                                    <label>What time will the event end? </label>
+                                    <label>End Time </label>
                                     <TimePicker
                                     onChange={end_time => this.setState({end_time: end_time})}
                                     value={this.state.end_time}
                                     // minTime={this.state.start_time.getHours() + ':' + this.state.start_time.getMinutes() + ':' + this.state.start_time.getSeconds()}
                                     />
                                 </div>
-                            </div>
+                                </Form.Group>
+                                </Col>
+                                </Form.Row>
+                           
 
 
-                    </div>
+                   <Form.Group>
                     <div className="button-container" >
-                    <Button variant="primary" type="submit" style={{backgroundColor: "purple"}}>
+                    <Button variant="primary" type="submit" style={{backgroundColor: "purple",borderColor:"purple",alignItems:"center",display:"felx",justifyContent:"center"}}>
                         Submit
                     </Button>
+                     </div>
+                     </Form.Group>
+
+                    </div>
                     </div>
                     </form>
                 </React.Fragment>
