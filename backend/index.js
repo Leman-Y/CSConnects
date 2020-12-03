@@ -25,14 +25,6 @@ const path = require('path');
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
-// app.get('/*', function (req, res) {
-//     //console.log('path', path.join(__dirname, '../build', 'index.html'));
-//     res.sendFile(path.join(__dirname, '../build', 'index.html'));
-// });
-
-
-
-
 //Pino logger-tracks each request: https://www.npmjs.com/package/express-pino-logger
 const pino = require('express-pino-logger')();
 const client = require('twilio')(
@@ -635,6 +627,14 @@ app.get('/logout',(req,res)=>{
         console.log("unsuccessful logout");
     }   
 });
+
+// React routing for different pages
+app.get('/*', function (req, res) {
+    //console.log('path', path.join(__dirname, '../build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
+
 
 app.listen(PORT, () =>{
     console.log('running on port 3001');
