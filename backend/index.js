@@ -18,6 +18,13 @@ const CronJob = require('cron').CronJob;
 const cron = require('node-cron');
 var time = require('./time');
 
+const PORT = process.env.PORT || 3001;
+
+const path = require('path');
+
+const buildPath = path.join(__dirname, '..', 'build');
+app.use(express.static(buildPath));
+
 
 
 //Pino logger-tracks each request: https://www.npmjs.com/package/express-pino-logger
@@ -641,7 +648,7 @@ app.get('/logout',(req,res)=>{
     }   
 });
 
-app.listen(3001, () =>{
+app.listen(PORT, () =>{
     console.log('running on port 3001');
  });
 
