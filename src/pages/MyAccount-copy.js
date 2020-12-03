@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation';
 import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import '../styles/MyAccount.css';
+import { BASE_API_URL } from '../util/constants';
 
 import { Button } from 'antd';
 
