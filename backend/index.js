@@ -34,33 +34,33 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
 
-// const db = mysql.createPool({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'capstone' 
-// });
-
-// const connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'capstone' 
-// });
-
 const db = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'capstone' 
 });
 
 const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'capstone' 
 });
+
+// const db = mysql.createPool({
+//     host: process.env.HOST,
+//     user: process.env.USER,
+//     password: process.env.PASSWORD,
+//     database: process.env.DATABASE
+// });
+
+// const connection = mysql.createConnection({
+//     host: process.env.HOST,
+//     user: process.env.USER,
+//     password: process.env.PASSWORD,
+//     database: process.env.DATABASE
+// });
 
 app.use(express.json()); //convert mysql result to json, to make it readable
 app.use(bodyParser.urlencoded({extended: true}));

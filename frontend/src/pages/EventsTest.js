@@ -18,6 +18,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import burger from '../images/burger.svg';
 import Computer from '../images/comp.svg';
 import '../styles/events.css';
+import Card from 'react-bootstrap/Card'
+import Accordion from 'react-bootstrap/Accordion'
 
 
 Axios.defaults.withCredentials = true;
@@ -466,7 +468,14 @@ export default class DemoApp extends React.Component {
             <Container className="calendar" style={{backgroundColor:"#f8f9fc"}}>
                 <Row>
                     <Col>
-                        <Form className="border border-dark m-2 p-2" onSubmit={this.handleFilterSubmit}>
+                    <Accordion>
+                    <Card
+                    border="info"
+                    className="mb-2"
+                    >
+                    <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">Click Here to Filter</Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                        <Form className="border border-light m-2 p-2" onSubmit={this.handleFilterSubmit}>
                             <Form.Label>Club</Form.Label>
                             <div key={`inline-${'checkbox'}`} className="mb-3">
                                 <Form.Check inline label="Hunter ACM" name="HunterACM" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
@@ -490,6 +499,9 @@ export default class DemoApp extends React.Component {
                                 Filter
                             </Button>
                         </Form>
+                        </Accordion.Collapse>
+  </Card>
+  </Accordion>
 
                         <FullCalendar
                             plugins={[ dayGridPlugin, interactionPlugin ]}
@@ -502,6 +514,10 @@ export default class DemoApp extends React.Component {
                     <Col sm={4}>
                         {this.state.event ?
                             <React.Fragment>
+                                <Card
+                    border="info"
+                    className="mb-2"
+                    >
                                 <Table striped bordered  responsive="md" style={{backgroundColor:"#f8f9fc"}}>
                                     <thead>
                                     <tr>
@@ -555,6 +571,7 @@ export default class DemoApp extends React.Component {
                                 
                                    
                                 </Table>
+                                </Card>
                             </React.Fragment>
                             : null}
                     </Col>
@@ -564,11 +581,22 @@ export default class DemoApp extends React.Component {
             </Container>
             </div>
             {this.state.role ?
+            
                 <React.Fragment>
+                    <Accordion>
+                    <Card
+                    border="info"
+                    className="mb-2"
                     
+                    >
+
                     <form onSubmit={this.handleEventSubmit}>
-                     
-                    
+                      <Card.Header>
+                      <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
+                          Click Here to Insert a New Event:</Accordion.Toggle></Card.Header>
+                          
+                          <Accordion.Collapse eventKey="1">
+                          <Card.Body>
                     <div className = "admin_container">
                    
                             {/* <p>{this.state.club_name}</p>
@@ -577,13 +605,14 @@ export default class DemoApp extends React.Component {
                             <p>{this.state.start_time}</p>
                             <p>{this.state.end_time}</p> */}
                             <div className = "admin_left_container">
-                            <h1 style={{color: "black"}}>Insert a new event:</h1>
+                           
                             <div className="error_container">
                             
                             <p>{this.state.error_message}</p>
                             
                         </div>
                             <Form.Row>
+                                
                                 <Col>
                                     <Form.Label>Event Name</Form.Label>
                                     <Form.Control type="text" placeholder="Example: Technical Interview Prep" onChange={(e)=>{
@@ -682,7 +711,14 @@ export default class DemoApp extends React.Component {
 
                     </div>
                     </div>
+                   
+                    
+                    </Card.Body>
+                    </Accordion.Collapse>
                     </form>
+                    
+                    </Card>
+                    </Accordion>
                 </React.Fragment>
             :
                 null
