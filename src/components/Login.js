@@ -4,6 +4,7 @@ import { setUserSession } from '../util/Common';
 import { useRouter } from '../util/router.js';
 import './SignUp.scss';
 import { Button } from 'antd';
+import {BASE_API_URL} from "../util/constants";
 
 function Login(props) {
   const [loggedIn, setLoggedin] = useState(false);
@@ -19,7 +20,7 @@ function Login(props) {
   Axios.defaults.withCredentials = true;
 
   const login = () =>{
-    Axios.post('http://localhost:3001/login', { //makes an API call from the backend server from this specific URL. 
+    Axios.post(`${ BASE_API_URL }/login`, { //makes an API call from the backend server from this specific URL.
       userName: phonenumber, 
       userPassword: password
     }).then((response)=>{
@@ -40,7 +41,7 @@ function Login(props) {
   };
 
   const logout = () =>{
-    Axios.get("http://localhost:3001/logout").then((response)=>{
+    Axios.get(`${ BASE_API_URL }/logout`).then((response)=>{
       if(response.data.loggedIn == false){
         setLoginStatus(null);
         setLoggedin(false);
@@ -51,7 +52,7 @@ function Login(props) {
   };
 
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get("http://localhost:3001/login").then((response)=>{
+    Axios.get(`${ BASE_API_URL }/login`).then((response)=>{
       if(response.data.loggedIn == true){
         router.push("/MyAccount");
       }else{

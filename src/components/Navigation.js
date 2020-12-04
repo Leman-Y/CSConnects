@@ -5,6 +5,7 @@ import facebook from '../images/facebook.svg';
 import insta from '../images/insta.svg';
 import './Navigation.scss';
 // import { useRouter } from '../util/router.js';
+import { BASE_API_URL } from '../util/constants';
 
 
 
@@ -95,7 +96,7 @@ function Navigation(props) {
   const [loggedIn, setLoggedin] = useState(false);
   Axios.defaults.withCredentials = true;
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get("http://localhost:3001/login").then((response)=>{
+    Axios.get(`${ BASE_API_URL }/login`).then((response)=>{
       if(response.data.loggedIn == true){
         //console.log(response);
         setLoggedin(true);
