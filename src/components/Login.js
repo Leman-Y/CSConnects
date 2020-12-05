@@ -20,19 +20,19 @@ function Login(props) {
   Axios.defaults.withCredentials = true;
 
   const login = () =>{
-    Axios.post(`${ BASE_API_URL }/login`, { //makes an API call from the backend server from this specific URL.
+    Axios.post(`${ BASE_API_URL }/loginAuth`, { //makes an API call from the backend server from this specific URL.
       userName: phonenumber, 
       userPassword: password
     }).then((response)=>{
         if(response.data.message){ //if there exist a message (the incorrect phone or number message) then that means the login is incorrect
           setLoginStatus(response.data.message);
-          
         }
        
         else{
           setLoginStatus("You're logged in as " + response.data[0].phoneNum);
           setLoggedin(true);
-          window.location.reload();
+          // window.location.reload();
+          router.push("/MyAccount");
           // router.push("/");
         }
       
@@ -52,7 +52,7 @@ function Login(props) {
   };
 
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get(`${ BASE_API_URL }/login`).then((response)=>{
+    Axios.get(`${ BASE_API_URL }/checkIfLogin`).then((response)=>{
       if(response.data.loggedIn == true){
         router.push("/MyAccount");
       }else{

@@ -452,7 +452,7 @@ app.post('/api/insert', (req,res)=>{
 });
 
 
-app.get("/login", (req,res)=>{
+app.get("/checkIfLogin", (req,res)=>{
     if(req.session.user){ //if there already exists a user session
         res.send({loggedIn: true, user: req.session.user});//send an object loggedIn as true, and send user session information
     }else{
@@ -461,8 +461,9 @@ app.get("/login", (req,res)=>{
 })  
 
 
+
 //handles login authentication
-app.post('/login',(req,res)=>{
+app.post('/loginAuth',(req,res)=>{
     const userName = req.body.userName; 
     const userPassword = req.body.userPassword;
     

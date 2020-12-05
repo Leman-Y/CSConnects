@@ -14,7 +14,7 @@ import { Button } from 'antd';
 
 
 async function checkIfLoggedIn(){
-  const arr =  await Axios.get('http://localhost:3001/login').then((response) =>
+  const arr =  await Axios.get('http://localhost:3001/checkIfLogin').then((response) =>
     response.data
     ).catch(err => {
           console.log(err);
