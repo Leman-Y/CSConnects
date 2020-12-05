@@ -36,7 +36,7 @@ const tabs = [{
 },
 {
   route: "/SignUp",
-  name: "Sign In",
+  name: "Sign Up",
 }]
 
 const tabsLoggedIn = [{
@@ -96,7 +96,7 @@ function Navigation(props) {
   const [loggedIn, setLoggedin] = useState(false);
   Axios.defaults.withCredentials = true;
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get(`${ BASE_API_URL }/login`).then((response)=>{
+    Axios.get(`${ BASE_API_URL }/checkIfLogin`).then((response)=>{
       if(response.data.loggedIn == true){
         //console.log(response);
         setLoggedin(true);

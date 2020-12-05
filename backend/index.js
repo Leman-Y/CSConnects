@@ -361,13 +361,14 @@ app.get('/api/getNotifyEvent', (req,res)=>{
     if(req.session.user){ //if there already exists a user session
         try{
             const phoneNum = req.session.user[0].phoneNum;
-            var sqlSelect = 'SELECT * from hunter_events, event_notifications where event_notifications.event_id = hunter_events.event_id AND event_notifications.phoneNum = ' + phoneNum ; 
+            
+            var sqlSelect = 'select hunter_events.event_id, DATE_FORMAT(hunter_events.date, "%Y-%m-%d") as date, hunter_events.start_time, hunter_events.end_time, hunter_events.event_name, hunter_events.event_description, hunter_events.event_location, event_club.club_name, event_type.keyword_name FROM hunter_events, event_club, event_type, event_notifications where hunter_events.event_club = event_club.club_id AND hunter_events.event_type = event_type.keyword_id AND event_notifications.event_id = hunter_events.event_id AND event_notifications.phoneNum = ' + phoneNum ; 
             db.query(sqlSelect, (err, result)=>{
                 res.send({loggedIn: true, user: req.session.user, events: result})
                 // res.send(result);
             });
-    
         }
+
         catch(err) {
             console.error(err.message);
         }
