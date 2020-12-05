@@ -1,5 +1,5 @@
 # HOW TO RUN
-1. At root folder /CSConnects. Run npm run-script build
+1. At root folder /CSConnects. Run npm run build
 2. Run npm start
 3. Go to localhost:3001 to view the web application
 
