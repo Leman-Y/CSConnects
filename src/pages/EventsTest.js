@@ -108,7 +108,7 @@ export default class DemoApp extends React.Component {
 
     componentDidMount() { //makes it so that as soon as the page loads, run the function below that checks if user is an admin
         //as soon as page runs, check to see if the person is logged in
-        Axios.get(`${BASE_API_URL}/login`).then((response)=>{
+        Axios.get(`${BASE_API_URL}/checkIfLogin`).then((response)=>{
             if(response.data.loggedIn == true){
                 this.setState({
                     logged:true,

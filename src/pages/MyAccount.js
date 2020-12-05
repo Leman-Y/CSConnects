@@ -30,6 +30,10 @@ function MyAccountPage() {
       if(response.data.loggedIn == true){
         setLoginStatus("Welcome " + response.data.user[0].phoneNum + ". You are a "+ response.data.user[0].role);
         setEventNotifyList(response.data.events);
+        setLoggedin(true);
+        console.log(response.data.events);
+      }else{
+        router.push("/login");
       }
     })
   }, []);
@@ -57,10 +61,9 @@ function MyAccountPage() {
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
       </div>
-      <div className="sign-up">
+      <div className="sign-up container-fluid">
         <div className="button-container">
           <h1>{loginStatus}</h1>
-
           {loggedIn ? 
           <React.Fragment>
             <Button type="primary" onClick={logout} >Logout</Button><br />
@@ -71,7 +74,37 @@ function MyAccountPage() {
         </div>
       </div>
       <div className="notify_event_container">
-        <table id="events">
+        <table class="table table-sm table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Event Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Location</th>
+              <th scope="col">Club Hosting</th>
+              <th>event type</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {EventNotifyList.map((val)=>{
+              return (
+              <tr>
+                <td>{val.event_name}</td>
+                <td>{val.event_description}</td>
+                <td>{val.event_location}</td>
+                <td>{val.club_name}</td>
+                <td>{val.keyword_name}</td>
+              </tr>
+              );
+            })
+            }
+          </tbody>
+        </table>
+
+
+
+
+        {/* <table id="events">
           <tr>
             
             <th>event name</th>
@@ -98,7 +131,7 @@ function MyAccountPage() {
             })
             
             }
-        </table>
+        </table> */}
 
       </div>
       
