@@ -9,6 +9,9 @@ import '../styles/MyAccount.css';
 import { BASE_API_URL } from '../util/constants';
 
 import { Button } from 'antd';
+import { Layout } from 'antd';
+import Table from 'react-bootstrap/Table'
+const {  Sider, Content } = Layout;
 
 
 
@@ -28,7 +31,7 @@ function MyAccountPage() {
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
     Axios.get(`${ BASE_API_URL }/api/getNotifyEvent`).then((response)=>{
       if(response.data.loggedIn == true){
-        setLoginStatus("Welcome " + response.data.user[0].phoneNum + ". You are a "+ response.data.user[0].role);
+        setLoginStatus("Welcome, " + response.data.user[0].phoneNum + ". Your role is: "+ response.data.user[0].role);
         setEventNotifyList(response.data.events);
         setLoggedin(true);
         console.log(response.data.events);
@@ -60,28 +63,48 @@ function MyAccountPage() {
     <div>
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
-      </div>
-      <div className="sign-up container-fluid">
-        <div className="button-container">
-          <h1>{loginStatus}</h1>
-          {loggedIn ? 
-          <React.Fragment>
-            <Button type="primary" onClick={logout} >Logout</Button><br />
-          </React.Fragment>
+        {loggedIn ? 
+           <React.Fragment>
+          {/* <Layout> */}
+       
+         
+            {/* <Sider> */}
+            {/* <div className="sign-up" style={{float:"right"}}> */}
+            <div className="button-container" >
+            <Button type="primary" onClick={logout}style={{float:"right", backgroundColor:"purple", borderColor:"purple",borderRadius:"4px",color:"white",marginRight:"12px"}} >Logout</Button>
+            {/* </Sider>  */}
+            
+            {/* </div> */}
+            </div>
+         
+          {/* </Layout> */}
+           </React.Fragment>
+         
           :
           null
           }
-        </div>
       </div>
+      
+      
+      
+        
+        <h3 style={{marginLeft:"15px"}}>{loginStatus}</h3>
+          
+        {/* </div> */}
+     
+     
       <div className="notify_event_container">
-        <table class="table table-sm table-striped">
+        {/* <table class="table table-sm table-striped"> */}
+        <Table responsive striped bordered >
+        <caption style = {{padding:"10px",captionSide:"top", color:"black"}}>You will be notified for the following events: </caption>
           <thead>
+           
             <tr>
-              <th scope="col">Event Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Location</th>
-              <th scope="col">Club Hosting</th>
-              <th>event type</th>
+              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Event Name</th>
+              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Description</th>
+              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Location</th>
+              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Club Hosting</th>
+              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Event Type</th>
             </tr>
           </thead>
           <tbody>
@@ -99,7 +122,7 @@ function MyAccountPage() {
             })
             }
           </tbody>
-        </table>
+        </Table>
 
 
 
