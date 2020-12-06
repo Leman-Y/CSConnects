@@ -81,7 +81,7 @@ app.post('/api/messages', (req, res) => {
     })
     .then(() => {
       res.send(JSON.stringify({ success: true }));
-    })
+    }) 
     .catch(err => {
       //console.log(err);
       res.send(JSON.stringify({ success: false }));

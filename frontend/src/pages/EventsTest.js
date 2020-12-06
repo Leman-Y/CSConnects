@@ -20,6 +20,7 @@ import Computer from '../images/comp.svg';
 import '../styles/events.css';
 import Card from 'react-bootstrap/Card'
 import Accordion from 'react-bootstrap/Accordion'
+import Nav from 'react-bootstrap/Nav'
 
 
 Axios.defaults.withCredentials = true;
@@ -466,15 +467,18 @@ export default class DemoApp extends React.Component {
 
                 </div>
             <Container className="calendar" style={{backgroundColor:"#f8f9fc"}}>
-                <Row>
-                    <Col>
-                    <Accordion>
+                <Row >
+                    <Col >
+                    {/* <Accordion> */}
                     <Card
                     border="info"
                     className="mb-2"
+                    responsive="mb"
+                    // style={{position: "relative"}}
                     >
-                    <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">Click Here to Filter</Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
+                    {/* <Nav className="flex-column"> */}
+                    <Card.Header>Filter</Card.Header>
+                    {/* <Accordion.Collapse eventKey="0"> */}
                         <Form className="border border-light m-2 p-2" onSubmit={this.handleFilterSubmit}>
                             <Form.Label>Club</Form.Label>
                             <div key={`inline-${'checkbox'}`} className="mb-3">
@@ -499,9 +503,10 @@ export default class DemoApp extends React.Component {
                                 Filter
                             </Button>
                         </Form>
-                        </Accordion.Collapse>
-  </Card>
-  </Accordion>
+                        {/* </Nav> */}
+                        {/* </Accordion.Collapse> */}
+ </Card> 
+  {/* </Accordion> */}
 
                         <FullCalendar
                             plugins={[ dayGridPlugin, interactionPlugin ]}
@@ -509,6 +514,7 @@ export default class DemoApp extends React.Component {
                             events={this.state.EventsFromDB}
                             eventClick = {this.handleEventClick}
                             dateClick = {this.handleDateClick}
+                            // style={{float:"right"}}
                         />
                     </Col>
                     <Col sm={4}>
