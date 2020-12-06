@@ -546,10 +546,10 @@ export default class DemoApp extends React.Component {
                                     {/* {this.state.logged===false &&<div>{this.state.notifyMsg}</div>} */}
                                     {
                                         
-                                       (this.state.toNotify === true) ?( <button style={{backgroundColor:"purple",borderRadius:"4px",borderColor:"purple", color:"white"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
+                                       (this.state.toNotify === true) ?( <button style={{backgroundColor:"#A64AC9",borderRadius:"4px",borderColor:"#A64AC9", color:"white"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
                                         //: (<div>You will be notified for this event!</div>)
                                     }
-                                    {this.state.role &&<button style={{backgroundColor:"purple",borderRadius:"4px",borderColor:"purple", color:"white"}} onClick={this.handleDelete}>Delete this event</button>}
+                                    {this.state.role &&<button style={{backgroundColor:"#A64AC9",borderRadius:"4px",borderColor:"#A64AC9", color:"white"}} onClick={this.handleDelete}>Delete this event</button>}
                                     
                                     {/* <p>{this.state.error_message}</p> */}
                                 
@@ -674,7 +674,7 @@ export default class DemoApp extends React.Component {
 
                    <Form.Group>
                     <div className="button-container" >
-                    <Button variant="primary" type="submit" style={{backgroundColor: "purple",borderColor:"purple",alignItems:"center",display:"felx",justifyContent:"center"}}>
+                    <Button variant="primary" type="submit" style={{backgroundColor: "#A64AC9",borderColor:"#A64AC9",alignItems:"center",display:"felx",justifyContent:"center"}}>
                         Submit
                     </Button>
                      </div>

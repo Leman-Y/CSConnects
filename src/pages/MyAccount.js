@@ -31,7 +31,7 @@ function MyAccountPage() {
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
     Axios.get(`${ BASE_API_URL }/api/getNotifyEvent`).then((response)=>{
       if(response.data.loggedIn == true){
-        setLoginStatus("Welcome, " + response.data.user[0].phoneNum + ". Your role is: "+ response.data.user[0].role);
+        setLoginStatus("Your phone number is: " + response.data.user[0].phoneNum + ". Your role is: "+ response.data.user[0].role);
         setEventNotifyList(response.data.events);
         setLoggedin(true);
         console.log(response.data.events);
@@ -63,6 +63,8 @@ function MyAccountPage() {
     <div>
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
+        <h1>My Account Information</h1>
+        
         {loggedIn ? 
            <React.Fragment>
           {/* <Layout> */}
@@ -71,7 +73,7 @@ function MyAccountPage() {
             {/* <Sider> */}
             {/* <div className="sign-up" style={{float:"right"}}> */}
             <div className="button-container" >
-            <Button type="primary" onClick={logout}style={{float:"right", backgroundColor:"purple", borderColor:"purple",borderRadius:"4px",color:"white",marginRight:"12px"}} >Logout</Button>
+            <Button type="primary" onClick={logout}style={{float:"right", backgroundColor:"#A64AC9", borderColor:"#A64AC9",borderRadius:"4px",color:"white",marginRight:"12px"}} >Logout</Button>
             {/* </Sider>  */}
             
             {/* </div> */}
@@ -88,7 +90,7 @@ function MyAccountPage() {
       
       
         
-        <h3 style={{marginLeft:"15px"}}>{loginStatus}</h3>
+        <h5 style={{marginLeft:"15px"}}>{loginStatus}</h5>
           
         {/* </div> */}
      
@@ -100,11 +102,11 @@ function MyAccountPage() {
           <thead>
            
             <tr>
-              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Event Name</th>
-              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Description</th>
-              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Location</th>
-              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Club Hosting</th>
-              <th scope="col" style={{backgroundColor:"purple", color:"white"}}>Event Type</th>
+              <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Event Name</th>
+              <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Description</th>
+              <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Location</th>
+              <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Club Hosting</th>
+              <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Event Type</th>
             </tr>
           </thead>
           <tbody>
