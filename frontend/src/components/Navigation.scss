@@ -95,21 +95,19 @@
     text-align: center;
     font-size: 1.5rem;
     z-index: 3;
-    // margin: 5em 0 100% 0;
+    margin: 3em 0em;
   }
   .nav-container.responsive .icon{
-    // position: relative;
     float: right;
     background-color: $bgcolor;
     z-index: 2;
+  }
+  .nav-container.responsive .left-container{
+    margin: 0.8em 0em;
   }
   .nav-container.responsive div{
     float: none;
     display: block;
     background-color: $bgcolor;
   }
-  .nav-container.responsive>.left-container>.site-title{
-    // margin: 1em 0em;
-  }
-
 }
