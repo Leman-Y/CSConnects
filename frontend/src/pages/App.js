@@ -10,6 +10,11 @@ import ContactPage from './Contact';
 import SignUpPage from './SignUp';
 import LoginPage from './Login';
 import EventsTestPage from './EventsTest';
+import WicsPage from './Wics';
+import AcmPage from './Acm';
+import OscPage from './Osc';
+import DscPage from './Dsc';
+import ClubsPage from './Clubs';
 
 function App(){
   return(
@@ -25,6 +30,11 @@ function App(){
         <Route exact path="/SignUp" component={SignUpPage}/>
         <Route exact path="/Login" component={LoginPage}/>
         <Route exact path="/EventsTest" component={EventsTestPage}/>
+        <Route exact path="/Wics" component={WicsPage}/>
+        <Route exact path="/Acm" component={AcmPage}/>
+        <Route exact path="/Osc" component={OscPage}/>
+        <Route exact path="/Dsc" component={DscPage}/>
+        <Route exact path="/Clubs" component={ClubsPage}/>
       </Switch>
     </Router>
 

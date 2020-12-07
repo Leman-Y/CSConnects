@@ -1,0 +1,28 @@
+@import '../styles/themes.scss';
+
+.link-wrapper{
+  display: flex;
+  justify-content: center;
+  *{
+    box-sizing: content-box;
+    margin:0.5em;
+
+    a{
+      margin:5em;
+    }
+    img{
+      width: 2.5em;
+    }
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .link-wrapper{
+    *{
+      margin:0em;
+      a{
+        margin: 0.2em;
+      }
+    }
+  }
+}
