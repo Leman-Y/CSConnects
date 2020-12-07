@@ -43,10 +43,10 @@ const tabsLoggedIn = [{
   route: "/",
   name: "Home",
 },
-{
-  route: "/TwilioForm",
-  name: "TwilioForm"
-},
+// {
+//   route: "/TwilioForm",
+//   name: "TwilioForm"
+// },
 {
   route: "/EventsTest",
   name: "Events",

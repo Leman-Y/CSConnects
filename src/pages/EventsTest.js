@@ -19,6 +19,9 @@ import burger from '../images/burger.svg';
 import Computer from '../images/comp.svg';
 import '../styles/events.css';
 import { BASE_API_URL } from '../util/constants';
+import Card from 'react-bootstrap/Card'
+import Accordion from 'react-bootstrap/Accordion'
+import Nav from 'react-bootstrap/Nav'
 
 Axios.defaults.withCredentials = true;
 /*
@@ -466,7 +469,13 @@ export default class DemoApp extends React.Component {
             <Container className="calendar" style={{backgroundColor:"#f8f9fc"}}>
                 <Row>
                     <Col>
-                        <Form className="border border-dark m-2 p-2" onSubmit={this.handleFilterSubmit}>
+                    <Card
+                    border="info"
+                    className="mb-2"
+                    responsive="mb"
+                    >
+                    <Card.Header>Filter</Card.Header>
+                        <Form className="border border-light m-2 p-2" onSubmit={this.handleFilterSubmit}>
                             <Form.Label>Club</Form.Label>
                             <div key={`inline-${'checkbox'}`} className="mb-3">
                                 <Form.Check inline label="Hunter ACM" name="HunterACM" type={'checkbox'} id={`inline-${'checkbox'}-1`} />
@@ -490,7 +499,7 @@ export default class DemoApp extends React.Component {
                                 Filter
                             </Button>
                         </Form>
-
+                        </Card> 
                         <FullCalendar
                             plugins={[ dayGridPlugin, interactionPlugin ]}
                             initialView="dayGridMonth"
@@ -502,6 +511,10 @@ export default class DemoApp extends React.Component {
                     <Col sm={4}>
                         {this.state.event ?
                             <React.Fragment>
+                                <Card
+                                border="info"
+                                className="mb-2"
+                                >
                                 <Table striped bordered  responsive="md" style={{backgroundColor:"#f8f9fc"}}>
                                     <thead>
                                     <tr>
@@ -546,15 +559,16 @@ export default class DemoApp extends React.Component {
                                     {/* {this.state.logged===false &&<div>{this.state.notifyMsg}</div>} */}
                                     {
                                         
-                                       (this.state.toNotify === true) ?( <button style={{backgroundColor:"#A64AC9",borderRadius:"4px",borderColor:"#A64AC9", color:"white"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div>{this.state.notifyMsg}</div>)
+                                       (this.state.toNotify === true) ?( <button style={{backgroundColor:"#A64AC9",borderRadius:"4px",borderColor:"#A64AC9", color:"white",margin:"10px"}} onClick={this.handleNotifyClick}>Notify Me!</button>):(<div style={{color:"#A64AC9"}}>{this.state.notifyMsg}</div>)
                                         //: (<div>You will be notified for this event!</div>)
                                     }
-                                    {this.state.role &&<button style={{backgroundColor:"#A64AC9",borderRadius:"4px",borderColor:"#A64AC9", color:"white"}} onClick={this.handleDelete}>Delete this event</button>}
+                                    {this.state.role &&<button style={{backgroundColor:"#A64AC9",borderRadius:"4px",borderColor:"#A64AC9", color:"white",margin:"10px"}} onClick={this.handleDelete}>Delete this event</button>}
                                     
                                     {/* <p>{this.state.error_message}</p> */}
                                 
                                    
                                 </Table>
+                                </Card>
                             </React.Fragment>
                             : null}
                     </Col>
@@ -565,9 +579,19 @@ export default class DemoApp extends React.Component {
             </div>
             {this.state.role ?
                 <React.Fragment>
+                <Accordion>
+                <Card
+                border="info"
+                className="mb-2"
+                >
                     
                     <form onSubmit={this.handleEventSubmit}>
-                     
+                    <Card.Header>
+                      <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
+                          Click Here to Insert a New Event:</Accordion.Toggle></Card.Header>
+                          
+                          <Accordion.Collapse eventKey="1">
+                          <Card.Body>
                     
                     <div className = "admin_container">
                    
@@ -577,7 +601,7 @@ export default class DemoApp extends React.Component {
                             <p>{this.state.start_time}</p>
                             <p>{this.state.end_time}</p> */}
                             <div className = "admin_left_container">
-                            <h1 style={{color: "black"}}>Insert a new event:</h1>
+                            
                             <div className="error_container">
                             
                             <p>{this.state.error_message}</p>
@@ -682,7 +706,11 @@ export default class DemoApp extends React.Component {
 
                     </div>
                     </div>
+                    </Card.Body>
+                    </Accordion.Collapse>
                     </form>
+                    </Card>
+                    </Accordion>
                 </React.Fragment>
             :
                 null
