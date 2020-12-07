@@ -87,10 +87,10 @@ function Login(props) {
         } 
         
       </div>
-
+      <h1 className="login_error_message">{loginStatus}</h1>
 
       <div className="button-container">
-        <h1>{loginStatus}</h1>
+        
         {loggedIn ? 
         <React.Fragment>
           <Button type="primary" onClick={logout} >Logout</Button><br />
