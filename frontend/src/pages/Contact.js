@@ -5,6 +5,7 @@ import burger from '../images/burger.svg';
 import '../styles/Home.scss';
 import '../styles/themes.scss';
 import SmallSection from '../components/SmallSection';
+import '../styles/contact.scss';
 
 function ContactPage() {
   return (
@@ -12,10 +13,29 @@ function ContactPage() {
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
       </div>
-      <header className="App-header">
-        <SmallSection title = "Contact Us" about = "csconnects@gmail.com"/>
-      
-      </header>
+      <div className="contact-container">
+        <SmallSection title="Contact Us" about="Email us with any questions, concerns or suggestions. We'll get back to you as soon as possible!"></SmallSection>
+        <form action="https://formspree.io/f/xgepnelk" method="POST">
+          <div class="form-group row">
+            <div class="col-md-6">
+                <input class="form-control" type="text" name="name" placeholder="Name" required></input>
+            </div>
+
+            <div class="col-md-6">
+                <input class="form-control" type="email" name="_replyto" placeholder="E-mail Address" required></input>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input class="form-control" type="text" name="subject" placeholder="Subject" required></input>
+          </div>
+
+          <textarea rows="8" class="form-control mb-3" name="message" placeholder="Message" required></textarea>
+
+          <input class="btn btn-success" type="submit" value="Send"></input>
+
+        </form>
+      </div>
     </div>
   );
 }

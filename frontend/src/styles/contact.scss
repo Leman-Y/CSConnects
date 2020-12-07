@@ -1,0 +1,18 @@
+@import './themes.scss';
+input[type=submit]{
+  background-color:$purple;
+  border: none;
+  color: white;
+  cursor: pointer;
+  &:hover{
+    background-color: $lightPurple;
+  }
+}
+
+.contact-container{
+  margin: 2em;
+
+  form{
+    margin-top: 1em;
+  }
+}
