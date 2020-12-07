@@ -31,7 +31,11 @@ function MyAccountPage() {
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
     Axios.get(`${ BASE_API_URL }/api/getNotifyEvent`).then((response)=>{
       if(response.data.loggedIn == true){
-        setLoginStatus("Your phone number is: " + response.data.user[0].phoneNum + ". Your role is: "+ response.data.user[0].role);
+        if(response.data.user[0].role == 'admin'){
+          setLoginStatus("Your phone number is: " + response.data.user[0].phoneNum + ". Your role is: "+ response.data.user[0].role);
+        }else{
+          setLoginStatus("Your phone number is: " + response.data.user[0].phoneNum);
+        }
         setEventNotifyList(response.data.events);
         setLoggedin(true);
         console.log(response.data.events);
@@ -63,7 +67,7 @@ function MyAccountPage() {
     <div>
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
-        <h1>My Account Information</h1>
+        <h1 className="account_information_text">My Account Information</h1>
         
         {loggedIn ? 
            <React.Fragment>
@@ -90,23 +94,25 @@ function MyAccountPage() {
       
       
         
-        <h5 style={{marginLeft:"15px"}}>{loginStatus}</h5>
+        <h5 style={{marginLeft:"11px"}}>{loginStatus}</h5>
           
         {/* </div> */}
      
      
-      <div className="notify_event_container">
+      <div className="notify_event_container" style={{margin:"15px"}}>
         {/* <table class="table table-sm table-striped"> */}
         <Table responsive striped bordered >
-        <caption style = {{padding:"10px",captionSide:"top", color:"black"}}>You will be notified for the following events: </caption>
+        <caption style = {{marginLeft:"15px",captionSide:"top", color:"black"}}>You will be notified for the following events: </caption>
           <thead>
-           
             <tr>
               <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Event Name</th>
               <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Description</th>
               <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Location</th>
               <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Club Hosting</th>
               <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Event Type</th>
+              <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Date of event</th>
+              <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Event start time</th>
+              <th scope="col" style={{backgroundColor:"#A64AC9", color:"white"}}>Event end time</th>
             </tr>
           </thead>
           <tbody>
@@ -119,10 +125,13 @@ function MyAccountPage() {
                 <td>{val.event_location}</td>
                 <td>{val.club_name}</td>
                 <td>{val.keyword_name}</td>
+                <td>{val.date}</td>
+                <td>{val.start_time}</td>
+                <td>{val.end_time}</td>
               </tr>
               );
             })
-            }
+          }
           </tbody>
         </Table>
 
