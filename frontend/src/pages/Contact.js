@@ -6,6 +6,7 @@ import '../styles/Home.scss';
 import '../styles/themes.scss';
 import SmallSection from '../components/SmallSection';
 import '../styles/contact.scss';
+import Contact from '../components/Contact';
 
 function ContactPage() {
   return (
@@ -15,7 +16,8 @@ function ContactPage() {
       </div>
       <div className="contact-container">
         <SmallSection title="Contact Us" about="Email us with any questions, concerns or suggestions. We'll get back to you as soon as possible!"></SmallSection>
-        <form action="https://formspree.io/f/xgepnelk" method="POST">
+        <Contact/>
+        {/* <form action="https://formspree.io/f/xgepnelk" method="POST">
           <div class="form-group row">
             <div class="col-md-6">
                 <input class="form-control" type="text" name="name" placeholder="Name" required></input>
@@ -34,7 +36,7 @@ function ContactPage() {
 
           <input class="btn btn-success" type="submit" value="Send"></input>
 
-        </form>
+        </form> */}
       </div>
     </div>
   );
