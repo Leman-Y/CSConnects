@@ -15,6 +15,7 @@ import AcmPage from './Acm';
 import OscPage from './Osc';
 import DscPage from './Dsc';
 import ClubsPage from './Clubs';
+import MyAccount from './MyAccount';
 
 function App(){
   return(
@@ -35,6 +36,8 @@ function App(){
         <Route exact path="/Osc" component={OscPage}/>
         <Route exact path="/Dsc" component={DscPage}/>
         <Route exact path="/Clubs" component={ClubsPage}/>
+        <Route exact path="/MyAccount" component={MyAccount}/>
+        
       </Switch>
     </Router>
 
