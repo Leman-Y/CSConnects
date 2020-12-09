@@ -5,7 +5,7 @@ import burger from '../images/burger.svg';
 import osc from '../images/osc.png';
 import ClubPages from '../components/ClubPages';
 import Icon from '../components/Icon';
-import LinkContainer from '../components/linkContainer';
+import LinkContainer from '../components/LinkContainer';
 import facebook from '../images/facebook.svg';
 import github from '../images/github.svg';
 import website from '../images/code.svg';

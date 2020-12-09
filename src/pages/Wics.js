@@ -5,7 +5,7 @@ import burger from '../images/burger.svg';
 import wics from '../images/wics.jpg';
 import ClubPages from '../components/ClubPages';
 import Icon from '../components/Icon';
-import LinkContainer from '../components/linkContainer';
+import LinkContainer from '../components/LinkContainer';
 import facebook from '../images/facebook.svg';
 import slack from '../images/slack.svg';
 import discord from '../images/discord.svg';
