@@ -25,14 +25,21 @@ const path = require('path');
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
+
+
+
 //Pino logger-tracks each request: https://www.npmjs.com/package/express-pino-logger
 const pino = require('express-pino-logger')();
 const client = require('twilio')(
-    //TWILIO_ACCOUNT_SID,
-    //TWILIO_AUTH_TOKEN
     process.env.TWILIO_ACCOUNT_SID,
     process.env.TWILIO_AUTH_TOKEN
   );
+
+
+
+
+
+
   const service = client.notify.services(process.env.TWILIO_NOTIFY_SERVICE_SID);
 //const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -70,6 +77,10 @@ const connection = mysql.createConnection({
 app.use(express.json()); //convert mysql result to json, to make it readable
 app.use(bodyParser.urlencoded({extended: true}));
 
+
+
+
+
 app.get('/api/greeting', (req, res) => {
     const name = req.query.name || 'World';
     res.setHeader('Content-Type', 'application/json');
@@ -92,6 +103,10 @@ app.post('/api/messages', (req, res) => {
       res.send(JSON.stringify({ success: false }));
     });
 });
+
+
+
+
 //get all events
 // app.use(cors({
 //     origin: ["http://localhost:3000"], //put the URL of what we want the session to work on. may have to change when deploying
@@ -513,16 +528,14 @@ function updateAppointment(list){
 }
 
 function sendNotification(arr){
-    //console.log("sending message", arr)
-    return;
-    //##
+   
 //     const bindings = arr.map(number => {
 //         return JSON.stringify({ binding_type: 'sms', address: number });
 //       });
 //       service.notifications
 //   .create({
 //         toBinding: bindings,
-//         body: "hello, friend. You have an event coming up."
+//         body: "Hello! You have an event coming up. Log into your CSConnects account here: http://huntercsconnects.herokuapp.com/"
 //   })
 //   .then(notification => {
 //         console.log("notification!!",notification);
@@ -530,35 +543,12 @@ function sendNotification(arr){
 //   .catch(err => {
 //         console.error(err);
 //   });
-//##
-    // Promise.all(
-    //     arr.map(number => {
-    //       return client.messages.create({
-    //         from: process.env.TWILIO_MESSAGING_SERVICE_SID,
-    //         to: number,
-    //         body: "hello, friend. You have an event coming up."
-    //       });
-    //     })
-    //   )
-    //     .then(messages => {
-    //       console.log('Messages sent!',messages);
-    //     })
-    //     .catch(err => console.error(err));
-    //###
-//    for(each in arr){
-//         console.log("num",arr[each])
-//         client.messages
-//         .create({
-//           from: process.env.TWILIO_PHONE_NUMBER,
-//           to: arr[each],
-//           body: "hiii! Please work! Testing take 2",
-         
-   
-  
-//    });
-   //console.log("send for ", each)
-   
-//}
+
+// }
+
+return;
+
+
 
 }
 var currentDate = new Date();

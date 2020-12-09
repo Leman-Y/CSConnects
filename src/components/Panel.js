@@ -18,8 +18,10 @@ const Panel = (props) =>{
           <div className="panel-title">
             {props.title}
           </div>
-          <img className="panel-icon" alt= "drop down menu" src={props.icon} onClick={() => OpenPanel(props.id)}>
-          </img>
+          <div className="panel-icon">
+            <img alt= "drop down menu" src={props.icon} onClick={() => OpenPanel(props.id)}>
+            </img>
+          </div>
         </div>
         <div id={props.id} className="panel-children">
           <hr className="panel-cut"></hr>

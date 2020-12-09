@@ -1,3 +1,4 @@
+@import '../styles/themes.scss';
 .icon-container{
   display: grid;
   place-items: center;
@@ -8,5 +9,10 @@
   .icon-img{
     width: 4em;
     padding: 1em;
+  }
+}
+.link-wrapper{
+  .icon-des{
+    margin: 0em;
   }
 }
