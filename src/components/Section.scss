@@ -4,9 +4,6 @@
   font-family: 'Barlow', sans-serif;
   text-align: center;
   line-height: 200%;
-  background-color: $gold;
-  min-height: 100vh;
-  overflow: hidden;
 
   .section-title{
     font-size: 1.5rem;
@@ -30,11 +27,17 @@
   }
   .section-bottom{
     background-color: $gold;
+    min-height: 25vh;
   }
   .section-top, .section-bottom{
     padding: 1.5em;
     display: grid;
     place-items: center;
+  }
+
+  .about-page{
+    background-color: $gold;
+    min-height: 100vh;
   }
 }
 
