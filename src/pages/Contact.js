@@ -5,6 +5,8 @@ import burger from '../images/burger.svg';
 import '../styles/Home.scss';
 import '../styles/themes.scss';
 import SmallSection from '../components/SmallSection';
+import '../styles/contact.scss';
+import Contact from '../components/Contact';
 
 function ContactPage() {
   return (
@@ -12,10 +14,10 @@ function ContactPage() {
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
       </div>
-      <header className="App-header">
-        <SmallSection title = "Contact Us" about = "csconnects@gmail.com"/>
-      
-      </header>
+      <div className="contact-container">
+        <SmallSection title="Contact Us" about="Email us with any questions, concerns or suggestions. We'll get back to you as soon as possible!"></SmallSection>
+        <Contact/>
+      </div>
     </div>
   );
 }

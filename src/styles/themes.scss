@@ -9,11 +9,39 @@ $white: #F8F9FC;
 
 #root{
   background-color: $bgcolor;
+  font-family: 'Barlow', sans-serif;
 }
 .App{
   background-color: $bgcolor;
 }
-
+ul {
+  font-family: 'Barlow', sans-serif;
+  font-size: 1.2rem;
+  list-style: none;
+  margin: 1em;
+  padding: 0;
+  
+  li {
+    margin: 0;
+    margin-bottom: 0.5em;
+    padding-left: 1em;
+    position: relative;
+    
+    &:after {
+      content: '';
+      height: .4em;
+      width: .4em;
+      background: $purple;
+      display: block;
+      position: absolute;
+      transform: rotate(45deg);
+      top: 0.5em;
+      left: 0;
+    }
+    
+  }
+  
+}
 :export{
   black: $black;
   grey: $grey;

@@ -3,11 +3,10 @@
   display: grid;
   place-items: center;
   font-size: 1rem;
-  margin: 5em;
+  margin: 2em;
   white-space: nowrap;
   
   .button-container{
-    // width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,4 +41,15 @@
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 15px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .sign-up{
+    .sign-inputs{
+      display: flex;
+      padding:0.5em;
+      max-width:100%;
+      min-width: 12em;
+    }
+  }
 }

@@ -9,7 +9,6 @@
   font-size:1rem;
   box-sizing: content-box;
   margin: 0.5em;
-  // width: 80%;
 
   .panel-title{
     padding:1em;
@@ -20,22 +19,17 @@
     display: none;
   }
   .panel-children.shown{
-    // display:block;
     display: grid;
     place-items: center;
   }
   .panel-icon{
     width: 0.75em;
+    display: grid;
+    place-items: center;
   }
   .accordian{
     display: flex;
-    // width: 50%;
-    // white-space: nowrap;
-    // justify-content: space-between;
   }
-  // .accordian>.panel-icon{
-  //   float:right;
-  // }
   .panel-cut{
     margin: 0em 1em 1em 1em;
     width: 120%;

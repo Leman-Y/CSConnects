@@ -1,7 +1,6 @@
 import React, {useState , useEffect, Component}from 'react';
 import Axios from 'axios'; //using axios to do api calls
 import Navigation from '../components/Navigation';
-import EventCard from '../components/EventCard';
 import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import acm from '../images/acm.png';

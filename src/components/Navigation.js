@@ -4,10 +4,7 @@ import { NavLink, Link} from 'react-router-dom';
 import facebook from '../images/facebook.svg';
 import insta from '../images/insta.svg';
 import './Navigation.scss';
-// import { useRouter } from '../util/router.js';
 import { BASE_API_URL } from '../util/constants';
-
-
 
 
 const tabs = [{
@@ -59,17 +56,6 @@ const tabsLoggedIn = [{
   route: "/MyAccount",
   name: "My Account",
 }]
-const socials = [
-{
-  link: "https://www.facebook.com/groups/HunterWomenInCS",
-  icon: facebook,
-},
-{
-  link: "https://hunterwics.github.io/",
-  icon: insta,
-}
-]
-
 
 
 function Burger() {
@@ -105,14 +91,14 @@ function Navigation(props) {
     <div className="line-container">
       <div className="nav-line"></div>
     </div>
-    <a href="/" className="home-icon">
     <div className="left-container" onClick={props.onclick}>
-        <img className="title-icon" src={props.icon}/>
-        <div className="site-title">{props.name}</div>
+          <a href="/" className="home-icon">
+          <img className="title-icon" src={props.icon}/>
+          <div className="site-title">{props.name}</div>
+        </a>
     </div>
-    </a>
     <a href="javascript:void(0);" className="icon" onClick={() => Burger()}>
-      <img src={props.burger}/>
+      <img alt="navigation pop up" src={props.burger}/>
     </a>
     <div className="link-container">
       {loggedIn ?
@@ -135,16 +121,6 @@ function Navigation(props) {
             </div>
           ))
           
-      }
-
-      {
-      socials.map((socials, index) =>(
-        <div className="navigation" key={`tab-${index}`}>
-          <Link to={{ pathname: socials.link }} target="_blank" >
-        {/* <img src ={socials.icon}/> */}
-          </Link>
-        </div>
-      ))
       }
     </div>
   </nav>
