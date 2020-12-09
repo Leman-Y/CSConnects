@@ -32,9 +32,9 @@ function MyAccountPage() {
     Axios.get(`${ BASE_API_URL }/api/getNotifyEvent`).then((response)=>{
       if(response.data.loggedIn == true){
         if(response.data.user[0].role == 'admin'){
-          setLoginStatus("Your phone number is: " + response.data.user[0].phoneNum + ". Your role is: "+ response.data.user[0].role);
+          setLoginStatus("Your phone number is: " + response.data.user[0].phoneNum.substring(2) + ". Your role is: "+ response.data.user[0].role);
         }else{
-          setLoginStatus("Your phone number is: " + response.data.user[0].phoneNum);
+          setLoginStatus("Your phone number is: " + response.data.user[0].phoneNum.substring(2));
         }
         setEventNotifyList(response.data.events);
         setLoggedin(true);
