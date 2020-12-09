@@ -1,0 +1,50 @@
+@import '../styles/themes.scss';
+
+.cp-container{
+  margin: 2em 1em;
+  .cp-flex{
+    display: flex;
+    margin: 1em;
+
+    .club-logo{
+      margin-right: 1em;
+    }
+    .club-logo>img{
+      height:10em;
+      width: 12em;
+      border-radius:15%;
+    }
+    .club-info{
+      width: 100%;
+      margin: 0em 1em;
+    }
+  }
+  hr{
+    width:90%;
+    margin-left:0;
+  }
+  h4{
+    color: $purple;
+    font-family: 'Barlow', sans-serif;
+    font-size: 1.2rem;
+  }
+}
+.club-links{
+  margin:1em;
+}
+
+
+@media only screen and (max-width: 1024px) {
+  .cp-container{
+  .cp-flex{
+    flex-direction: column;
+    .club-info{
+      margin: 1em 0em;
+    }
+  }
+  .club-logo{
+    margin-bottom: 1em;
+  }
+}
+
+}

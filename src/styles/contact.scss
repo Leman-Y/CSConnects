@@ -1,0 +1,26 @@
+@import './themes.scss';
+input[type=submit]{
+  background-color:$purple;
+  border: none;
+  color: white;
+  cursor: pointer;
+  &:hover{
+    background-color: $lightPurple;
+  }
+}
+
+.contact-container{
+  margin: 2em;
+  form{
+    margin-top: 1em;
+  }
+  .section-container>.section-title>a{
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  input[type=submit]{
+    font-size: 1.2rem;
+  }
+}

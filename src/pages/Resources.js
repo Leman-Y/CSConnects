@@ -4,9 +4,8 @@ import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import SmallSection from '../components/SmallSection';
 import Panel from '../components/Panel';
-import IconContainer from '../components/IconContainer';
 import plus from '../images/plus.svg';
-import '../styles/Home.scss';
+import '../styles/resources.scss';
 import '../styles/themes.scss';
 
 function ResourcesPage() {
@@ -15,8 +14,9 @@ function ResourcesPage() {
       <div className="NavBar">
         <Navigation icon={Computer} name="CSConnects" burger={burger}/>
       </div>
-      {/* <IconContainer title="Computer Science Resources"/> */}
-      <h4 style={{display:'grid',placeItems:'center', margin:'1em'}}>Computer Science Resources</h4>
+      <div className="resource-title">
+        <h4>Computer Science Resources</h4>
+      </div>
       <Panel title="Internships & Jobs" icon={plus} id="1">
         <SmallSection title="Angel" link="https://angel.co/jobs?ref=onboarding"
         about="Startups nationwide"/>
