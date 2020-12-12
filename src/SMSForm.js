@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navigation from './components/Navigation'
 import './components/SignUp.scss';
 import { Button } from 'antd';
-
+import {BASE_API_URL} from "./util/constants";
 
 import Computer from './images/comp.svg';
 import burger from './images/burger.svg';
@@ -27,7 +27,7 @@ class SMSForm extends Component {
     onSubmit(event) {
         event.preventDefault();
         this.setState({ submitting: true });
-        fetch('http://localhost:3001/api/messages', {
+        fetch(`${ BASE_API_URL }/api/messages`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

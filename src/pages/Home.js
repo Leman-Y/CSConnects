@@ -14,6 +14,7 @@ import IconContainer from '../components/IconContainer';
 import Computer from '../images/comp.svg';
 import burger from '../images/burger.svg';
 import '../styles/Home.scss';
+import {BASE_API_URL} from "../util/constants";
 import Axios from 'axios';
 
 
@@ -24,7 +25,7 @@ function HomePage() {
   Axios.defaults.withCredentials = true;
 
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get("http://localhost:3001/login").then((response)=>{
+    Axios.get(`${ BASE_API_URL }/checkIfLogin``${ BASE_API_URL }/checkIfLogin`).then((response)=>{
       if(response.data.loggedIn === true){
         setRole("Welcome " + response.data.user[0].phoneNum + ". You are a "+ response.data.user[0].role);
       }
