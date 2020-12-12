@@ -165,7 +165,6 @@ app.post('/api/insert', (req,res)=>{
                 if(result.length > 0){
                     res.send({message: "That number is already registered"});
                 }else{
-                    res.send({message: "That number is valid inserting.."});
                         //hashes the password that the user inputted
                             bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
 
