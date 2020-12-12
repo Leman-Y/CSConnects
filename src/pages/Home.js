@@ -25,7 +25,7 @@ function HomePage() {
   Axios.defaults.withCredentials = true;
 
   useEffect(()=>{ //everytime the page loads or refreshes, this useEffect will occur
-    Axios.get(`${ BASE_API_URL }/checkIfLogin``${ BASE_API_URL }/checkIfLogin`).then((response)=>{
+    Axios.get(`${ BASE_API_URL }/checkIfLogin`).then((response)=>{
       if(response.data.loggedIn === true){
         setRole("Welcome " + response.data.user[0].phoneNum + ". You are a "+ response.data.user[0].role);
       }
