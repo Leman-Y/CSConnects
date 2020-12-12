@@ -3,6 +3,7 @@ import Axios from 'axios'; //using axios to do api calls
 import { Router, useRouter } from '../util/router';
 import './SignUp.scss';
 import { Button } from 'antd';
+import {BASE_API_URL} from "../util/constants";
 
 function SignUp() {
 
@@ -10,18 +11,13 @@ function SignUp() {
   const [userName, setUsername] = useState("");
   const [userPassword, setPassword] = useState("");
   const [userRole, setRole] = useState("user");
-  const [userNameList, setuserNameList] = useState([]);
 
   const [signupStatus, setsignupStatus] = useState("");
 
   Axios.defaults.withCredentials = true;
   
 
-  useEffect(()=>{
-    Axios.get('http://localhost:3001/api/get').then((response)=>{
-      setuserNameList(response.data);
-    })
-  }, [])
+
 
   //function gets called when user clicks submit.
   function validate(phone) {
@@ -42,13 +38,16 @@ function SignUp() {
       alert("please input a phone number (with your 3 digit area code as a header) in the form 5166951142")
     }
     else{
-    Axios.post('http://localhost:3001/api/insert', { //makes an API call from the backend server from this specific URL. 
+    Axios.post(`${ BASE_API_URL }/api/insert`, { //makes an API call from the backend server from this specific URL. 
       userName: userName, 
       userPassword: userPassword,
       userRole: userRole
     }).then((response)=>{
-      if(response.data.message){setsignupStatus(response.data.message);
-      router.push("/login")}
+      if(response.data.message){
+        setsignupStatus(response.data.message);
+      }else{
+        router.push("/login")
+      }
       // if(response.data.message2){setsignupStatus(response.data.message2);}
       // else{setsignupStatus("Error somewhere ");}
 
@@ -72,12 +71,12 @@ function SignUp() {
             validate(e.target.value);
 
           }}/>
-          <h5>{signupStatus}</h5>
           <p>Password</p>
           <input className="sign-inputs" type="password" name="password" onChange={(e)=>{
             setPassword(e.target.value);
           }}/>
         </div>
+        <h1 className="login_error_message">{signupStatus}</h1>
         <br/><br/>
         <div className="button-container">
         <Button type="primary" onClick={submitUser}>Create</Button><br />
@@ -86,11 +85,6 @@ function SignUp() {
         router.push('/login');
       }}>Log In</Button>
 
-        {/* {userNameList.map((val)=>{
-          return (
-          <h1>UserName: {val.phoneNum}</h1>
-          );
-        })} */}
         </div>
       </div>
       // </div>

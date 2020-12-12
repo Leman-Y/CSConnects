@@ -144,14 +144,6 @@ app.get("/api/getEvents", (req, res) =>{
 })
 
 
-//to display everything in database. We do this by sending a json file to the front end containing all the information
-app.get("/api/get", (req, res) =>{
-    const sqlGet = "select * from user";
-    db.query(sqlGet, (err, result)=>{
-        res.send(result);
-    });
-})
-
 //this is to insert into database
 app.post('/api/insert', (req,res)=>{
     //when localhost:3001/api/insert is called from the front end, 2 variables are passed through. userName and userPassword.
