@@ -70,7 +70,6 @@ function SignUp() {
             setPassword(e.target.value);
           }}/>
         </div>
-        <h1>{userName}</h1>
         <h1 className="login_error_message">{signupStatus}</h1>
         <br/><br/>
         <div className="button-container">
