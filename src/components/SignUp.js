@@ -19,33 +19,27 @@ function SignUp() {
 
 
 
-  //function gets called when user clicks submit.
-  function validate(phone) {
-    const regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    if(regex.test(phone)==true){
-      phone = "+1"+phone;
-      console.log("true!",phone)
-      setUsername(phone)
-    }
-    else{
-      console.log("nope")
-      
-    }
-  }
+  const regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   const submitUser = () =>{
     if(userName==="")
     {
-      alert("please input a phone number (with your 3 digit area code as a header) in the form 5166951142")
+      setsignupStatus("please input a phone number (with your 3 digit area code as a header) in the form 5166951142")
+    }else if(regex.test(userName)==false){
+      setsignupStatus("Please enter a valid phone number")
     }
     else{
+      var phone = "+1" + userName;
+      setUsername(phone);
     Axios.post(`${ BASE_API_URL }/api/insert`, { //makes an API call from the backend server from this specific URL. 
-      userName: userName, 
+      userName: "+1" + userName, 
       userPassword: userPassword,
       userRole: userRole
     }).then((response)=>{
       if(response.data.message){
+        console.log("There is a message", response.data.message);
         setsignupStatus(response.data.message);
       }else{
+        console.log("redirecting");
         router.push("/login")
       }
       // if(response.data.message2){setsignupStatus(response.data.message2);}
@@ -68,7 +62,7 @@ function SignUp() {
           <p>Phone Number</p>
           <div style={{fontStyle:"italic"}}>Example:5166951142</div>
           <input className="sign-inputs" type="text" name="user" onChange={(e)=>{ //when the value changes, update the variable setUsername
-            validate(e.target.value);
+            setUsername(e.target.value);
 
           }}/>
           <p>Password</p>
@@ -76,6 +70,7 @@ function SignUp() {
             setPassword(e.target.value);
           }}/>
         </div>
+        <h1>{userName}</h1>
         <h1 className="login_error_message">{signupStatus}</h1>
         <br/><br/>
         <div className="button-container">

@@ -153,18 +153,18 @@ app.post('/api/insert', (req,res)=>{
     const userRole = req.body.userRole;
 
     if(userName.length <= 0 || userPassword.length <=0){
-        res.send({message: "Please enter a username or password"});
+        res.send({message: "Please enter a phone number or password"});
     }else if(isNaN(userName)){
         res.send({message: "Please enter a valid phone number"});
     }else{
-        const checkphone = "SELECT * from user WHERE phoneNum = ?;";
-        db.query(
-            checkphone, 
-            userName, 
-            (err, result)=>{
+        const checkphone = "SELECT * from user WHERE phoneNum = " +userName +";";
+        db.query(checkphone, (err, result)=>{
+            console.log("SQL STATEMENT: ", checkphone);
                 if(result.length > 0){
+                    console.log("RESULTS IS GREATER THAN 0: ", result);
                     res.send({message: "That number is already registered"});
                 }else{
+                    console.log("INSERTING");
                         //hashes the password that the user inputted
                             bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
 
@@ -178,14 +178,13 @@ app.post('/api/insert', (req,res)=>{
                                     [userName, hash,userRole], 
                                     (err, result)=>{
                                         if(err){
-                                            //console.log("error#2!",err);
-                                        // }else{
-                                        //     console.log("result!",result)
-                                            
-                                        // res.send({message2: "You signed up!"});
-                                    }
-
+                                            console.log("THERE WAS AN ERROR: ", err);
+                                        }else if(result){
+                                            console.log("THERE WAS A RESULT: ", result);                                      
+                                        }
+                                        res.send(result);
                                 });
+                                console.log("SUCCESSFULLY INSERTED");
                             })
                 } 
 
@@ -411,52 +410,52 @@ app.post('/api/deleteAdmin', (req,res)=>{
 });
 
 //this is to insert users into database
-app.post('/api/insert', (req,res)=>{
-    try{
-        //when localhost:3001/api/insert is called from the front end, 2 variables are passed through. userName and userPassword.
-        //These two variables are passed into the db.query function, which inserts the values into the database.
-        const userName = req.body.userName;
-        const userPassword = req.body.userPassword;
+// app.post('/api/insert', (req,res)=>{
+//     try{
+//         //when localhost:3001/api/insert is called from the front end, 2 variables are passed through. userName and userPassword.
+//         //These two variables are passed into the db.query function, which inserts the values into the database.
+//         const userName = req.body.userName;
+//         const userPassword = req.body.userPassword;
 
-        if(userName.length <= 0 || userPassword.length <=0){
-            res.send({message: "Please enter a username or password"});
-        }else if(isNaN(userName)){
-            res.send({message: "Please enter a valid phone number"});
-        }else{
-            const checkphone = "SELECT * from user WHERE phoneNum = ?;";
-            db.query(
-                checkphone,
-                userName,
-                (err, result)=>{
-                    if(result.length > 0){
-                        res.send({message: "That number is already registered"});
-                    }else{
-                        res.send({message: "That number is valid inserting.."});
-                        //hashes the password that the user inputted
-                        bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
+//         if(userName.length <= 0 || userPassword.length <=0){
+//             res.send({message: "Please enter a username or password"});
+//         }else if(isNaN(userName)){
+//             res.send({message: "Please enter a valid phone number"});
+//         }else{
+//             const checkphone = "SELECT * from user WHERE phoneNum = ?;";
+//             db.query(
+//                 checkphone,
+//                 userName,
+//                 (err, result)=>{
+//                     if(result.length > 0){
+//                         res.send({message: "That number is already registered"});
+//                     }else{
+//                         res.send({message: "That number is valid inserting.."});
+//                         //hashes the password that the user inputted
+//                         bcrypt.hash(userPassword, saltRounds, (err, hash) =>{
 
-                            if(err){
-                                //console.log(err);
-                            }
+//                             if(err){
+//                                 //console.log(err);
+//                             }
 
-                            const sqlInsert = "INSERT INTO user (phoneNum, password, role) VALUES (?,?, 'user')";
-                            db.query(
-                                sqlInsert,
-                                [userName, hash],
-                                (err, result)=>{
-                                    //console.log(result);
-                                });
-                        })
-                    }
-                });
-        }
+//                             const sqlInsert = "INSERT INTO user (phoneNum, password, role) VALUES (?,?, 'user')";
+//                             db.query(
+//                                 sqlInsert,
+//                                 [userName, hash],
+//                                 (err, result)=>{
+//                                     //console.log(result);
+//                                 });
+//                         })
+//                     }
+//                 });
+//         }
 
-    }
-    catch(err) {
-        console.error(err.message);
-    }
+//     }
+//     catch(err) {
+//         console.error(err.message);
+//     }
     
-});
+// });
 
 
 app.get("/checkIfLogin", (req,res)=>{
