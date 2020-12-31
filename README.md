@@ -1,7 +1,5 @@
 # CSConnects
-
-## Website
-https://huntercsconnects.herokuapp.com/
+Website: https://huntercsconnects.herokuapp.com/
 
 ## Who We Are:
 
